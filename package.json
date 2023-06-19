@@ -1,0 +1,23 @@
+{
+  "name": "xinarow",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha ./tests/**/*.test.js",
+    "startR": "nodemon resourceServer\\server.js",
+    "startI": "nodemon identityServer\\server.js",
+    "startAll": "Powershell Start-Process npm 'run startR'; Start-Process npm 'run startI'"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.3.7",
+    "express": "^4.18.2",
+    "mocha": "^10.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.43.0",
+    "nodemon": "^2.0.22"
+  }
+}
