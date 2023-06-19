@@ -4,23 +4,22 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
+const app = express();
+const serverFolder = 'resourceServer';
 const { Config } = require('../globalUtils/configManager');
 
-const conf = new Config('./resourceServer/serverConfig.json');
-
+const conf = new Config(`./${serverFolder}/serverConfig.json`);
 const PORT = conf.get('serverPort');
 
-const app = express();
-
-fs.readdirSync('./resourceServer\\public' ,{
+console.log('Loading Static Folders');
+fs.readdirSync(`./${serverFolder}/public` ,{
   withFileTypes: true 
 })
   .filter(item => item.isDirectory())
   .forEach(folder => {
-    console.log(path.join(__dirname,'public',folder.name));
     app.use(express.static( path.join(__dirname,'public',folder.name)));
   });
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port http://localhost:${PORT}`);
+  console.log(`App listening on port http://localhost:${PORT}`);
 });

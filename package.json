@@ -7,7 +7,10 @@
     "test": "mocha ./tests/**/*.test.js",
     "startR": "nodemon resourceServer\\server.js",
     "startI": "nodemon identityServer\\server.js",
-    "startAll": "Powershell Start-Process npm 'run startR'; Start-Process npm 'run startI'"
+    "startAll": "Powershell Start-Process npm 'run startR'; Start-Process npm 'run startI'",
+    "deployR": "node ./resourceServer/deploy.js",
+    "deployI": "node ./identityServer/deploy.js",
+    "buildAndGo": "npm install && npm run deployI && npm run deployR && npm run startAll"
   },
   "author": "",
   "license": "ISC",

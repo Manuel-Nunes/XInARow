@@ -161,3 +161,15 @@ dist
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,node
+
+/resourceServer/public/Styles/*
+/resourceServer/public/Views/*
+/resourceServer/public/Scripts/*
+/resourceServer/public/Images/*
+/resourceServer/public/Configs/*
+
+/identityServer/public/Styles/*
+/identityServer/public/Views/*
+/identityServer/public/Scripts/*
+/identityServer/public/Images/*
+/identityServer/public/Configs/*

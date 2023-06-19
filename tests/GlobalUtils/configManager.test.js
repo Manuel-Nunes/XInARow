@@ -3,7 +3,7 @@ const chai = require('chai') ;
 const { Config } = require('../../globalUtils/configManager');
 const fs = require('fs');
 
-const tempJson = require('../GlobalUtils/Mocks/testConfigBase.json');
+const tempJson = require('./Mocks/testConfigBase.json');
 
 const expect = chai.expect;
 let conf;
