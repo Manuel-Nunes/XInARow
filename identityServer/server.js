@@ -20,6 +20,15 @@ fs.readdirSync(`./${serverFolder}/public` ,{
     app.use(express.static( path.join(__dirname,'public',folder.name)));
   });
 
+app.get('/i', function(req, res) {
+  res.sendFile(path.join(__dirname, '/index2.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`App listening on port http://localhost:${PORT}`);
 });
+
+// app.get('/', (req, res) => {
+//   res.send('Hello World!');
+// });
+
