@@ -5,6 +5,9 @@ const devFolder = path.join(__dirname,'liveServerRapidDev');
 
 const subFiles =['public'];
 
+/**
+ * @enum {string}
+ */
 const deployFilesEnum= {
   Scripts: path.join(__dirname, ...subFiles ,'Scripts'),
   Configs: path.join(__dirname,...subFiles,'Configs'),
@@ -28,6 +31,17 @@ function deployFiles(src,dist,Files){
 }
 
 /**
+ * Create folders based on deployFilesEnum
+ */
+function createFolders(){
+  Object.keys(deployFilesEnum).forEach(key => {
+    if (!fs.existsSync(deployFilesEnum[key])) {
+      fs.mkdirSync(deployFilesEnum[key]);
+    }
+  });
+}
+
+/**
  * discovers and sorts files from liveServerRapidDev
  * @param {Error} error 
  * @param {string[]} files 
@@ -37,38 +51,54 @@ function dirReadCallBack(error, files){
     console.log(error);
     return;
   }
+
   const styles = files.filter(
     ( file)=>{
       return file.includes('.css');
     }
   );
+
+  const configs = files.filter(
+    ( file)=>{
+      return file.includes('.json');
+    }
+  );
+
+  files = files.filter(
+    ( file)=>{
+      return !file.includes('.json');
+    }
+  );
+  
   const scripts = files.filter(
     ( file)=>{
       return file.includes('.js');
     }
   );
+
   const views = files.filter(
     ( file)=>{
       return file.includes('.html');
     }
   );
+
   const resources = files.filter(
     ( file)=>{
       return file.includes('.svg');
     }
   );
 
-  const configs = files.filter(
-    ( file)=>{
-      return file.includes('.svg');
-    }
-  );
+  console.log('Creating Folders');
+
+  createFolders();
+
+  console.log('Copying File');
 
   deployFiles(devFolder,deployFilesEnum.Styles,styles);
   deployFiles(devFolder,deployFilesEnum.Scripts,scripts);
   deployFiles(devFolder,deployFilesEnum.Views,views);
   deployFiles(devFolder,deployFilesEnum.Images,resources);
-  deployFiles(devFolder,deployFilesEnum.configs,configs);
+  deployFiles(devFolder,deployFilesEnum.Configs,configs);
 }
 
 console.log('Deploying resource Server files from liveServerRapidDev to static folders');

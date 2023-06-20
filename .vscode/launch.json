@@ -5,6 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "command": "npm test",
+      "name": "Run npm test",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "npm run deployR",
+      "name": "Run npm run deployR",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
       "command": "node ./resourceServer/server.js",
       "name": "Run npm resourceServerTest",
       "request": "launch",
