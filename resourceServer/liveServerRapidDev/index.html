@@ -5,8 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Data</title>
   <link rel="stylesheet" href="globalRS.css">
+  <link rel="stylesheet" href="gameScreen.css">
+  <script src="genGameGrid.js" type="module" defer></script>
+  <script src="gameScreen.js" type="module" defer></script>
 </head>
 <body>
-  <input type="text">
+  <header>
+    <h1>X-in-a-row</h1>
+    <button>Exit</button>
+  </header>
+  <main>
+    <article class="flexCHV">
+      <p>Player 1</p>
+    </article>
+
+    <img src="" alt="" id="player1Icon">
+    
+    <section id="gameGrid"></section>
+
+    <article class="flexCHV">
+      <p>Player 2</p>
+    </article>
+    
+    <img src="" alt="" id="player2Icon">
+  </main>
 </body>
 </html>

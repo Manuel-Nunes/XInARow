@@ -1,0 +1,124 @@
+*{
+  color: var(--fontColor);
+  font-size: large;
+}
+
+main{
+  display: grid;
+  grid-template-columns: 2fr 8fr 2fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  height: 87vh;
+  width: 100%;
+  
+  align-items: center;
+  justify-items: center;
+}
+
+header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--header);
+  height: 13vh;
+  box-shadow: 0 var(--externalShadowSize) var(--externalShadowSize) var(--textShadow);
+
+  border-radius: 0 0 2vw 2vw;
+}
+
+h1{
+  font-size: xx-large;
+  margin: 1em 1em;
+  text-shadow: var(--textShadowSize) var(--textShadowSize) var(--textShadowSize) var(--textShadow);
+}
+
+button{
+  background-color: var(--button);
+  margin: 1% 1%;
+  height: 80%;
+  aspect-ratio: 1/1;
+  border-radius: 20%;
+
+  border: none;
+  border-width: 0.2em;
+}
+
+button:hover{
+  box-shadow: var(--externalShadowSize) var(--externalShadowSize) var(--externalShadowSize) var(--textShadow);
+}
+
+body{
+  background-color: var(--bigBody);
+  min-height: 100vh;
+}
+
+section{
+  /* height: 90%; */
+  max-height: 90%;
+  aspect-ratio: 1/1;
+  background-color: var(--grid);
+  border-radius: 1vw;
+
+  grid-column: 2;
+
+  grid-row: 1/4;
+}
+
+article{
+  border-radius: 20%;
+  background-color: var(--article);
+  width: 80%;
+  margin: 10%;
+  aspect-ratio: 1/1;
+  align-self: baseline;
+
+}
+
+.gridItem{
+  display: block;
+  background-color: var(--gridItem);
+  width: 100%;
+  aspect-ratio: 1/1;
+
+  border-radius: 1vw;
+}
+
+.gridItem:hover{
+  box-shadow: var(--externalShadowSize) var(--externalShadowSize) var(--externalShadowSize) var(--textShadow);
+}
+
+#gameGrid{
+  display: grid;
+  overflow: hidden;
+  gap: 0.5vh;
+  padding: 1vh 1vh;
+}
+
+img{
+  display: inline-block;
+  background-color: var(--gridItem);
+  width: 80%;
+  border-radius: 20%;
+  
+  aspect-ratio: 1/1;
+}
+
+#player1Icon{
+  grid-column: 1;
+  grid-row: 2;
+}
+
+#player2Icon{
+  grid-column: 3;
+  grid-row: 2;
+}
+@media screen and (orientation: portrait) {
+  section{
+    width: 90%;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  section{
+    height: 90%;
+  }
+}
