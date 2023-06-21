@@ -20,6 +20,10 @@ fs.readdirSync(`./${serverFolder}/public` ,{
     app.use(express.static( path.join(__dirname,'public',folder.name)));
   });
 
+app.get('/register', function(req, res) {
+  res.sendFile(path.join(__dirname, 'public/views/register.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`App listening on port http://localhost:${PORT}`);
 });
