@@ -17,13 +17,23 @@ const deployFilesEnum= {
 };
 
 /**
- * 
- * @param {string} folderName 
- * @param {string[]} Files 
+ *
+ * @param {string} folderName
+ * @param {string[]} Files
  */
-function deployFiles(src,dist,Files){
+function deployFiles(src, dist, Files) {
+  if (!fs.existsSync(src)) {
+    console.log(`Could not deploy files as we are missing src: ${src}`);
+    return;
+  }
+
+  if (!fs.existsSync(dist)) {
+    console.log(`Could not deploy files as we are missing dist: ${dist}`);
+    return;
+  }
+
   Files.forEach(file => {
-    fs.copyFile(path.join(src,file),path.join(dist,file),(err) =>{
+    fs.copyFile(path.join(src, file), path.join(dist, file), (err) => {
       if (err)
         console.log(err);
     });
@@ -33,7 +43,13 @@ function deployFiles(src,dist,Files){
 /**
  * Create folders based on deployFilesEnum
  */
-function createFolders(){
+function createFolders() {
+  subFiles.forEach(folder => {
+    const folderPath = path.join(__dirname, folder);
+    if (!fs.existsSync(folderPath))
+      fs.mkdirSync(folderPath);
+  });
+
   Object.keys(deployFilesEnum).forEach(key => {
     if (!fs.existsSync(deployFilesEnum[key])) {
       fs.mkdirSync(deployFilesEnum[key]);
@@ -43,8 +59,8 @@ function createFolders(){
 
 /**
  * discovers and sorts files from liveServerRapidDev
- * @param {Error} error 
- * @param {string[]} files 
+ * @param {Error} error
+ * @param {string[]} files
  */
 function dirReadCallBack(error, files){
   if (error){
@@ -69,7 +85,7 @@ function dirReadCallBack(error, files){
       return !file.includes('.json');
     }
   );
-  
+
   const scripts = files.filter(
     ( file)=>{
       return file.includes('.js');
@@ -103,4 +119,9 @@ function dirReadCallBack(error, files){
 
 console.log('Deploying resource Server files from liveServerRapidDev to static folders');
 
+
+if (!fs.existsSync(devFolder)) {
+  console.log('Rapid Dev Folder is missing.... will now create folder');
+  fs.mkdirSync(devFolder);
+}
 fs.readdir(devFolder, dirReadCallBack);
