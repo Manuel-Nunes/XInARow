@@ -2,6 +2,8 @@ import {
   genGameGrid
 } from './genGameGrid.js';
 
+const body = document.getElementById('body');
+
 /**
  * @typedef {Object} GameSetup
  * @property {boolean} doRowCheck
@@ -154,12 +156,14 @@ const click = (x,y,target)=>{
   console.log(`x: ${x} y: ${y}`);
   if (playerOne)
   {
+    body.style.setProperty('background-color','#34366b');
+
     target.style.setProperty('background-color','blue');
     gameGrid[x][y] = 1;
   }
   else
   {
-
+    body.style.setProperty('background-color','#4a1313');
     target.style.setProperty('background-color','red');
     gameGrid[x][y] = 2;
   }
