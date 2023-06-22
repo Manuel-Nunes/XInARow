@@ -16,9 +16,13 @@ export function genGameGrid(gridSize, gridItemClickCB){
 
   gameGrid.style.setProperty('grid-template-columns',`repeat(${gridSize},1fr)`);
   
+  const gameObjectGrid = [];
+
   for (let x = 0; x < gridSize; x++)
+  {
+    let temp = [];
     for (let y = 0; y < gridSize; y++){
-  
+      temp.push(0);
       /** @type {HTMLDivElement}*/ 
       const gridItem = document.createElement('div');
   
@@ -37,5 +41,8 @@ export function genGameGrid(gridSize, gridItemClickCB){
   
       gameGrid.appendChild(gridItem);
     }
+    gameObjectGrid.push(temp);
+  }
+  return gameObjectGrid;
 }
 
