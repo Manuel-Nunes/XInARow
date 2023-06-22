@@ -55,6 +55,19 @@ const searchDirection = {
 
 /**
  * 
+ * @param {number[]} inpArr 
+ */
+function hasWon(inpArr){
+  for (let i = 0; i < inpArr.length;i++)
+  {
+    if (inpArr[i] >= gamesetup.Xrequired)
+      return true;
+  }
+  return false;
+}
+
+/**
+ * 
  * @param {number} x 
  * @param {number} y 
  * @param {searchDirection} SD 
@@ -168,7 +181,8 @@ const click = (x,y,target)=>{
     gameGrid[x][y] = 2;
   }
   
-  console.log(`${(playerOne) ? 'Player One' : 'Player Two'}: ${gridCheck(x,y)}`);
+  const arr = gridCheck(x,y);
+  console.log(`${(playerOne) ? 'Player One' : 'Player Two'}: ${arr} ${hasWon(arr)}`);
   playerOne = !playerOne;
 };
 

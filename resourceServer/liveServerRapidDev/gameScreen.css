@@ -111,6 +111,19 @@ img{
   grid-column: 3;
   grid-row: 2;
 }
+
+#popup{
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.8);
+  top: 0;
+}
+
+#outcome{
+  background-color: brown;
+}
+
 @media screen and (orientation: portrait) {
   section{
     width: 90%;
