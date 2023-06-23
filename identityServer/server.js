@@ -24,8 +24,9 @@ console.log('Loading Static Folders');
 //   res.sendFile(path.join(__dirname, '/index2.html'));
 // });
 
-app.get('/', (req,res) => {
-  res.send('heys')
+app.get('/', (req,res, callback) => {
+  // res.send('heys')
+  callback('heyyyy')
 })
 
 app.post('/login', (req,res) => {
