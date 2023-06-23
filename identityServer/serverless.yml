@@ -19,6 +19,7 @@ plugins:
   - serverless-stage-manager
   - serverless-plugin-common-excludes
   - serverless-plugin-include-dependencies
+  - serverless-http
   # - serverless-offline
 
 functions:
