@@ -11,10 +11,12 @@ phases:
       - echo install process started
       - npm install
       - npm install -g serverless
+      - serverless plugin install -n serverless-stage-manager
+      - serverless plugin install -n serverless-plugin-common-excludes
+      - serverless plugin install -n serverless-plugin-include-dependencies
   build:
     commands:
       - echo build process started now
-      - serverless deploy
   post_build:
     commands:
       - echo serverless deploy completed
