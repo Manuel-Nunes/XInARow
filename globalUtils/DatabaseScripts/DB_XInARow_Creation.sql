@@ -216,11 +216,16 @@ WITH PASSWORD = '<YOUR_PASSWORD_HERE>';
 GO
 
 --Grants
-GRANT INSERT, UPDATE, SELECT, DELETE ON Member TO Player;
-GRANT INSERT, UPDATE, SELECT, DELETE ON [Profile] TO Player;
-GRANT SELECT ON [Image] TO Player;
-GRANT INSERT, UPDATE, SELECT, DELETE ON Game TO Player;
-GRANT SELECT ON v_player_wld TO Player;
+GRANT EXECUTE ON sp_create_game TO Player;
+GRANT EXECUTE ON sp_create_member TO Player;
+GRANT EXECUTE ON sp_create_profile TO Player;
+GRANT EXECUTE ON sp_member TO Player;
+GRANT EXECUTE ON sp_member_id TO Player;
+GRANT EXECUTE ON sp_profile_game_wld TO Player;
+GRANT EXECUTE ON sp_profiles TO Player;
+GRANT EXECUTE ON sp_profiles_id TO Player;
+GRANT EXECUTE ON sp_update_game TO Player;
+GRANT EXECUTE ON sp_update_profile TO Player;
 GO
 
 --Denials
