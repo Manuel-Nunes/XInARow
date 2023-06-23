@@ -1,12 +1,12 @@
 console.log('Starting Identity Server');
 const serverless = require('serverless-http');
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
 
 const app = express();
-const serverFolder = 'identityServer';
-const { Config } = require('../globalUtils/configManager');
+// const serverFolder = 'identityServer';
+// const { Config } = require('../globalUtils/configManager');
 
 // const conf = new Config(`./${serverFolder}/serverConfig.json`);
 // const PORT = conf.get('serverPort');
