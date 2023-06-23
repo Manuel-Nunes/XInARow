@@ -10,7 +10,7 @@ console.log('Loading Static Folders');
 
 
 app.get('/', (req,res) => {
-
+  console.log("we at least hit here")
   res.status(200).send({msg:"Heyyyyyyy"});
 })
 
@@ -22,4 +22,4 @@ app.listen(3000, () => {
   console.log(`App listening on port http://localhost:${3000}`);
 });
 
-module.exports.handler = serverless(app.default);
+module.exports.handler = serverless(app);
