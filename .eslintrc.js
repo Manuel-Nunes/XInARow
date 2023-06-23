@@ -59,6 +59,7 @@ module.exports = {
       'error', 'always', {
         'arraysInObjects': true 
       }
-    ]
+    ],
+    'space-infix-ops': 'error'
   }
 };
