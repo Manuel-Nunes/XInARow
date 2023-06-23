@@ -29,13 +29,11 @@ app.get('/', (req,res) => {
 })
 
 app.post('/login', (req,res) => {
-  
+
 })
 
 app.listen(3000, () => {
   console.log(`App listening on port http://localhost:${3000}`);
 });
 
-module.exports.handler = serverless(app, {
-  binary: ['multipart/form-data'],
-});
+module.exports.handler = serverless(app.default);
