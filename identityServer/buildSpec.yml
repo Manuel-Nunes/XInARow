@@ -7,19 +7,14 @@ phases:
     runtime-versions:
       nodejs: 18.x
     commands:
-      - cd identityServer
       - echo install process started
-      - npm cache clean --force
       - npm install
+
       - npm install -g serverless
-      - npm install -g serverless-http
-      - serverless plugin install -n serverless-stage-manager
-      - serverless plugin install -n serverless-plugin-common-excludes
-      - serverless plugin install -n serverless-plugin-include-dependencies
   build:
     commands:
       - echo build process started now
-      - sls deploy
+      - serverless deploy
   post_build:
     commands:
       - echo serverless deploy completed
