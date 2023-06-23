@@ -7,7 +7,7 @@ phases:
     runtime-versions:
       nodejs: 18.x
     commands:
-      -cd identityServer
+      - cd identityServer
       - echo install process started
       - npm install
 
