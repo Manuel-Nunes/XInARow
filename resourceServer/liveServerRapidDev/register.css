@@ -1,0 +1,52 @@
+:root{
+
+    --primary: #4267B2;
+  
+    --font-sm: 1em;
+  
+    --font-md: 1.5em;
+  
+    --font-lg: 2em;
+  
+  
+  
+  
+    --sm: 1em;
+  
+    --md: 1.5em;
+  
+    --lg:2em;
+  
+  }
+
+  *{
+  
+    margin: 0;
+  
+    padding: 0;
+  
+  }
+  
+  html, body {
+  
+    height: 100%;
+  
+  }
+
+  header {
+    background-color: var(--primary);
+    height: 8%;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  nav {
+    text-align: right;
+  }
+
+  nav a {
+    color: white;
+    margin-right: 10px;
+  }
