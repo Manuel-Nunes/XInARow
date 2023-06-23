@@ -9,9 +9,9 @@ const app = express();
 console.log('Loading Static Folders');
 
 
-app.get('/', (req,res, callback) => {
+app.get('/', (req,res) => {
 
-  callback(null,{msg:'heyyyy'})
+  res.status(200).send({msg:"Heyyyyyyy"});
 })
 
 app.post('/login', (req,res) => {
