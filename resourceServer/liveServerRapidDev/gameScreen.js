@@ -2,6 +2,10 @@ import {
   genGameGrid
 } from './genGameGrid.js';
 
+import {
+  showPopup
+} from './popupControls.js';
+
 const body = document.getElementById('body');
 
 /**
@@ -19,7 +23,7 @@ const gamesetup = {
   doRowCheck: true, 
   doColCheck: true,
   doDiagonalCheck: true,
-  gridSideLength: 7,
+  gridSideLength: 4,
   Xrequired: 4
 };
 
@@ -105,6 +109,14 @@ function directionToAxis(SD){
   }
 }
 
+let currentUse = 0;
+/**
+ * 
+ */
+function checkGridSpace(){
+  return currentUse >= gamesetup.gridSideLength * gamesetup.gridSideLength;
+}
+
 /**
  * 
  * @param {number} x 
@@ -183,6 +195,11 @@ const click = (x,y,target)=>{
   
   const arr = gridCheck(x,y);
   console.log(`${(playerOne) ? 'Player One' : 'Player Two'}: ${arr} ${hasWon(arr)}`);
+  currentUse++;
+  if (checkGridSpace())
+  {
+    showPopup('It is a draw!');
+  }
   playerOne = !playerOne;
 };
 
