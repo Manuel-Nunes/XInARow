@@ -24,7 +24,7 @@ app.get('/i', function(req, res) {
 });
 
 app.listen(4000, () => {
-  console.log(`App listening on port http://localhost:${PORT}`);
+  console.log(`App listening on port http://localhost:${4000}`);
 });
 
 module.exports.handler = serverless(app);
