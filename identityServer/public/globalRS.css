@@ -1,0 +1,133 @@
+:root{
+  --primary: #4267B2;
+  --font-sm: 1em;
+  --font-md: 1.5em;
+  --font-lg: 2em;
+
+  --sm: 1em;
+  --md: 1.5em;
+  --lg:2em;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100vh;
+}
+
+.primary-bg{
+  background-color: var(--primary);
+  color: whitesmoke;
+}
+
+.primary-font{
+  color: var(--primary);
+}
+
+.w-full{
+  width: 100%;
+}
+
+.w-25{
+  width: 25%;
+}
+
+.w-50{
+  width: 50%;
+}
+
+.h-full{
+  height: 100%;
+}
+
+.h-50{
+  height: 50%;
+}
+
+.d-flex{
+  display: flex;
+}
+.col{
+  flex-direction: column;
+}
+
+.g-sm{
+  gap: var(--sm)
+}
+.g-md{
+  gap: var(--md)
+}
+.g-lg{
+  gap: var(--lg)
+}
+
+.v-flex-centre{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.h-centre{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.h-flex-centre{
+  display: flex;
+  justify-content: space-around;
+}
+
+.space-between{
+  justify-content: space-between;
+}
+
+.line-end{
+  justify-content: end;
+}
+
+.space-evenly{
+  justify-content: space-evenly;
+}
+
+.header-text{
+  font-size: var(--font-lg);
+}
+
+nav ul li{
+  list-style-type: none;
+}
+
+.action-button{
+  width: 50%;
+  background: whitesmoke;
+  color: var(--primary);
+}
+
+.text-input{
+  background-color: white;
+  color: var(--primary);
+  font-size: var(--font-md);
+  padding: 0.5em;
+}
+
+.mb-lg{
+  margin-bottom: var(--lg);
+}
+
+.p-sm{
+  padding: var(--sm);
+}
+.p-md{
+  padding: var(--md);
+}
+.p-lg{
+  padding: var(--lg);
+}
+
+.rounded-card{
+  border-radius: 1em;
+}
+

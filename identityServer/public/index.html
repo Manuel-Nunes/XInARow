@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <!-- <link rel="stylesheet" href="globalRS.css"> -->
+  <style>
+:root{
+  --primary: #4267B2;
+  --font-sm: 1em;
+  --font-md: 1.5em;
+  --font-lg: 2em;
+
+  --sm: 1em;
+  --md: 1.5em;
+  --lg:2em;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100vh;
+}
+
+.primary-bg{
+  background-color: var(--primary);
+  color: whitesmoke;
+}
+
+.primary-font{
+  color: var(--primary);
+}
+
+.w-full{
+  width: 100%;
+}
+
+.w-25{
+  width: 25%;
+}
+
+.w-50{
+  width: 50%;
+}
+
+.h-full{
+  height: 100%;
+}
+
+.h-50{
+  height: 50%;
+}
+
+.d-flex{
+  display: flex;
+}
+.col{
+  flex-direction: column;
+}
+
+.g-sm{
+  gap: var(--sm)
+}
+.g-md{
+  gap: var(--md)
+}
+.g-lg{
+  gap: var(--lg)
+}
+
+.v-flex-centre{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.h-centre{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.h-flex-centre{
+  display: flex;
+  justify-content: space-around;
+}
+
+.space-between{
+  justify-content: space-between;
+}
+
+.line-end{
+  justify-content: end;
+}
+
+.space-evenly{
+  justify-content: space-evenly;
+}
+
+.header-text{
+  font-size: var(--font-lg);
+}
+
+nav ul li{
+  list-style-type: none;
+}
+
+.action-button{
+  width: 50%;
+  background: whitesmoke;
+  color: var(--primary);
+}
+
+.text-input{
+  background-color: white;
+  color: var(--primary);
+  font-size: var(--font-md);
+  padding: 0.5em;
+}
+
+.mb-lg{
+  margin-bottom: var(--lg);
+}
+
+.p-sm{
+  padding: var(--sm);
+}
+.p-md{
+  padding: var(--md);
+}
+.p-lg{
+  padding: var(--lg);
+}
+
+.rounded-card{
+  border-radius: 1em;
+}
+
+
+  </style>
+</head>
+<body>
+  <header class="primary-bg v-flex-centre" style="height: 10%; padding-right: 2em;">
+    <nav class="header-text d-flex line-end" style="flex-wrap: wrap;">
+      <ul class="d-flex space-between" style="width: 20%;">
+        <li>Login</li>
+        <li>Register</li>
+      </ul>
+    </nav>
+  </header>
+  <main style="height: 90%;" class="v-flex-centre">
+    <section class="d-flex col h-centre" style="height: 70%; width: 50%;">
+      <h1 class="h-centre header-text primary-font" style="padding-bottom: 0.5em;">
+        <span style="text-decoration: underline;">Login</span>
+      </h1>
+      <form class="primary-bg h-full d-flex col space-evenly rounded-card">
+        <input type="email" class="text-input w-50 h-centre" placeholder="Enter your Email...">
+        <input type="password" class="text-input w-50 h-centre" placeholder="Enter your Password...">
+        <input type="submit" class="text-input w-50 h-centre" value="Login!">
+      </form>
+    </section>
+  </main>
+</body>
+</html>

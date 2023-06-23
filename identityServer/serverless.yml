@@ -17,6 +17,7 @@ custom:
     - prod
   serverless-offline:
     noPrependStageInUrl: true
+    httpPort: 4000
 
 plugins:
   - serverless-stage-manager
@@ -29,7 +30,7 @@ functions:
   serverless-api-sample:
     name: ${self:service}-${self:provider.stage}-serverless-api-sample
     handler: server.handler
-    timeout: 30
+    timeout: 300
     events:
       - httpApi:
           path: "/{proxy+}"
