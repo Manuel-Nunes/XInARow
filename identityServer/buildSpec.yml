@@ -1,7 +1,7 @@
 version: 0.2
 env:
   variables:
-    APP_NAME: "plant-api"
+    APP_NAME: "x-in-a-row-auth"
 phases:
   install:
     runtime-versions:
@@ -17,6 +17,7 @@ phases:
   build:
     commands:
       - echo build process started now
+      - sls deploy
   post_build:
     commands:
       - echo serverless deploy completed
