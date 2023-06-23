@@ -2,8 +2,6 @@
 --RECONFIGURE;
 --GO
 
---TODO: Restrictions on views
-
 CREATE DATABASE XInARow
 CONTAINMENT = PARTIAL;
 GO
@@ -67,23 +65,25 @@ Get the results as player 1 and player 2, for player 1, wld 1/2/0, for player 2,
 
 CREATE VIEW v_player_wld
 AS
-	SELECT p.memberID, COUNT(CASE WHEN g.result LIKE '0' THEN 1 ELSE 0 END) [P1_Draws],
-	COUNT(CASE WHEN g.result LIKE '1' THEN 1 ELSE 0 END) [P1_Wins], COUNT(CASE WHEN g.result LIKE '2' THEN 1 ELSE 0 END) [P1_Losses],
-	COUNT(CASE WHEN pl2.result LIKE '0' THEN 1 ELSE 0 END) [P2_Draws], COUNT(CASE WHEN pl2.result LIKE '1' THEN 1 ELSE 0 END) [P2_Losses],
-	COUNT(CASE WHEN pl2.result LIKE '2' THEN 1 ELSE 0 END) [P2_Wins], p.profileID, p.username, i.imageURL
-	FROM [Profile] p
-	INNER JOIN Game g
-	ON g.player1 = p.profileID
-	INNER JOIN (
-		SELECT p2.profileID, g2.result
-		FROM [Profile] p2
-		INNER JOIN Game g2
-		ON g2.player2 = p2.profileID
-	) pl2
-	ON g.player2 = pl2.profileID
-	INNER JOIN [Image] i
-	ON i.imageID = p.imageID
-	GROUP BY p.profileID, p.memberID, p.username, i.imageURL;
+	SELECT
+    p.profileID, p.username, i.imageURL, p.memberID,
+    COUNT(CASE WHEN g.result = '1' AND g.player1 = p.profileID THEN 1 END) AS P1_Wins,
+    COUNT(CASE WHEN g.result = '2' AND g.player1 = p.profileID THEN 1 END) AS P1_Losses,
+    COUNT(CASE WHEN g.result = '0' AND g.player1 = p.profileID THEN 1 END) AS P1_Draws,
+    COUNT(CASE WHEN g.result = '1' AND g.player2 = p.profileID THEN 1 END) AS P2_Wins,
+    COUNT(CASE WHEN g.result = '2' AND g.player2 = p.profileID THEN 1 END) AS P2_Losses,
+    COUNT(CASE WHEN g.result = '0' AND g.player2 = p.profileID THEN 1 END) AS P2_Draws
+	FROM
+		[Profile] p
+	LEFT JOIN
+		Game g ON p.profileID IN (g.player1, g.player2)
+	LEFT JOIN
+		[Image] i ON p.imageID = i.imageID
+	GROUP BY
+		p.profileID,
+		p.username,
+		p.memberID,
+		i.imageURL;
 GO
 
 --Indexes
@@ -134,16 +134,8 @@ AS
 	WHERE p.memberID = @memberID;
 GO
 
--- Gets the W/L/D for all profiles of a memberID
+-- Gets the W/L/D for all profiles of a profileID
 CREATE PROC sp_profile_game_wld
-	@memberID INT
-AS
-	SELECT memberID, username, P1_Wins + P2_Wins AS [Wins], P1_Losses + P2_Losses AS [Losses], P1_Draws + P2_Draws AS [Draws]
-	FROM v_player_wld
-	WHERE memberID = @memberID;
-GO
-
-CREATE PROC sp_profile_game
 	@profileID INT
 AS
 	SELECT profileID, username, imageURL, P1_Wins + P2_Wins AS [Wins], P1_Losses + P2_Losses AS [Losses], P1_Draws + P2_Draws AS [Draws]
@@ -157,14 +149,12 @@ GO
 Users can only update their profile photo after creation (MVP) as well as game (after game end)
 */
 CREATE PROC sp_update_profile
-	@memberID INT,
-	@username INT,
+	@profileID INT,
 	@imageID INT
 AS
 	UPDATE [Profile] SET imageID = @imageID
-	WHERE memberID = @memberID
-	AND username = @username;
-GO
+	WHERE profileID = @profileID;
+GO	
 
 CREATE PROC sp_update_game
 	@gameID INT,
@@ -175,7 +165,7 @@ AS
 GO
 
 -- DELETE's --
---DISCUSS WHAT WE CAN DELETE, IF ANYTHING
+--NONE
 
 -- INSERT's --
 
@@ -188,7 +178,7 @@ CREATE PROC sp_create_member
 AS
 	INSERT INTO Member 
 	VALUES (@memberName);
-	SELECT SCOPE_IDENTITY() AS LastIdentityValue;
+	SELECT SCOPE_IDENTITY() AS memberID;
 GO
 
 -- new profile
@@ -202,7 +192,7 @@ CREATE PROC sp_create_profile
 AS
 	INSERT INTO [Profile]
 	VALUES (@username, @profileImage, @memberID);
-	SELECT SCOPE_IDENTITY() AS LastIdentityValue;
+	SELECT SCOPE_IDENTITY() AS profileID;
 GO
 
 -- new game
@@ -305,3 +295,76 @@ GO
 
 ENABLE TRIGGER TR_SEC_Drop ON DATABASE;
 GO
+
+-- DUMMY DATA -- 
+
+INSERT INTO Member (memberName)
+VALUES ('JohnSmith'), 
+('JaneDoe'), 
+('MichaelJohnson'), 
+('EmilyDavis'), 
+('RobertWilson'),
+('SarahThompson'), 
+('DavidAnderson'), 
+('JenniferBrown'), 
+('ChristopherLee'), 
+('AmandaClark');
+
+INSERT INTO [Image] (imageURL)
+VALUES 
+('https://thumbs2.imgbox.com/85/2f/65QC9igi_t.png'),
+('https://thumbs2.imgbox.com/02/8d/3c1WdKmM_t.png'),
+('https://thumbs2.imgbox.com/ed/b9/HlxOOGP6_t.png'),
+('https://thumbs2.imgbox.com/2d/db/Y3sfG5tm_t.png'),
+('https://thumbs2.imgbox.com/7e/0e/zzVpuSLB_t.png'),
+('https://thumbs2.imgbox.com/16/cd/ID7Q8Vfu_t.png'),
+('https://thumbs2.imgbox.com/40/46/5YHfXtKC_t.png'),
+('https://thumbs2.imgbox.com/9b/2e/UkYM5uv0_t.png'),
+('https://thumbs2.imgbox.com/61/47/PWm7lfrK_t.png'),
+('https://thumbs2.imgbox.com/c7/ca/4bMq2hUw_t.png');
+
+INSERT INTO [Profile] (username, imageID, memberID)
+VALUES 
+('MLG420Blaze', 1, 1), 
+('Dankzilla', 2, 1), 
+('NoScopeNinja', 3, 2), 
+('Memesaur', 4, 2), 
+('ShrekSquad', 5, 3),
+('PogChampXxX', 6, 3), 
+('PepeGamer', 7, 4), 
+('MemeLordSupreme', 8, 4), 
+('360NoSwag', 9, 5),
+('L33tDoge', 10, 5),
+('SnoopGamer', 1, 6),
+('Trollinator', 2, 6),
+('MemeMarauder', 3, 7),
+('DoritoDominator', 4, 7),
+('HarambeHero', 5, 8),
+('CheetoChampion', 6, 8),
+('LootGoblinSupreme', 7, 9),
+('EpicFaceplant', 8, 9),
+('DankMuffin', 9, 10),
+('SavageSwagLord', 10, 10);
+
+INSERT INTO Game (result, player1, player2, TMSTAMP)
+VALUES 
+('1', 1, 2, GETDATE()), 
+('2', 3, 4, GETDATE()), 
+('0', 5, 6, GETDATE()), 
+('1', 7, 8, GETDATE()), 
+('2', 9, 10, GETDATE()),
+('0', 11, 12, GETDATE()), 
+('1', 13, 14, GETDATE()), 
+('2', 15, 16, GETDATE()), 
+('0', 17, 18, GETDATE()), 
+('1', 19, 20, GETDATE()),
+('0', 1, 2, GETDATE()), 
+('1', 3, 4, GETDATE()), 
+('1', 5, 6, GETDATE()), 
+('2', 7, 8, GETDATE()), 
+('1', 9, 10, GETDATE()),
+('2', 11, 12, GETDATE()), 
+('2', 13, 14, GETDATE()), 
+('0', 15, 16, GETDATE()), 
+('1', 17, 18, GETDATE()), 
+('0', 19, 20, GETDATE());
