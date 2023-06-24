@@ -5,12 +5,12 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const serverFolder = 'resourceServer';
-const { Config } = require('../globalUtils/configManager');
 const serverless = require('serverless-http');
 
-const conf = new Config(`./serverConfig.json`);
-const PORT = conf.get('serverPort');
+// const serverFolder = 'resourceServer';
+// const { Config } = require('../globalUtils/configManager');
+// const conf = new Config(`./serverConfig.json`);
+// const PORT = conf.get('serverPort');
 
 console.log('Loading Static Folders');
 fs.readdirSync(`./public` ,{
@@ -25,8 +25,8 @@ app.get('/register', function(req, res) {
   res.sendFile(path.join(__dirname, 'public/views/register.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`App listening on port http://localhost:${PORT}`);
+app.listen(3000, () => {
+  console.log(`App listening on port http://localhost:${3000}`);
 });
 
 module.exports.handler = serverless(app)
