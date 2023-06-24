@@ -9,13 +9,24 @@
   --lg:2em;
 }
 
-*{
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
   margin: 0;
   padding: 0;
+  font-family: 'Roboto', sans-serif;
+  transition: 0.5s;
 }
 
 html, body {
   height: 100vh;
+}
+
+.flexCHVD {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .primary-bg{
