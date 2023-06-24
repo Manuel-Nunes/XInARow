@@ -10,7 +10,6 @@ phases:
       - cd identityServer
       - echo install process started
       - npm install
-
       - npm install -g serverless
   build:
     commands:
