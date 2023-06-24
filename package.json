@@ -10,11 +10,13 @@
     "startAll": "Powershell Start-Process npm 'run startR'; Start-Process npm 'run startI'",
     "deployR": "node ./resourceServer/deploy.js",
     "deployI": "node ./identityServer/deploy.js",
+    "depAndSR": "npm run deployR && npm run startR",
     "buildAndGo": "npm install && npm run deployI && npm run deployR && npm run startAll"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "chai": "^4.3.7",
     "express": "^4.18.2",
     "mocha": "^10.2.0"

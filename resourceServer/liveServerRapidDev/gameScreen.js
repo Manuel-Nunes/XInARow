@@ -6,6 +6,10 @@ import {
   showPopup
 } from './popupControls.js';
 
+import {
+  postOutCome
+} from './backendUtils.js';
+
 const body = document.getElementById('body');
 
 /**
@@ -194,12 +198,29 @@ const click = (x,y,target)=>{
   }
   
   const arr = gridCheck(x,y);
-  console.log(`${(playerOne) ? 'Player One' : 'Player Two'}: ${arr} ${hasWon(arr)}`);
+
+  if (hasWon(arr))
+  {
+    showPopup(
+      `${(playerOne) ? 'Player One' : 'Player Two'} has won, saving outcome...`,
+      (playerOne) ? '#34366b' : '#4a1313',
+      ()=>{
+      }
+    );
+    postOutCome((playerOne) ? 1 : 2);
+    return;
+  }
+
   currentUse++;
+
   if (checkGridSpace())
   {
-    showPopup('It is a draw!');
+    showPopup('It is a draw!', () => { 
+      alert('asdsa');
+    });
+    postOutCome(0);
   }
+
   playerOne = !playerOne;
 };
 

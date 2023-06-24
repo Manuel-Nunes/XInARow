@@ -49,6 +49,7 @@ button:hover{
 body{
   background-color: var(--bigBody);
   min-height: 100vh;
+  min-width: 400px;
 }
 
 section{
@@ -122,7 +123,10 @@ img{
 }
 
 #outcome{
-  background-color: brown;
+  background-color: rgb(65, 45, 45);
+  display: block;
+  padding: 10vw;
+  border-radius: 3rem;
 }
 
 @media screen and (orientation: portrait) {

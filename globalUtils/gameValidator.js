@@ -14,7 +14,7 @@ function validateOutCome(gameSetup, grid){
       if (sVal === row[i])
       {
         if (hasFailed)
-          return i-1;
+          return i - 1;
       }
       else
         hasFailed = true;
@@ -29,13 +29,13 @@ function validateOutCome(gameSetup, grid){
     {
       const row = grid[x];
       for (let y = 0; y <= remain; y++){
-        if (row[y + gameSetup.Xrequired -1] === types.gridState.empty)
+        if (row[y + gameSetup.Xrequired - 1] === types.gridState.empty)
         {
           y += gameSetup.Xrequired;
           continue;
         }
 
-        const rowCheckRes = insideArrCheck(y,y+gameSetup.Xrequired-1, row);
+        const rowCheckRes = insideArrCheck(y,y + gameSetup.Xrequired - 1, row);
         if ( rowCheckRes === -1)
           return row[y];
         else
@@ -59,13 +59,13 @@ function validateOutCome(gameSetup, grid){
     {
       const col = buildColumn(x);
       for (let y = 0; y <= remain; y++){
-        if (col[y + gameSetup.Xrequired -1] === types.gridState.empty)
+        if (col[y + gameSetup.Xrequired - 1] === types.gridState.empty)
         {
           y += gameSetup.Xrequired;
           continue;
         }
 
-        const colCheckRes = insideArrCheck(y,y+gameSetup.Xrequired-1, col);
+        const colCheckRes = insideArrCheck(y,y + gameSetup.Xrequired - 1, col);
         if ( colCheckRes === -1)
           return col[y];
         else
@@ -105,13 +105,13 @@ function validateOutCome(gameSetup, grid){
       arr = buildDiagonalLRTD(0,x);
       const innerRemain = arr.length - gameSetup.Xrequired;
       for (let y = 0; y <= innerRemain; y++){
-        if (arr[y + gameSetup.Xrequired -1] === types.gridState.empty)
+        if (arr[y + gameSetup.Xrequired - 1] === types.gridState.empty)
         {
           y += gameSetup.Xrequired;
           continue;
         }
 
-        const colCheckRes = insideArrCheck(y,y+gameSetup.Xrequired-1, arr);
+        const colCheckRes = insideArrCheck(y,y + gameSetup.Xrequired - 1, arr);
         if ( colCheckRes === -1)
           return arr[y];
         else
@@ -125,13 +125,13 @@ function validateOutCome(gameSetup, grid){
       const innerRemain = arr.length - gameSetup.Xrequired;
 
       for (let y = 0; y <= innerRemain; y++){
-        if (arr[y + gameSetup.Xrequired -1] === types.gridState.empty)
+        if (arr[y + gameSetup.Xrequired - 1] === types.gridState.empty)
         {
           y += gameSetup.Xrequired;
           continue;
         }
 
-        const colCheckRes = insideArrCheck(y,y+gameSetup.Xrequired-1, arr);
+        const colCheckRes = insideArrCheck(y,y + gameSetup.Xrequired - 1, arr);
         if ( colCheckRes === -1)
           return arr[y];
         else
@@ -139,18 +139,18 @@ function validateOutCome(gameSetup, grid){
       }
     }
 
-    for (let x = gameSetup.gridSideLength-1; x >= remain ; x--)
+    for (let x = gameSetup.gridSideLength - 1; x >= remain ; x--)
     {
       arr = buildDiagonalRLTD(0,x);
       const innerRemain = arr.length - gameSetup.Xrequired;
       for (let y = 0; y <= innerRemain; y++){
-        if (arr[y + gameSetup.Xrequired -1] === types.gridState.empty)
+        if (arr[y + gameSetup.Xrequired - 1] === types.gridState.empty)
         {
           y += gameSetup.Xrequired;
           continue;
         }
 
-        const colCheckRes = insideArrCheck(y,y+gameSetup.Xrequired-1, arr);
+        const colCheckRes = insideArrCheck(y,y + gameSetup.Xrequired - 1, arr);
         if ( colCheckRes === -1)
           return arr[y];
         else
@@ -160,17 +160,17 @@ function validateOutCome(gameSetup, grid){
 
     for (let x = 1; x <= remain; x++)
     {
-      arr = buildDiagonalRLTD(x,gameSetup.gridSideLength -1);
+      arr = buildDiagonalRLTD(x,gameSetup.gridSideLength - 1);
       const innerRemain = arr.length - gameSetup.Xrequired;
 
       for (let y = 0; y <= innerRemain; y++){
-        if (arr[y + gameSetup.Xrequired -1] === types.gridState.empty)
+        if (arr[y + gameSetup.Xrequired - 1] === types.gridState.empty)
         {
           y += gameSetup.Xrequired;
           continue;
         }
 
-        const colCheckRes = insideArrCheck(y,y+gameSetup.Xrequired-1, arr);
+        const colCheckRes = insideArrCheck(y,y + gameSetup.Xrequired - 1, arr);
         if ( colCheckRes === -1)
           return arr[y];
         else
