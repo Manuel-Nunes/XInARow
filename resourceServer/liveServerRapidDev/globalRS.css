@@ -63,6 +63,13 @@ html, body {
   }
 }
 
+.flexCHVD {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .primary-bg{
   background-color: var(--primary);
   color: whitesmoke;
