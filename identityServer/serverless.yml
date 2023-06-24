@@ -12,9 +12,6 @@ provider:
 custom:
   stages:
     - dev
-    - sit
-    - uat
-    - prod
   serverless-offline:
     noPrependStageInUrl: true
     httpPort: 4000
