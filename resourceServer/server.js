@@ -9,11 +9,11 @@ const serverFolder = 'resourceServer';
 const { Config } = require('../globalUtils/configManager');
 const serverless = require('serverless-http');
 
-const conf = new Config(`./${serverFolder}/serverConfig.json`);
+const conf = new Config(`./serverConfig.json`);
 const PORT = conf.get('serverPort');
 
 console.log('Loading Static Folders');
-fs.readdirSync(`./${serverFolder}/public` ,{
+fs.readdirSync(`./public` ,{
   withFileTypes: true 
 })
   .filter(item => item.isDirectory())
