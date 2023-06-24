@@ -13,16 +13,17 @@ const serverless = require('serverless-http');
 // const PORT = conf.get('serverPort');
 
 console.log('Loading Static Folders');
-fs.readdirSync(`./public` ,{
-  withFileTypes: true 
-})
-  .filter(item => item.isDirectory())
-  .forEach(folder => {
-    app.use(express.static( path.join(__dirname,'public',folder.name)));
-  });
+// fs.readdirSync(`./public` ,{
+//   withFileTypes: true 
+// })
+//   .filter(item => item.isDirectory())
+//   .forEach(folder => {
+//     app.use(express.static( path.join(__dirname,'public',folder.name)));
+//   });
 
 app.get('/register', function(req, res) {
-  res.sendFile(path.join(__dirname, 'public/views/register.html'));
+  // res.sendFile(path.join(__dirname, 'public/views/register.html'));
+  res.send({some:"thing"})
 });
 
 app.listen(3000, () => {
