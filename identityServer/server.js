@@ -6,11 +6,6 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-// const serverFolder = 'identityServer';
-// const { Config } = require('../globalUtils/configManager');
-// const conf = new Config(`./serverConfig.json`);
-// const PORT = conf.get('serverPort');
-// console.log(PORT)
 
 console.log('Loading Static Folders');
 fs.readdirSync(`./public`, { withFileTypes: true })

@@ -7,6 +7,7 @@ const path = require('path');
 const app = express();
 const serverFolder = 'resourceServer';
 const { Config } = require('../globalUtils/configManager');
+const serverless = require('serverless-http');
 
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
 const PORT = conf.get('serverPort');
@@ -27,3 +28,5 @@ app.get('/register', function(req, res) {
 app.listen(PORT, () => {
   console.log(`App listening on port http://localhost:${PORT}`);
 });
+
+module.exports.handler = serverless(app)

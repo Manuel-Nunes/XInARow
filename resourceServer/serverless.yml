@@ -1,4 +1,4 @@
-service: x-in-a-row-auth
+service: x-in-a-row-app
 
 provider:
   name: aws
@@ -14,8 +14,8 @@ custom:
     - dev
   serverless-offline:
     noPrependStageInUrl: true
-    httpPort: 4000
-    lambdaPort: 3001
+    httpPort: 3000
+    lambdaPort: 3002
 
 plugins:
   - serverless-stage-manager
