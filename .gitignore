@@ -176,3 +176,4 @@ dist
 
 #Secrets
 /resourceServer/secrets.json
+/identityServer/secrets.json
