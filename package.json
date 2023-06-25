@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha ./tests/**/*.test.js",
-    "startR": "nodemon resourceServer\\server.js",
-    "startI": "nodemon identityServer\\server.js",
+    "startR": "node resourceServer\\server.js",
+    "startI": "node identityServer\\server.js",
     "startAll": "Powershell Start-Process npm 'run startR'; Start-Process npm 'run startI'",
     "deployR": "node ./resourceServer/deploy.js",
     "deployI": "node ./identityServer/deploy.js",
