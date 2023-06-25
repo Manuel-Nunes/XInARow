@@ -36,7 +36,8 @@ app.post('/register',jsonParser, async function(req, res) {
 
   let user = await registerUserOnAuthDB(req.body);
   if('error' in user){
-    res.statusCode(401).json(user);
+    res.status(401).json(user);
+    return;
   }
 
   res.json(user);
@@ -47,7 +48,8 @@ app.post('/login', jsonParser, async function(req, res) {
 
   let user = await checkUserLoginOnAuthDB(req.body);
   if('error' in user){
-    res.statusCode(401);
+    res.status(401).json(user);
+    return;
   }
 
   res.json(user);

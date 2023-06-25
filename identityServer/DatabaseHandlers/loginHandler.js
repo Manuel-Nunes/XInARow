@@ -10,7 +10,7 @@ async function checkPassword(hashPassword, salt, password) {
     return newHashedPassword === hashPassword;
   } catch (error) {
     console.error('Error hashing password:', error);
-    throw error;
+    // throw error;
   }
 }
 
