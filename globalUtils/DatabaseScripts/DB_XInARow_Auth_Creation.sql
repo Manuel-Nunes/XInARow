@@ -52,7 +52,9 @@ CREATE USER AuthServer
 WITH PASSWORD = '<YOUR_PASSWORD_HERE>'
 GO
 
-GRANT INSERT, SELECT ON [User] TO AuthServer
+GRANT EXECUTE ON sp_user TO AuthServer;
+GRANT EXECUTE ON sp_user_exist TO AuthServer;
+GRANT EXECUTE ON sp_user_username TO AuthServer;
 GO
 
 DENY ALTER ON OBJECT::[User] TO AuthServer;
