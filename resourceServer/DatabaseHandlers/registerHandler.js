@@ -1,14 +1,19 @@
 const { DBConnect } = require('./DBConnect');
 const db = new DBConnect();
+const { getHost } = require('../getHost');
 
 async function registerUser(userObj) {
   try {
     let user = await registerUserAuth(userObj);
     let res = await db.CreateMember(user.memberName);
+
     //res is memeberId, goes to profile page
+
     return res; // Indicate successful registration
+
   } catch (error) {
     console.log(error);
+
     return false; // Indicate registration failure
   }
 }
@@ -19,13 +24,14 @@ async function registerUserAuth(user) {
     await import('node-fetch').then(async (nodeFetch) => {
       const fetch = nodeFetch.default;
     
-      const response = await fetch('http://localhost:4000/register', {
+      const response = await fetch(`${getHost()}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(user)
       });
+
       if (response.ok) {
         const data = await response.json();
         res = data;
@@ -34,6 +40,7 @@ async function registerUserAuth(user) {
         console.error('Registration failed!');
       }
     });
+    
     return res;
     
   } catch (error) {

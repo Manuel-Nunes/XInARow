@@ -5,6 +5,8 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+
 const app = express();
 const jsonParser = bodyParser.json();
 const serverFolder = 'resourceServer';
@@ -12,9 +14,13 @@ const { Config } = require('../globalUtils/configManager');
 const { userGridPOST } = require('./endpointHandlers');
 let registerUser = require('./DatabaseHandlers/registerHandler');
 let loginUser = require('./DatabaseHandlers/loginHandler');
+const { checkUserID } = require('./checkUserID');
+
 
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
+
 const PORT = conf.get('serverPort');
+const SKIP_ID_CHECK = conf.get('skipIDCheck');
 
 console.log('Loading Static Folders');
 fs.readdirSync(`./${serverFolder}/public` ,{
@@ -43,7 +49,18 @@ app.get('/login', function(req, res) {
   res.sendFile(path.join(__dirname, 'public/views/login.html'));
 });
 
-app.get('/game',( req, res)=>{
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'public/views/login.html'));
+});
+
+app.get('/game',jsonParser,( req, res)=>{
+  if (!SKIP_ID_CHECK && (!req.body.memberID || !req.body.token)  )
+    res.redirect('/login');
+
+  if (!SKIP_ID_CHECK && !checkUserID(req.body.memberID,req.body.token ))
+    res.redirect('/login');
+  // res.sendFile(path.join(__dirname, 'public/views/login.html'));
+
   res.sendFile(path.join(__dirname, 'public/views/game.html'));
 });
 
@@ -52,8 +69,8 @@ app.get('/homescreen',( req, res)=>{
 });
 
 app.post('/game', jsonParser , function (req , res){
-  const { gameGrid, gameSettings } = req.body ;
-  userGridPOST(gameGrid,gameSettings);
+  const { gameGrid, gameSettings,playerOne ,playerTwo } = req.body ;
+  userGridPOST(gameGrid,gameSettings,playerOne, playerTwo);
   res.send('Awe posted');
 });
 

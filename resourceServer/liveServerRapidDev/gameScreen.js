@@ -82,14 +82,14 @@ function hasWon(inpArr){
  */
 function directionToGrid(x,y,SD){
   switch(SD){
-  case searchDirection.Up:        return [x - 1,y];
-  case searchDirection.UpRight:   return [x - 1,y + 1];
-  case searchDirection.Right:     return [x,y + 1];
-  case searchDirection.DownRight: return [x + 1,y + 1];
-  case searchDirection.Down:      return [x + 1,y];
-  case searchDirection.DownLeft:  return [x + 1,y - 1];
-  case searchDirection.Left:      return [x,y - 1];
-  case searchDirection.UpLeft:    return [x - 1,y - 1];
+  case searchDirection.Up:        return [x - 1, y];
+  case searchDirection.UpRight:   return [x - 1, y + 1];
+  case searchDirection.Right:     return [x, y + 1];
+  case searchDirection.DownRight: return [x + 1, y + 1];
+  case searchDirection.Down:      return [x + 1, y];
+  case searchDirection.DownLeft:  return [x + 1, y - 1];
+  case searchDirection.Left:      return [x, y - 1];
+  case searchDirection.UpLeft:    return [x - 1, y - 1];
   }
 }
 
