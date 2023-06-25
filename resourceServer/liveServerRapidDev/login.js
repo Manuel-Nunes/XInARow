@@ -1,5 +1,10 @@
+let loginForm = document.getElementById('login-form');
+loginForm.addEventListener('submit', (ev) => {
+  ev.preventDefault();
+  login();
+});
+
 async function login() {
-  event.preventDefault();
   let email = document.getElementById('email').value;
   let password = document.getElementById('password').value;
   let user = {

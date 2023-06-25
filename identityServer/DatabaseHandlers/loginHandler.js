@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const {DBConnect} = require('./DBConnect');
+const { DBConnect } = require('./DBConnect');
 
 const db = new DBConnect();
 
