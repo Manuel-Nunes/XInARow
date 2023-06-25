@@ -1,4 +1,15 @@
 :root{
+  --header: #356177;
+  --grid: #FE7F2D;
+  --bigBody: #FCCA46;
+  --button: #AFB3F7;
+  --textShadow: #171A21;
+  --fontColor: white;
+
+  --externalShadowSize: 0.2em;
+  --internalShadowSize: 0.3em;
+  --textShadowSize: 0.2em;
+
   --primary: #4267B2;
   --font-sm: 1em;
   --font-md: 1.5em;
@@ -9,13 +20,54 @@
   --lg:2em;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 *{
   margin: 0;
   padding: 0;
+  font-family: 'Roboto', sans-serif;
+  transition: 0.5s;
+}
+
+.flexCHV{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 html, body {
-  height: 100vh;
+  min-height: 100vh;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root{
+    --header: #a1873d;
+    --grid: #A1C181;
+    --bigBody: #233D4D;
+    --button: #9b5627;
+    --textShadow: #171A21;
+    --article: #619B8A;
+    --fontColor: white;
+    --gridItem: #619B8A;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root{
+    --header: #356177;
+    --buttonBack: #FE7F2D;
+    --mustardYellow: #FCCA46;
+    --dryMintGreen: #A1C181;
+    --warmSeaGreen: #619B8A;
+    --fontColor: white;
+  }
+}
+
+.flexCHVD {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .primary-bg{
@@ -130,4 +182,3 @@ nav ul li{
 .rounded-card{
   border-radius: 1em;
 }
-
