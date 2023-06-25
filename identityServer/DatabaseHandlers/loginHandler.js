@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const {DBConnect} = require('./DBConnect');
+const { DBConnect } = require('./DBConnect');
 
 const db = new DBConnect();
 
@@ -9,7 +9,7 @@ async function checkPassword(hashPassword, salt, password) {
     return isMatch;
   } catch (error) {
     console.error('Error hashing password:', error);
-    throw error;
+    // throw error;
   }
 }
 
