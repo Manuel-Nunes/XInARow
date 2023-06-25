@@ -1,4 +1,5 @@
 {
   "serverPort":4000,
-  "localDebug":true
+  "localDebug":true,
+  "allowTestTokenGeneration": true
 }

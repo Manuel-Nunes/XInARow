@@ -52,13 +52,14 @@ class Config{
     if (!clasp || typeof clasp !== 'object')
       return false;
 
-    clasp[chainArr[ chainArr.length-1]] = value;
+    clasp[chainArr[ chainArr.length - 1]] = value;
 
     fs.writeFileSync(this.configLocation, JSON.stringify(this.configObj),);
 
     return true;
   }
 }
+
 module.exports = {
   Config
 };

@@ -5,6 +5,8 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+
 const app = express();
 const jsonParser = bodyParser.json();
 const serverFolder = 'resourceServer';
@@ -31,6 +33,10 @@ app.get('/login', function(req, res) {
   res.sendFile(path.join(__dirname, 'public/views/login.html'));
 });
 
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'public/views/login.html'));
+});
+
 app.get('/game',( req, res)=>{
   res.sendFile(path.join(__dirname, 'public/views/game.html'));
 });
@@ -40,8 +46,8 @@ app.get('/homescreen',( req, res)=>{
 });
 
 app.post('/game', jsonParser , function (req , res){
-  const { gameGrid, gameSettings } = req.body ;
-  userGridPOST(gameGrid,gameSettings);
+  const { gameGrid, gameSettings,playerOne ,playerTwo } = req.body ;
+  userGridPOST(gameGrid,gameSettings,playerOne, playerTwo);
   res.send('Awe posted');
 });
 

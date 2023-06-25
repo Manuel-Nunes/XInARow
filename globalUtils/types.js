@@ -1,4 +1,10 @@
 /**
+ * @typedef {Object} AuthTokenObject
+ * @param {string} UserName
+ * @param {number} EAT
+ */
+
+/**
  * @typedef {Object} GameSetup
  * @property {boolean} doRowCheck
  * @property {boolean} doColCheck
