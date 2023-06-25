@@ -6,37 +6,44 @@
   <title>Home</title>
   <link rel="stylesheet" href="globalRS.css">
   <link rel="stylesheet" href="homescreen.css">
+  <script type="module" src="homescreen.js" defer></script>
 </head>
 <body>
   <header>
-    <h1>Header Here</h1>
+    <h1>X in a Row</h1>
   </header>
+  <label for="" id="errorMessageOut"></label>
   <main>
+    <section id="profileSelection">
+      
+    </section>
     <section class="flexCHVD">
       <section class="flexCHVD" id="userInput">
         <div>
-
           <label for="gridSize">Grid Size:</label>
-          <input type="number" id="gridSize">
+          <input type="number" id="gridSize" value="7">
         </div>
 
         <div>
           <label for="Xrequired">X required:</label>
-          <input type="number" id="Xrequired">
+          <input type="number" id="Xrequired" value="4">
         </div>
         <div>
-          <label for="Xrequired">X required:</label>
-          <input type="number" id="Xrequired">
+          <label for="DiagCheck">Check for diagonal win:</label>
+          <input type="checkbox" id="DiagCheck" checked>
         </div>
         <div>
-          <label for="Xrequired">X required:</label>
-          <input type="number" id="Xrequired">
+          <label for="ColumnCheck">Check for column win:</label>
+          <input type="checkbox" id="ColumnCheck" checked>
+        </div>
+        <div>
+          <label for="RowCheck">Check for row win:</label>
+          <input type="checkbox" id="RowCheck" checked>
         </div>
       </section>
       <button id="play"></button>
     </section>
-    <section></section>
-
+    
   </main>
 </body>
 </html>

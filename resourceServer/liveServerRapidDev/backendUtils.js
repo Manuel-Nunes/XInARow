@@ -1,12 +1,19 @@
-function getRelativeURL(){
-  const currentUrl = window.location.href;
-  console.log(currentUrl);
+/** @enum {string} */
+export const pages = {
+  game: '/game',
+  home: '/homescreen.html',
+  register: '/register',
+  login: '/login'
+};
 
-  const host = window.location.host;
-  console.log(`This is Host: ${host} `);
+/**
+ * navigates to a spesific page
+ * @param {pages} page 
+ */
+export function navigateTo(page){
+  console.log(`${window.location.href}${page}`);
+  // window.location.replace(`${window.location.host}${page}`);
 }
-
-getRelativeURL();
 
 export function postOutCome(outcome,gamesetup,gameGrid){
   const myHeaders = new Headers();

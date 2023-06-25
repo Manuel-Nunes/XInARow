@@ -35,6 +35,10 @@ app.get('/game',( req, res)=>{
   res.sendFile(path.join(__dirname, 'public/views/game.html'));
 });
 
+app.get('/homescreen',( req, res)=>{
+  res.sendFile(path.join(__dirname, 'public/views/homescreen.html'));
+});
+
 app.post('/game', jsonParser , function (req , res){
   const { gameGrid, gameSettings } = req.body ;
   userGridPOST(gameGrid,gameSettings);

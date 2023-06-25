@@ -1,29 +1,39 @@
+/** @enum {string} */
 const storageKeys = {
   WebToken: 'JWTStorage',
   Player1Account: 'PlayerOneAccount',
   Player2Account: 'PlayerTwoAccount',
+  gameSettings: 'GameSettings'
 };
 
 export function ssStoreWebToken(Token){
-  sessionStorage.setItem(storageKeys.WebToken, Token);
+  sessionStorage.setItem(storageKeys.WebToken, JSON.stringify(Token) );
 }
 
 export function ssGetWebToken(){
-  return sessionStorage.getItem(storageKeys.WebToken);
+  return JSON.parse(sessionStorage.getItem(storageKeys.WebToken)) ;
 }
 
 export function ssGetPlayer1Account(){
-  return sessionStorage.getItem(storageKeys.Player1Account);
+  return JSON.parse(sessionStorage.getItem(storageKeys.Player1Account)) ;
 }
 
 export function ssSetPlayer1Account(PlayerAccount){
-  return sessionStorage.setItem(storageKeys.Player1Account,PlayerAccount);
+  return  sessionStorage.setItem(storageKeys.Player1Account,JSON.stringify(PlayerAccount) );
 }
 
 export function ssGetPlayer2Account(){
-  return sessionStorage.getItem(storageKeys.Player2Account);
+  return JSON.parse(sessionStorage.getItem(storageKeys.Player2Account));
 }
 
 export function ssSetPlayer2Account(PlayerAccount){
-  return sessionStorage.setItem(storageKeys.Player2Account,PlayerAccount);
+  return sessionStorage.setItem(storageKeys.Player2Account,JSON.stringify(PlayerAccount));
+}
+
+export function ssGetGameSettings(){
+  return JSON.parse(sessionStorage.getItem(storageKeys.gameSettings)) ;
+}
+
+export function ssSetGameSettings(gameSettings){
+  return sessionStorage.setItem(storageKeys.gameSettings, JSON.stringify(gameSettings));
 }
