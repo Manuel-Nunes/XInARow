@@ -20,7 +20,7 @@ const { checkUserID } = require('./checkUserID');
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
 
 const PORT = conf.get('serverPort');
-const IS_LOCAL = conf.get('isRunLocally');
+const SKIP_ID_CHECK = conf.get('skipIDCheck');
 
 console.log('Loading Static Folders');
 fs.readdirSync(`./${serverFolder}/public` ,{
@@ -54,11 +54,12 @@ app.get('/', function(req, res) {
 });
 
 app.get('/game',jsonParser,( req, res)=>{
-  if (!req.body.memberID || !req.body.token )
-    res.sendFile(path.join(__dirname, 'public/views/login.html'));
+  if (!SKIP_ID_CHECK && (!req.body.memberID || !req.body.token)  )
+    res.redirect('/login');
 
-  if (!checkUserID(req.body.memberID,req.body.token ) && !IS_LOCAL)
-    res.sendFile(path.join(__dirname, 'public/views/login.html'));
+  if (!SKIP_ID_CHECK && !checkUserID(req.body.memberID,req.body.token ))
+    res.redirect('/login');
+  // res.sendFile(path.join(__dirname, 'public/views/login.html'));
 
   res.sendFile(path.join(__dirname, 'public/views/game.html'));
 });
