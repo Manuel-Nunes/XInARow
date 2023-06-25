@@ -26,7 +26,7 @@
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
-  transition: 0.5s;
+  transition: 0.1s;
 }
 
 .flexCHV{
@@ -63,6 +63,17 @@ html, body {
   }
 }
 
+header{
+  height: 10%; 
+  padding-right: 2em;
+}
+
+.nav{
+  padding: .5rem;
+}
+.right{
+  justify-content: right;
+}
 .flexCHVD {
   display: flex;
   justify-content: center;
@@ -151,6 +162,10 @@ html, body {
 nav ul li{
   list-style-type: none;
 }
+nav ul li a{
+  text-decoration:none;
+  color: var(--fontColor);
+}
 
 .action-button{
   width: 50%;
@@ -181,4 +196,25 @@ nav ul li{
 
 .rounded-card{
   border-radius: 1em;
+}
+
+#form-login input, #form-register input{
+  margin: 1rem auto 1rem auto;
+  border-radius: 10px;
+
+  box-shadow: inset 10px 10px 10px #bebebe,
+            inset -10px -10px 10px #ffffff;
+
+  transition: box-shadow .2s ease;
+}
+
+#form-login input:focus, #form-register input:focus{
+  box-shadow: inset 0 0 0 0;
+}
+
+#section-container{
+  width: 50%;
+  min-width: 350px;
+  height: 70%;
+  min-height: fit-content;
 }
