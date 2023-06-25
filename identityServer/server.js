@@ -1,9 +1,9 @@
 console.log('Starting Identity Server');
 
+const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const bodyParser = require('body-parser');
 
 const {
   generateJWT,
@@ -11,10 +11,13 @@ const {
 } = require('../globalUtils/tokenManagement');
 
 const { Config } = require('../globalUtils/configManager');
+const registerUserOnAuthDB = require('./DatabaseHandlers/registerHandler');
+const checkUserLoginOnAuthDB = require('./DatabaseHandlers/loginHandler');
+
 
 const app = express();
-const serverFolder = 'identityServer';
 const jsonParser = bodyParser.json();
+const serverFolder = 'identityServer';
 
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
 
@@ -43,9 +46,12 @@ fs.readdirSync(`./${serverFolder}/public` ,{
 app.post('/tokenValidate',jsonParser, (req,res)=>{
   const token = req.body.token;
   console.log(token);
-  res.send({
+
+  res.json({
     tokenIsValid: validateToken(token,JWTConfig)
   });
+  
+  res.send();
 });
 
 app.get('/getToken',jsonParser, (req,res)=>{
@@ -53,6 +59,32 @@ app.get('/getToken',jsonParser, (req,res)=>{
     res.send({
       token: generateJWT('TestUser123',JWTConfig)
     });
+});
+
+app.post('/register',jsonParser, async function(req, res) {
+  
+  let user = await registerUserOnAuthDB(req.body);
+  if('error' in user){
+    res.status(401).json(user);
+    return;
+  }
+  
+  res.json(user);
+});
+
+app.post('/login', jsonParser, async function(req, res) {
+  console.log('end point on id server hit');
+  
+  let user = await checkUserLoginOnAuthDB(req.body,JWTConfig);
+  
+  console.log(user);
+  if('error' in user){
+    res.status(401).json(user);
+    return;
+  }
+  res.json(user);
+  res.send();
+  console.log('User Logged in successfully');
 });
 
 app.listen(PORT, () => {

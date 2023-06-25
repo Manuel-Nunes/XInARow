@@ -12,9 +12,15 @@ const jsonParser = bodyParser.json();
 const serverFolder = 'resourceServer';
 const { Config } = require('../globalUtils/configManager');
 const { userGridPOST } = require('./endpointHandlers');
+let registerUser = require('./DatabaseHandlers/registerHandler');
+let loginUser = require('./DatabaseHandlers/loginHandler');
+const { checkUserID } = require('./checkUserID');
+
 
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
+
 const PORT = conf.get('serverPort');
+const IS_LOCAL = conf.get('isRunLocally');
 
 console.log('Loading Static Folders');
 fs.readdirSync(`./${serverFolder}/public` ,{
@@ -29,6 +35,16 @@ app.get('/register', function(req, res) {
   res.sendFile(path.join(__dirname, 'public/views/register.html'));
 });
 
+app.post('/submitRegister', jsonParser, async function(req, res) {
+  let data = await registerUser(req.body);
+  res.json(data);
+});
+
+app.post('/submitLogin', jsonParser, async function(req, res) {
+  let data = await loginUser(req.body);
+  res.json(data);
+});
+
 app.get('/login', function(req, res) {
   res.sendFile(path.join(__dirname, 'public/views/login.html'));
 });
@@ -37,7 +53,13 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'public/views/login.html'));
 });
 
-app.get('/game',( req, res)=>{
+app.get('/game',jsonParser,( req, res)=>{
+  if (!req.body.memberID || !req.body.token )
+    res.sendFile(path.join(__dirname, 'public/views/login.html'));
+
+  if (!checkUserID(req.body.memberID,req.body.token ) && !IS_LOCAL)
+    res.sendFile(path.join(__dirname, 'public/views/login.html'));
+
   res.sendFile(path.join(__dirname, 'public/views/game.html'));
 });
 

@@ -1,51 +1,48 @@
-const sql = require('mssql');
+const { DBConnect } = require('./DBConnect');
+const db = new DBConnect();
+const { getHost } = require('../getHost');
 
-const config = {
-  server: 'server',
-  database: 'database',
-  user: 'username',
-  password: 'password',
-};
-
-async function registerUser(user) {
+async function registerUser(userObj) {
   try {
-    registerUserAuth(user);
-    // Create a new SQL connection pool
-    const pool = await sql.connect(config);
+    let user = await registerUserAuth(userObj);
+    let res = await db.CreateMember(user.memberName);
 
-    // Execute the stored procedure with the user object as parameters
-    const result = await pool.request()
-      .input('Username', sql.VarChar, user.username)
-      .input('Email', sql.VarChar, user.email)
-      .input('Password', sql.VarChar, user.password)
-      .input('Salt', sql.VarChar, user.salt)
-      .execute('sp_Member');
+    //res is memeberId, goes to profile page
 
-    // Close the SQL connection pool
-    pool.close();
+    return res; // Indicate successful registration
 
-    return true; // Indicate successful registration
   } catch (error) {
     console.log(error);
+
     return false; // Indicate registration failure
   }
 }
 
 async function registerUserAuth(user) {
   try {
-    const response = await fetch('http://localhost:4000/register', {
-      method: 'POST',
-      body: JSON.stringify(user),
-      headers: {
-        'Content-Type': 'application/json'
+    let res = undefined;
+    await import('node-fetch').then(async (nodeFetch) => {
+      const fetch = nodeFetch.default;
+    
+      const response = await fetch(`${getHost()}/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        res = data;
+      } else {
+        console.log(response);
+        console.error('Registration failed!');
       }
     });
     
-    if (response.ok) {
-      console.log('Registration successful!');
-    } else {
-      console.error('Registration failed!');
-    }
+    return res;
+    
   } catch (error) {
     console.error(error);
   }

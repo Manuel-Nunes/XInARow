@@ -4,12 +4,12 @@ const jwt = require('jsonwebtoken');
 
 const timeOut = 14_400_000;
 
-function generateJWT(userName, { secret, options }){
+function generateJWT(memberID, { secret, options }){
   let EAT = Date.now();
   EAT += timeOut;
 
   /**@type {types.AuthTokenObject} */ const payLoad = {
-    UserName: userName,
+    memberID: memberID,
     EAT: EAT
   };
   const token = jwt.sign(payLoad,secret,options);

@@ -2,7 +2,7 @@ const sql = require('mssql');
 const { Config } = require('../../globalUtils/configManager');
 
 const serverFolder = 'resourceServer';
-const DBConfig = new Config(`../../${serverFolder}/secrets.json`);
+const DBConfig = new Config(`./${serverFolder}/secrets.json`);
 
 class DBConnect{
   constructor(){
@@ -12,7 +12,8 @@ class DBConnect{
     
     DBConnect.instance = this;
     
-    this.config = DBConfig.configObj;
+    this.config = DBConfig.get('dbConfig');
+
   }
 
   //Private
