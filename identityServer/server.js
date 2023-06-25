@@ -33,7 +33,6 @@ app.listen(PORT, () => {
 });
 
 app.post('/register',jsonParser, async function(req, res) {
-  console.log("end point on id server hit");
 
   let user = await registerUserOnAuthDB(req.body);
   if('error' in user){
@@ -43,8 +42,10 @@ app.post('/register',jsonParser, async function(req, res) {
   res.json(user);
 });
 
-app.post('/login', jsonParser, function(req, res) {
-  let user = checkUserLoginOnAuthDB(req.body);
+app.post('/login', jsonParser, async function(req, res) {
+  console.log("end point on id server hit");
+
+  let user = await checkUserLoginOnAuthDB(req.body);
   if('error' in user){
     res.statusCode(401);
   }

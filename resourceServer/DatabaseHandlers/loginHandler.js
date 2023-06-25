@@ -1,14 +1,13 @@
-const sql = require('mssql');
 const fetch = require('node-fetch');
-const {DBConnect} = require("./DBConnect")
+const { DBConnect } = require('./DBConnect');
 
 const db = new DBConnect();
 
-async function loginUser(user) {
+async function loginUser(userObj) {
   try {
-    let user = await loginUserAuth(user);
+    let user = await loginUserAuth(userObj);
     let res = await db.Member(user.memberName);
-    res = res.memberID
+    res = res.memberID;
     //res is memeberId, goes to profile page
     return res; // Indicate successful registration
   } catch (error) {

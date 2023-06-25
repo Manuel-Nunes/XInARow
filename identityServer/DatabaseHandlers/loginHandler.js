@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const {DBConnect} = require("./DBConnect")
+const {DBConnect} = require('./DBConnect');
 
 const db = new DBConnect();
 
@@ -16,18 +16,17 @@ async function checkPassword(hashPassword, salt, password) {
 
 async function checkUserLoginOnAuthDB(user) {
   try {
-        let res = await db.UserExist(user.email);
-        const { hashPassword, salt} = res;
-
-        if(await checkPassword(hashPassword, salt, user.password)){
-          let member = await db.Username(user.email);
-        }
-
-        return member; // Indicate successful registration
-    } catch (error) {
-        console.log(error);
-        return false; // Indicate registration failure
+    let res = await db.UserExist(user.email);
+    const { hashPassword, salt } = res;
+    if(await checkPassword(hashPassword, salt, user.password)){
+      let member = await db.Username(user.email);
+      return member; // Indicate successful registration
     }
+    return false;
+  } catch (error) {
+    console.log(error);
+    return false; // Indicate registration failure
+  }
 }
 
-module.exports = checkUserLoginOnAuthDB
+module.exports = checkUserLoginOnAuthDB;

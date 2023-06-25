@@ -11,6 +11,7 @@ const serverFolder = 'resourceServer';
 const { Config } = require('../globalUtils/configManager');
 const { userGridPOST } = require('./endpointHandlers');
 let registerUser = require('./DatabaseHandlers/registerHandler');
+let loginUser = require('./DatabaseHandlers/loginHandler');
 
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
 const PORT = conf.get('serverPort');
@@ -30,6 +31,10 @@ app.get('/register', function(req, res) {
 
 app.post('/submitRegister', jsonParser, function(req, res) {
   registerUser(req.body);
+});
+
+app.post('/submitLogin', jsonParser, function(req, res) {
+  loginUser(req.body);
 });
 
 app.get('/login', function(req, res) {

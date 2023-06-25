@@ -1,23 +1,20 @@
-const loginUser = require("../DatabaseHandlers/loginHandler");
-
-function login() {
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
-
-    let user = {
-        "email": email,
-        "password": password
-    }
-
-    // Perform validation, e.g., check against a stored list of valid credentials
-    if (validateForm) {
-      let memberId = loginUser(user);
-      // window.location.href = "game.html";
-      return memberId;
-    } else {
-      alert("Invalid username or password. Please try again.");
-    }
+async function login() {
+  event.preventDefault();
+  let email = document.getElementById('email').value;
+  let password = document.getElementById('password').value;
+  let user = {
+    'email': email,
+    'password': password
+  };
+  // Perform validation, e.g., check against a stored list of valid credentials
+  if (validateForm) {
+    let memberId = await submitForm(user);
+    // window.location.href = "game.html";
+    return memberId;
+  } else {
+    alert('Invalid username or password. Please try again.');
   }
+}
 
 function validateForm(email, password) {
   // Check if any field is empty
@@ -41,4 +38,26 @@ function validateForm(email, password) {
 
   // All validations passed
   return true;
+}
+
+async function submitForm(user){
+  try{
+    const response = await fetch('http://localhost:3000/submitLogin', {
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      console.error('Registration failed!');
+    }
+  } catch (error) {
+    console.error(error);
+    return { 'jouMa':'Error' };
+  }
 }

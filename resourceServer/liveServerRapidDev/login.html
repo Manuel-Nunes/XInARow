@@ -21,11 +21,12 @@
         <span style="text-decoration: underline;">Login</span>
       </h1>
       <form class="primary-bg h-full d-flex col space-evenly rounded-card">
-        <input type="email" class="text-input w-50 h-centre" placeholder="Enter your Email...">
-        <input type="password" class="text-input w-50 h-centre" placeholder="Enter your Password...">
-        <input type="submit" class="text-input w-50 h-centre" value="Login!">
+        <input id="email" type="email" class="text-input w-50 h-centre" placeholder="Enter your Email...">
+        <input id="password" type="password" class="text-input w-50 h-centre" placeholder="Enter your Password...">
+        <input type="submit" onclick="login()" class="text-input w-50 h-centre" value="Login!">
       </form>
     </section>
   </main>
+  <script src="./login.js"></script>
 </body>
 </html>

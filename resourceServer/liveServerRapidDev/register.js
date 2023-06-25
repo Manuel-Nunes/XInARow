@@ -14,14 +14,11 @@ async function register() {
     };
 
     try{
-      console.log("enter register handler on resource server");
-
-
       let memberId = await submitForm(user);
       return memberId;
 
     } catch (error){
-      alert(error)
+      alert(error);
       throw error;
     }
   }
@@ -40,7 +37,7 @@ function validateForm(username, email, password, confirmPassword) {
   // Check if user is valid (no special characters).
   let usernamePattern = /^[a-zA-Z0-9]+$/;
   if(!usernamePattern.test(username)){
-    alert('Invalid username.')
+    alert('Invalid username.');
     return false;
   }
 
@@ -69,21 +66,20 @@ function validateForm(username, email, password, confirmPassword) {
 async function submitForm(user){
   try{
     const response = await fetch('http://localhost:3000/submitRegister', {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        return data;
-      } else {
-        console.error('Registration failed!');
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json'
       }
+    });
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      console.error('Registration failed!');
+    }
   } catch (error) {
     console.error(error);
-    return {"jouMa":"Error"};
+    return { 'jouMa':'Error' };
   }
 }
