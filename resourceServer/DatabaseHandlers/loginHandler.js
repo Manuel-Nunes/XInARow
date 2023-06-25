@@ -18,20 +18,27 @@ async function loginUser(userObj) {
 
 async function loginUserAuth(user) {
   try {
-    const response = await fetch('http://localhost:4000/login', {
-      method: 'POST',
-      body: JSON.stringify(user),
-      headers: {
-        'Content-Type': 'application/json'
+    let res = undefined;
+    await import('node-fetch').then(async (nodeFetch) => {
+      const fetch = nodeFetch.default;
+    
+      const response = await fetch('http://localhost:4000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      });
+      if (response.ok) {
+        const data = await response.json();
+        res = data;
+      } else {
+        console.log(response);
+        console.error('Registration failed!');
       }
     });
+    return res;
     
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    } else {
-      console.error('Login failed!');
-    }
   } catch (error) {
     console.error(error);
   }
