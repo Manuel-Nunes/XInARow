@@ -173,3 +173,7 @@ dist
 /identityServer/public/Scripts/*
 /identityServer/public/Images/*
 /identityServer/public/Configs/*
+
+#Secrets
+/resourceServer/secrets.json
+/identityServer/secrets.json
