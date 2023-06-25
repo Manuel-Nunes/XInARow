@@ -5,6 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "command": "npm run depAndSR",
+      "name": "Run npm run depAndSR",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "npm run startR",
+      "name": "Run npm run startR",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
       "command": "npm test",
       "name": "Run npm test",
       "request": "launch",

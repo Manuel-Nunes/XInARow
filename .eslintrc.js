@@ -4,12 +4,13 @@ module.exports = {
     'commonjs': true,
     'es2021': true,
     'node': true,
-    'mocha': true
+    'mocha': true,
   },
   'extends': 'eslint:recommended',
   'overrides': [],
   'parserOptions': {
-    'ecmaVersion': 'latest' 
+    'ecmaVersion': 'latest',
+    'sourceType': 'module'
   },
   'rules': {
     'indent': [
@@ -58,6 +59,7 @@ module.exports = {
       'error', 'always', {
         'arraysInObjects': true 
       }
-    ]
+    ],
+    'space-infix-ops': 'error'
   }
 };
