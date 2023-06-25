@@ -12,7 +12,7 @@ class DBConnect{
     
     DBConnect.instance = this;
     
-    this.config = DBConfig.configObj;
+    this.config = DBConfig.get('dbConfig');
   }
 
   //Private

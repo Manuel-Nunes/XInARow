@@ -47,7 +47,7 @@ This command can be found to commented out in each script to allow for easier ac
 
 Once complete, either comment out the commands from DB_XInARow_Creation.sql or navigate back to this script.
 
-###### User Credentials
+##### User Credentials
 Navigate to line 214:
 ```sql
 --User
@@ -60,7 +60,14 @@ Update the password for the user with one of your choice.
 Once changed, save and execute the script.
 
 #### Auth Database
-###### User Credentials
+##### User Credentials
+Navigate to line 51:
+```sql
+CREATE USER AuthServer
+WITH PASSWORD = '<YOUR_PASSWORD_HERE>'
+GO
+```
+Update the password for the user to one of your choice
 
 ### Server
 To run you have a set of options:
@@ -76,52 +83,58 @@ To run the project quickly use "npm run buildAndGo", this will start the servers
 
 
 ### Secrets
-In the identityServer folder the following secrets file is needed:
+In the identityServer folder the following secrets file is needed (create it):
 
     secrets.json
-
+```json
     {
-        "user": "Your-Auth-DB-Username",
-        "password":"Your-Auth-DB-Password",
-        "database":"xinarowauth",
-        "server":"",
-        "pool":{
-            "max": 10,
-            "min":0,
-            "idleTimeoutMillis":3000
+        "dbConfig":{
+            "user": "ServerAuth",
+            "password":"Your-Auth-DB-Password",
+            "database":"XInARowAuth",
+            "server":"localhost",
+            "pool":{
+                "max": 10,
+                "min":0,
+                "idleTimeoutMillis":3000
+            },
+            "options":{
+                "encrypt":true,
+                "trustServerCertificate": true
+            }
         },
-        "options":{
-            "encrypt":true,
-            "trustServerCertificate": true
-        }
+        "JWTSecret": "Your-Secret-Here-Any-A-Z-Sentence",
+        "algorithm": "HS256"
     }
-
-and in the resourceServer folder the following secrets file is needed:
+```
+and in the resourceServer folder the following secrets file is needed (create it):
 
     secret.json
-
+```json
     {
-        "user": "Your-DB-Username",
-        "password":"Your-DB-Password",
-        "database":"xinarow",
-        "server":"",
-        "pool":{
-            "max": 10,
-            "min":0,
-            "idleTimeoutMillis":3000
-        },
-        "options":{
-            "encrypt":true,
-            "trustServerCertificate": true
+        "dbConfig":{
+            "user": "Player",
+            "password":"Your-DB-Password",
+            "database":"XInARow",
+            "server":"localhost",
+            "pool":{
+                "max": 10,
+                "min":0,
+                "idleTimeoutMillis":3000
+            },
+            "options":{
+                "encrypt":true,
+                "trustServerCertificate": true
+            }
         }
     }
+```
 
 ### Config
 In the server.config:
 
-    "IsRunLocally" - true points the endpoints to localhost, false will point it to the aws endpoints.
-    "SkipIDCheck" - true will forgo the identity server verification, false will force the user to be verified.
-TODO
+    "isRunLocally" - true points the endpoints to localhost, false will point it to the aws endpoints.
+    "skipIDCheck" - true will forgo the identity server verification, false will force the user to be verified.
 
 ## License
 
