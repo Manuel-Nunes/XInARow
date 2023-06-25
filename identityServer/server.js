@@ -1,11 +1,15 @@
 console.log('Starting Identity Server');
 
+const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
 const app = express();
+const jsonParser = bodyParser.json();
 const serverFolder = 'identityServer';
+let registerUserOnAuthDB = require('./DatabaseHandlers/registerHandler');
+let checkUserLoginOnAuthDB = require('./DatabaseHandlers/registerHandler');
 const { Config } = require('../globalUtils/configManager');
 
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
@@ -28,20 +32,20 @@ app.listen(PORT, () => {
   console.log(`App listening on port http://localhost:${PORT}`);
 });
 
-app.get('/register', function(req, res) {
+app.post('/register',jsonParser, async function(req, res) {
   console.log("end point on id server hit");
 
-  let user = registerUserOnAuthDB(req.body);
-  if(user.hasOwnProperty("error")){
+  let user = await registerUserOnAuthDB(req.body);
+  if('error' in user){
     res.statusCode(401).json(user);
   }
 
   res.json(user);
 });
 
-app.get('/login', function(req, res) {
+app.post('/login', jsonParser, function(req, res) {
   let user = checkUserLoginOnAuthDB(req.body);
-  if(user.hasOwnProperty("error")){
+  if('error' in user){
     res.statusCode(401);
   }
 

@@ -10,7 +10,7 @@ const jsonParser = bodyParser.json();
 const serverFolder = 'resourceServer';
 const { Config } = require('../globalUtils/configManager');
 const { userGridPOST } = require('./endpointHandlers');
-const registerUser = require('./DatabaseHandlers/registerHandler');
+let registerUser = require('./DatabaseHandlers/registerHandler');
 
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
 const PORT = conf.get('serverPort');

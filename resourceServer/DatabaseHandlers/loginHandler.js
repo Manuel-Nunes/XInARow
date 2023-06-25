@@ -1,4 +1,5 @@
 const sql = require('mssql');
+const fetch = require('node-fetch');
 const {DBConnect} = require("./DBConnect")
 
 const db = new DBConnect();
