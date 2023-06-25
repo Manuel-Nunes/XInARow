@@ -29,12 +29,13 @@ app.get('/register', function(req, res) {
   res.sendFile(path.join(__dirname, 'public/views/register.html'));
 });
 
-app.post('/submitRegister', jsonParser, function(req, res) {
-  registerUser(req.body);
+app.post('/submitRegister', jsonParser, async function(req, res) {
+  res.json(await registerUser(req.body));
+
 });
 
-app.post('/submitLogin', jsonParser, function(req, res) {
-  loginUser(req.body);
+app.post('/submitLogin', jsonParser, async function(req, res) {
+  res.json(await loginUser(req.body));
 });
 
 app.get('/login', function(req, res) {
