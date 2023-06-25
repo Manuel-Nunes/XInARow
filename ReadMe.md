@@ -61,6 +61,66 @@ Once changed, save and execute the script.
 
 #### Auth Database
 ###### User Credentials
+
+### Server
+To run you have a set of options:
+- "startR" - will start just the resource server (no deploy)
+- "startI" - will start just the identity server (no deploy)
+- "startAll" - will start both servers (no deploy)
+- "deployR" - will deploy the resource server
+- "deployI" - will deploy the identity server
+- "depAndSR" - will deploy and start the resource server
+- "buildAndGo" - will deploy and start both servers
+
+To run the project quickly use "npm run buildAndGo", this will start the servers in seperate terminals. The "npm i" is included in this command, but can be run seperately.
+
+
+### Secrets
+In the identityServer folder the following secrets file is needed:
+
+    secrets.json
+
+    {
+        "user": "Your-Auth-DB-Username",
+        "password":"Your-Auth-DB-Password",
+        "database":"xinarowauth",
+        "server":"",
+        "pool":{
+            "max": 10,
+            "min":0,
+            "idleTimeoutMillis":3000
+        },
+        "options":{
+            "encrypt":true,
+            "trustServerCertificate": true
+        }
+    }
+
+and in the resourceServer folder the following secrets file is needed:
+
+    secret.json
+
+    {
+        "user": "Your-DB-Username",
+        "password":"Your-DB-Password",
+        "database":"xinarow",
+        "server":"",
+        "pool":{
+            "max": 10,
+            "min":0,
+            "idleTimeoutMillis":3000
+        },
+        "options":{
+            "encrypt":true,
+            "trustServerCertificate": true
+        }
+    }
+
+### Config
+In the server.config:
+
+    "IsRunLocally" - true points the endpoints to localhost, false will point it to the aws endpoints.
+    "SkipIDCheck" - true will forgo the identity server verification, false will force the user to be verified.
 TODO
 
 ## License
