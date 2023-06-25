@@ -1,5 +1,12 @@
+let form = document.getElementById('form-login');
+
+form.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  let data = await login();
+  console.log(data);
+});
+
 async function login() {
-  event.preventDefault();
   let email = document.getElementById('email').value;
   let password = document.getElementById('password').value;
   let user = {
@@ -7,10 +14,11 @@ async function login() {
     'password': password
   };
   // Perform validation, e.g., check against a stored list of valid credentials
-  if (validateForm) {
-    let memberId = await submitForm(user);
+  if (validateForm(email, password)) {
+    let memberID = await submitForm(user);
     // window.location.href = "game.html";
-    return memberId;
+    console.log(memberID);
+    return memberID;
   } else {
     alert('Invalid username or password. Please try again.');
   }
@@ -49,15 +57,17 @@ async function submitForm(user){
         'Content-Type': 'application/json'
       }
     });
-
+    console.log(response);
     if (response.ok) {
       const data = await response.json();
+      console.log('DATA', data)
       return data;
     } else {
-      console.error('Registration failed!');
+      console.error('Login failed!');
+      return {'error':true};
     }
   } catch (error) {
     console.error(error);
-    return { 'jouMa':'Error' };
+    return error;
   }
 }

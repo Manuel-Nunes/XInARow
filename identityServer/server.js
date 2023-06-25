@@ -9,7 +9,7 @@ const app = express();
 const jsonParser = bodyParser.json();
 const serverFolder = 'identityServer';
 let registerUserOnAuthDB = require('./DatabaseHandlers/registerHandler');
-let checkUserLoginOnAuthDB = require('./DatabaseHandlers/registerHandler');
+let checkUserLoginOnAuthDB = require('./DatabaseHandlers/loginHandler');
 const { Config } = require('../globalUtils/configManager');
 
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
@@ -36,7 +36,8 @@ app.post('/register',jsonParser, async function(req, res) {
 
   let user = await registerUserOnAuthDB(req.body);
   if('error' in user){
-    res.statusCode(401).json(user);
+    res.status(401).json(user);
+    return;
   }
 
   res.json(user);
@@ -46,10 +47,11 @@ app.post('/login', jsonParser, async function(req, res) {
   console.log("end point on id server hit");
 
   let user = await checkUserLoginOnAuthDB(req.body);
-  if('error' in user){
-    res.statusCode(401);
-  }
 
+  if('error' in user){
+    res.status(401).json(user);
+    return;
+  }
   res.json(user);
 });
 

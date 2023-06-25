@@ -5,9 +5,8 @@ const db = new DBConnect();
 
 async function checkPassword(hashPassword, salt, password) {
   try {
-    const newHashedPassword = await bcrypt.hash(password, salt);
-
-    return newHashedPassword === hashPassword;
+    const isMatch = await bcrypt.compare(password, hashPassword);
+    return isMatch;
   } catch (error) {
     console.error('Error hashing password:', error);
     throw error;
@@ -17,15 +16,19 @@ async function checkPassword(hashPassword, salt, password) {
 async function checkUserLoginOnAuthDB(user) {
   try {
     let res = await db.UserExist(user.email);
-    const { hashPassword, salt } = res;
-    if(await checkPassword(hashPassword, salt, user.password)){
+    const { password, salt } = res;
+    if(await checkPassword(password, salt, user.password)){
       let member = await db.Username(user.email);
       return member; // Indicate successful registration
     }
-    return false;
+    return {
+      'error':true
+    };
   } catch (error) {
     console.log(error);
-    return false; // Indicate registration failure
+    return {
+      'error':true
+    }; // Indicate registration failure
   }
 }
 

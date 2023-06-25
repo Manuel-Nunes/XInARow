@@ -1,3 +1,11 @@
+let form = document.getElementById('form-register');
+
+form.addEventListener('submit', async(e)=>{
+  e.preventDefault();
+  let data = await register();
+  console.log(data);
+});
+
 async function register() {
   let username = document.getElementById('username').value;
   let email = document.getElementById('email').value;
@@ -80,6 +88,8 @@ async function submitForm(user){
     }
   } catch (error) {
     console.error(error);
-    return { 'jouMa':'Error' };
+    return {
+      'error': 'There has been an issue, please try again'
+    };
   }
 }

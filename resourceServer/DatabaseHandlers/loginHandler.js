@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const { DBConnect } = require('./DBConnect');
 
 const db = new DBConnect();
@@ -34,7 +33,7 @@ async function loginUserAuth(user) {
         res = data;
       } else {
         console.log(response);
-        console.error('Registration failed!');
+        console.error('Login failed!');
       }
     });
     return res;
