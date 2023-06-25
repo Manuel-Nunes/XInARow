@@ -63,6 +63,11 @@ html, body {
   }
 }
 
+header{
+  height: 10%; 
+  padding-right: 2em;
+}
+
 .nav{
   padding: .5rem;
 }
@@ -193,7 +198,7 @@ nav ul li a{
   border-radius: 1em;
 }
 
-#form-login input{
+#form-login input, #form-register input{
   margin: 1rem auto 1rem auto;
   border-radius: 10px;
 
@@ -203,7 +208,7 @@ nav ul li a{
   transition: box-shadow .2s ease;
 }
 
-#form-login input:focus{
+#form-login input:focus, #form-register input:focus{
   box-shadow: inset 0 0 0 0;
 }
 
