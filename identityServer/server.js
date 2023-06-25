@@ -28,7 +28,23 @@ app.listen(PORT, () => {
   console.log(`App listening on port http://localhost:${PORT}`);
 });
 
-// app.get('/', (req, res) => {
-//   res.send('Hello World!');
-// });
+app.get('/register', function(req, res) {
+  console.log("end point on id server hit");
+
+  let user = registerUserOnAuthDB(req.body);
+  if(user.hasOwnProperty("error")){
+    res.statusCode(401);
+  }
+
+  res.json(user);
+});
+
+app.get('/login', function(req, res) {
+  let user = checkUserLoginOnAuthDB(req.body);
+  if(user.hasOwnProperty("error")){
+    res.statusCode(401);
+  }
+
+  res.json(user);
+});
 

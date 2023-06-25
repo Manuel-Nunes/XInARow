@@ -10,6 +10,7 @@ const jsonParser = bodyParser.json();
 const serverFolder = 'resourceServer';
 const { Config } = require('../globalUtils/configManager');
 const { userGridPOST } = require('./endpointHandlers');
+const registerUser = require('./DatabaseHandlers/registerHandler');
 
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
 const PORT = conf.get('serverPort');
@@ -25,6 +26,10 @@ fs.readdirSync(`./${serverFolder}/public` ,{
 
 app.get('/register', function(req, res) {
   res.sendFile(path.join(__dirname, 'public/views/register.html'));
+});
+
+app.get('/submitRegister', function(req, res) {
+  registerUser(req.body);
 });
 
 app.get('/login', function(req, res) {

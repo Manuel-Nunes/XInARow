@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Register</title>
   <link rel="stylesheet" href="globalRS.css">
 </head>
 <body>
@@ -18,16 +18,17 @@
   <main style="height: 90%;" class="v-flex-centre">
     <section class="d-flex col h-centre" style="height: 70%; width: 50%;">
       <h1 class="h-centre header-text primary-font" style="padding-bottom: 0.5em;">
-        <span style="text-decoration: underline;">Login</span>
+        <span style="text-decoration: underline;">Register</span>
       </h1>
       <form class="primary-bg h-full d-flex col space-evenly rounded-card">
-        <input type="text" class="text-input w-50 h-centre" placeholder="Enter your username...">
-        <input type="email" class="text-input w-50 h-centre" placeholder="Enter your Email...">
-        <input type="password" class="text-input w-50 h-centre" placeholder="Enter your Password...">
-        <input type="password" class="text-input w-50 h-centre" placeholder="Confirm your Password...">
-        <input type="submit" class="text-input w-50 h-centre" value="Login!">
+        <input id="username" type="text" class="text-input w-50 h-centre" placeholder="Enter your username...">
+        <input id="email" type="email" class="text-input w-50 h-centre" placeholder="Enter your Email...">
+        <input id="password" type="password" class="text-input w-50 h-centre" placeholder="Enter your Password...">
+        <input id="confirm-password" type="password" class="text-input w-50 h-centre" placeholder="Confirm your Password...">
+        <input type="submit" onclick="register" class="text-input w-50 h-centre" value="Register!">
       </form>
     </section>
   </main>
+  <script src="./register.js"></script>
 </body>
 </html>
