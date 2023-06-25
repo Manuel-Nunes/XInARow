@@ -11,6 +11,7 @@
     "deployR": "node ./resourceServer/deploy.js",
     "deployI": "node ./identityServer/deploy.js",
     "depAndSR": "npm run deployR && npm run startR",
+    "depAndSI": "npm run deployI && npm run startI",
     "buildAndGo": "npm install && npm run deployI && npm run deployR && npm run startAll"
   },
   "author": "",

@@ -1,11 +1,11 @@
 const bcrypt = require('bcrypt');
-const {DBConnect} = require("./DBConnect")
+const { DBConnect } = require('./DBConnect');
 
 const db = new DBConnect();
 
 async function hashPassword(user) {
   const { email, password, username } = user;
-  console.log("hashing password");
+  console.log('hashing password');
 
   try {
     const salt = await bcrypt.genSalt(10);
@@ -23,20 +23,20 @@ async function hashPassword(user) {
 }
 
 async function registerUserOnAuthDB(userObj) {
-    try {
-        let user = await hashPassword(userObj);
+  try {
+    let user = await hashPassword(userObj);
         
-        if(validateObject(user.email, user.username)){
-          let res = await db.CreateUser(user.email, user.password, user.username, user.salt);
-          console.log("user validated by id server");
-          return res;
-        }
-        
-        return false; // Indicate successful registration
-    } catch (error) {
-        console.log(error);
-        return false; // Indicate registration failure
+    if(validateObject(user.email, user.username)){
+      let res = await db.CreateUser(user.email, user.password, user.username, user.salt);
+      console.log('user validated by id server');
+      return res;
     }
+        
+    return false; // Indicate successful registration
+  } catch (error) {
+    console.log(error);
+    return false; // Indicate registration failure
+  }
 }
 
 function validateObject(email, username) {
@@ -61,4 +61,4 @@ function validateObject(email, username) {
   return true;
 }
 
-module.exports = registerUserOnAuthDB
+module.exports = registerUserOnAuthDB;

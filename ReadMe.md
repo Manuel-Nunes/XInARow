@@ -127,6 +127,8 @@ and in the resourceServer folder the following secrets file is needed (create it
                 "trustServerCertificate": true
             }
         }
+        "JWTSecret": "Your-JWT-Sercret",
+        "algorithm": "HS256"
     }
 ```
 
