@@ -1,25 +1,31 @@
 const { DBConnect } = require('./DBConnect');
+
 const db = new DBConnect();
 
-async function registerUser(userObj) {
+async function loginUser(userObj) {
   try {
-    let user = await registerUserAuth(userObj);
-    let res = await db.CreateMember(user.memberName);
+    let user = await loginUserAuth(userObj);
+    let res = await db.Member(user.memberName);
+    res = {
+      'memberID':res.memberID
+    };
     //res is memeberId, goes to profile page
     return res; // Indicate successful registration
   } catch (error) {
     console.log(error);
-    return false; // Indicate registration failure
+    return {
+      'memberID':null
+    }; // Indicate registration failure
   }
 }
 
-async function registerUserAuth(user) {
+async function loginUserAuth(user) {
   try {
     let res = undefined;
     await import('node-fetch').then(async (nodeFetch) => {
       const fetch = nodeFetch.default;
     
-      const response = await fetch('http://localhost:4000/register', {
+      const response = await fetch('http://localhost:4000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -31,7 +37,7 @@ async function registerUserAuth(user) {
         res = data;
       } else {
         console.log(response);
-        console.error('Registration failed!');
+        console.error('Login failed!');
       }
     });
     return res;
@@ -41,4 +47,4 @@ async function registerUserAuth(user) {
   }
 }
 
-module.exports = registerUser;
+module.exports = loginUser;

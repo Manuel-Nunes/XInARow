@@ -2,7 +2,7 @@ const sql = require('mssql');
 const { Config } = require('../../globalUtils/configManager');
 
 const serverFolder = 'identityServer';
-const DBConfig = new Config(`../../${serverFolder}/secrets.json`);
+const DBConfig = new Config(`./${serverFolder}/secrets.json`);
 
 class DBConnect{
   constructor(){
