@@ -33,7 +33,7 @@ app.get('/register', function(req, res) {
 
   let user = registerUserOnAuthDB(req.body);
   if(user.hasOwnProperty("error")){
-    res.statusCode(401);
+    res.statusCode(401).json(user);
   }
 
   res.json(user);

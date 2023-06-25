@@ -22,16 +22,17 @@ async function hashPassword(user) {
   }
 }
 
-async function registerUserOnAuthDB(user) {
+async function registerUserOnAuthDB(userObj) {
     try {
-        let user = hashPassword(user);
+        let user = await hashPassword(userObj);
         
         if(validateObject(user.email, user.username)){
-          let res = await db.CreateUser(user.email, user.password, user.username, user.salt)
+          let res = await db.CreateUser(user.email, user.password, user.username, user.salt);
+          console.log("user validated by id server");
+          return res;
         }
-        console.log("user validated by id server");
-
-        return res; // Indicate successful registration
+        
+        return false; // Indicate successful registration
     } catch (error) {
         console.log(error);
         return false; // Indicate registration failure

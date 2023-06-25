@@ -21,6 +21,7 @@ async function register() {
       return memberId;
 
     } catch (error){
+      alert(error)
       throw error;
     }
   }
@@ -83,5 +84,6 @@ async function submitForm(user){
       }
   } catch (error) {
     console.error(error);
+    return {"jouMa":"Error"};
   }
 }

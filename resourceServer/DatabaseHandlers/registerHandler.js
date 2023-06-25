@@ -3,12 +3,12 @@ const {DBConnect} = require("./DBConnect")
 
 const db = new DBConnect();
 
-async function registerUser(user) {
+async function registerUser(userObj) {
   try {
-    let user = await registerUserAuth(user);
+    let user = await registerUserAuth(userObj);
     console.log("user authorized, creating member");
-    
-    let res = await db.CreateMember(user.memberName);
+    console.log(user);
+    let res = await db.CreateMember(user.username);
     //res is memeberId, goes to profile page
     return res; // Indicate successful registration
   } catch (error) {
@@ -33,6 +33,7 @@ async function registerUserAuth(user) {
       const data = await response.json();
       return data;
     } else {
+      console.log(response);
       console.error('Registration failed!');
     }
   } catch (error) {

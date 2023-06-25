@@ -28,7 +28,7 @@ app.get('/register', function(req, res) {
   res.sendFile(path.join(__dirname, 'public/views/register.html'));
 });
 
-app.get('/submitRegister', function(req, res) {
+app.post('/submitRegister', jsonParser, function(req, res) {
   registerUser(req.body);
 });
 
