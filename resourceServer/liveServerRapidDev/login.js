@@ -17,7 +17,6 @@ async function login() {
   if (validateForm(email, password)) {
     let memberID = await submitForm(user);
     // window.location.href = "game.html";
-    console.log(memberID);
     return memberID;
   } else {
     alert('Invalid username or password. Please try again.');
@@ -57,14 +56,14 @@ async function submitForm(user){
         'Content-Type': 'application/json'
       }
     });
-    console.log(response);
     if (response.ok) {
       const data = await response.json();
-      console.log('DATA', data)
       return data;
     } else {
       console.error('Login failed!');
-      return {'error':true};
+      return {
+        'error':true
+      };
     }
   } catch (error) {
     console.error(error);

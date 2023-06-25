@@ -6,12 +6,16 @@ async function loginUser(userObj) {
   try {
     let user = await loginUserAuth(userObj);
     let res = await db.Member(user.memberName);
-    res = res.memberID;
+    res = {
+      'memberID':res.memberID
+    };
     //res is memeberId, goes to profile page
     return res; // Indicate successful registration
   } catch (error) {
     console.log(error);
-    return false; // Indicate registration failure
+    return {
+      'memberID':null
+    }; // Indicate registration failure
   }
 }
 
