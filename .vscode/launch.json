@@ -5,6 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "command": "npm run startI",
+      "name": "Run npm run startI",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
       "command": "npm run depAndSR",
       "name": "Run npm run depAndSR",
       "request": "launch",

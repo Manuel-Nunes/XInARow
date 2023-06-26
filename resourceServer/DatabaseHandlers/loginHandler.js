@@ -1,11 +1,12 @@
 const { DBConnect } = require('./DBConnect');
 const { getHost } = require('../getHost');
+const { tokenHolder } = require('../../globalUtils/RSTokenManager');
 
 const db = new DBConnect();
 
 async function loginUser(userObj) {
   try {
-    let user = await loginUserAuth(userObj);
+    const user = await loginUserAuth(userObj);
     console.log(`Auth returned: ${user}`);
     let res = await db.Member(user.memberName);
     res = {
@@ -29,13 +30,15 @@ async function loginUserAuth(user) {
     return await import('node-fetch').then(async (nodeFetch) => {
       const fetch = nodeFetch.default;
 
+      user.RSToken = tokenHolder.token;
+
       const response = await fetch(`${getHost()}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(user)
-        
+
       });
 
       if (response.ok) {
@@ -45,7 +48,7 @@ async function loginUserAuth(user) {
         console.error('Login failed!');
       }
     });
-    
+
   } catch (error) {
     console.error(error);
   }
