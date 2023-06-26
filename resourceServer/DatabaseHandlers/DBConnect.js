@@ -1,5 +1,5 @@
 const sql = require('mssql');
-const { Config } = require('./globalUtils/configManager');
+const { Config } = require('../globalUtils/configManager');
 
 const serverFolder = 'resourceServer';
 const DBConfig = new Config(`./secrets.json`);

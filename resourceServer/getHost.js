@@ -1,4 +1,4 @@
-const { Config } = require('../globalUtils/configManager');
+const { Config } = require('./globalUtils/configManager');
 
 const conf = new Config('./resourceServer/serverConfig.json');
 

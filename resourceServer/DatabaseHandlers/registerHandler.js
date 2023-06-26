@@ -1,7 +1,7 @@
 const { DBConnect } = require('./DBConnect');
 const db = new DBConnect();
 const { getHost } = require('../getHost');
-const { tokenHolder } = require('../../globalUtils/RSTokenManager');
+const { tokenHolder } = require('../globalUtils/RSTokenManager');
 
 async function registerUser(userObj) {
   try {
