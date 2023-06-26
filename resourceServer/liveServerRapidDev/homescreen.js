@@ -6,6 +6,7 @@ import {
   ssGetWebToken,
   ssSetGameSettings,
   ssGetGameSettings,
+  ssGetMemberId
 } from './sessionUtils.js';
 
 import {
@@ -45,14 +46,14 @@ function displayErrorMessage(message){
 
 }
 
-function checksPassed(player1, player2){
+function checksPassed(){
   clearErrorMessage();
 
   if (!doDiagCheck.checked && !doRowCheck.checked && !doColCheck.checked)
   {
     displayErrorMessage('Needs at least one check to win a game');
     doDiagCheck.focus();
-  } else if(player1 || player2){
+  } else if(!ssGetPlayer1Account() || !ssGetPlayer2Account){
     displayErrorMessage('Must have 2 Players');
   }else if(inpXrequired.value > gridSize.value){
     displayErrorMessage('X-in-a-row must be less than the board size');
@@ -78,11 +79,10 @@ createProfileForm.addEventListener('submit', (event) => {
     initPage()
   }).catch((err) => {
     console.log(err)
-    displayErrorMessage("Somethign went wrong")
+    displayErrorMessage("Something went wrong")
   })
 
   console.log(event)
-  // do submit stuff here
 })
 
 playButton.addEventListener('click',()=>{
@@ -103,7 +103,7 @@ playButton.addEventListener('click',()=>{
     
     ssSetGameSettings(gameSettings);
     console.log(ssGetGameSettings());
-    window.location.href = "game.html";
+    window.location.href = "game.html"; //genwine
   }
 });
 
@@ -126,10 +126,9 @@ async function getProfiles(jwt) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({token: jwt}),
+      body: JSON.stringify({token: jwt, memberID: ssGetMemberId()}),
     })).json();
 
-    
     console.log(profiles);
 
     const section = document.getElementById('profileSelection');
@@ -148,7 +147,7 @@ async function getProfiles(jwt) {
         image.classList.add('h-centre');
 
         const nameParagraph = document.createElement('p');
-        nameParagraph.textContent = 'Add user';
+        nameParagraph.textContent = 'Add user +';
 
         article.appendChild(image);
         article.appendChild(nameParagraph);
@@ -156,8 +155,6 @@ async function getProfiles(jwt) {
 
         article.addEventListener('click', () => {
           openForm()
-          // const section = document.getElementById('profileSelection');
-          // section.innerHTML = '';
         })
       }
     }

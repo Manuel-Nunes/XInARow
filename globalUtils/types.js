@@ -5,6 +5,12 @@
  */
 
 /**
+ * @typedef {Object} RSTokenObject
+ * @param {string} IP
+ * @param {number} EAT
+ */
+
+/**
  * @typedef {Object} GameSetup
  * @property {boolean} doRowCheck
  * @property {boolean} doColCheck

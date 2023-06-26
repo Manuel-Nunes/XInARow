@@ -15,7 +15,7 @@ class Config{
 
   /**
    * get value at the end of the chain
-   * @param {string} Chain 
+   * @param {string} Chain
    * @returns Value found at the end of the chain or undefined
    */
   get(Chain){
@@ -35,7 +35,7 @@ class Config{
 
   /**
    * Change the value at the end of a chain
-   * @param {string} Chain 
+   * @param {string} Chain
    * returns true if could be set, else false
    */
   set(Chain,value){

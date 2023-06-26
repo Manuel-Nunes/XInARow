@@ -1,6 +1,6 @@
 import {
   ssStoreWebToken,
-  ssGetWebToken
+  ssSetMemberId,
 } from './sessionUtils.js';
 
 let form = document.getElementById('form-login');
@@ -9,8 +9,8 @@ form.addEventListener('submit', async (e)=>{
   e.preventDefault();
   let data = await login();
   ssStoreWebToken(data.token);
+  ssSetMemberId(data.memberID);
   window.location.href = "homescreen.html";
-
 });
 
 async function login() {

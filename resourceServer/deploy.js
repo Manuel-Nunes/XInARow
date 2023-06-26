@@ -3,12 +3,12 @@ const path = require('path');
 
 const devFolder = path.join(__dirname,'liveServerRapidDev');
 
-const subFiles =['public'];
+const subFiles = ['public'];
 
 /**
  * @enum {string}
  */
-const deployFilesEnum= {
+const deployFilesEnum = {
   Scripts: path.join(__dirname, ...subFiles ,'Scripts'),
   Configs: path.join(__dirname,...subFiles,'Configs'),
   Styles: path.join(__dirname,...subFiles,'Styles'),

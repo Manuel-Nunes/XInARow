@@ -3,7 +3,8 @@ const storageKeys = {
   WebToken: 'JWTStorage',
   Player1Account: 'PlayerOneAccount',
   Player2Account: 'PlayerTwoAccount',
-  gameSettings: 'GameSettings'
+  gameSettings: 'GameSettings',
+  memberID: 'memberID'
 };
 
 export function ssStoreWebToken(Token){
@@ -44,4 +45,16 @@ export function ssGetGameSettings(){
 
 export function ssSetGameSettings(gameSettings){
   return sessionStorage.setItem(storageKeys.gameSettings, JSON.stringify(gameSettings));
+}
+
+export function ssSetMemberId(memberId){
+  return sessionStorage.setItem(storageKeys.memberID, JSON.stringify(memberId));
+}
+
+export function ssGetMemberId(){
+  try{
+    return JSON.parse(sessionStorage.getItem(storageKeys.memberID));
+  }catch{
+    return undefined;
+  }
 }

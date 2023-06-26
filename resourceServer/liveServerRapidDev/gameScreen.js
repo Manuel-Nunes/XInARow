@@ -13,7 +13,7 @@ import {
 const body = document.getElementById('body');
 const exitButton = document.getElementById("game-exit");
 exitButton.addEventListener('click', () => {
-  window.location.href = "homescreen.html"
+  window.location.href = "homescreen.html" // genwine?
 })
 
 /**

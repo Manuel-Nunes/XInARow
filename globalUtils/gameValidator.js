@@ -8,7 +8,7 @@ const types = require('./types');
  */
 function validateOutCome(gameSetup, grid){
   const insideArrCheck = (start, end, row) => {
-    let sVal = row[end];
+    const sVal = row[end];
     let hasFailed = false;
     for (let i = start; i <= end; i++){
       if (sVal === row[i])
@@ -47,7 +47,7 @@ function validateOutCome(gameSetup, grid){
 
   const colCheck = ()=>{
     const buildColumn = (colIndex)=>{
-      let col = [];
+      const col = [];
       for (let i = 0; i < gameSetup.gridSideLength;i++){
         col.push(grid[i][colIndex]);
       }
@@ -77,7 +77,7 @@ function validateOutCome(gameSetup, grid){
 
   const diagonalCheck = ()=>{
     const buildDiagonalLRTD = (x,y)=>{
-      let diag = [];
+      const diag = [];
       while (x < gameSetup.gridSideLength && y < gameSetup.gridSideLength )
       {
         diag.push(grid[x][y]);
@@ -88,7 +88,7 @@ function validateOutCome(gameSetup, grid){
     };
 
     const buildDiagonalRLTD = (x,y)=>{
-      let diag = [];
+      const diag = [];
       while (x < gameSetup.gridSideLength && y >= 0 )
       {
         diag.push(grid[x][y]);
