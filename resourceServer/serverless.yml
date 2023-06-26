@@ -28,6 +28,8 @@ functions:
     name: ${self:service}-${self:provider.stage}-serverless-api-sample
     handler: server.handler
     timeout: 30
+    environment:
+      NODE_OPTIONS: --require=bcrypt
     events:
       - httpApi:
           path: "/{proxy+}"
