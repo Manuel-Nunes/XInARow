@@ -23,8 +23,17 @@ const conf = new Config(`./${serverFolder}/serverConfig.json`);
 const PORT = conf.get('serverPort');
 const SKIP_ID_CHECK = conf.get('skipIDCheck');
 
-function doUserCheck(req,res,next){
-  if (!SKIP_ID_CHECK && (!req.body.memberID || !req.body.token)  )
+/**
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @param {*} next 
+ * @returns 
+ */
+async function doUserCheck(req,res,next){
+  console.log(req.query);
+
+  if (!SKIP_ID_CHECK && (!req.query.memberID || !req.query.token)  )
   {
     res.redirect('/login');
     res.send();
@@ -32,7 +41,7 @@ function doUserCheck(req,res,next){
     return;
   }
 
-  if (!SKIP_ID_CHECK && !checkUserID(req.body.memberID,req.body.token ))
+  if (!SKIP_ID_CHECK && ! (await checkUserID(req.query.memberID,req.query.token )))
   {
     res.redirect('/login');
     res.send();
@@ -49,6 +58,8 @@ fs.readdirSync(`./${serverFolder}/public` ,{
 })
   .filter(item => item.isDirectory())
   .forEach(folder => {
+    if (folder.name === 'Views')
+      return;
     app.use(express.static( path.join(__dirname,'public',folder.name)));
   });
 
@@ -70,7 +81,7 @@ app.get('/login',jsonParser, function(req, res) {
   res.sendFile(path.join(__dirname, 'public/views/login.html'));
 });
 
-app.get('/',jsonParser,doUserCheck, function(req, res) {
+app.get('/',jsonParser, function(req, res) {
   res.sendFile(path.join(__dirname, 'public/views/login.html'));
 });
 
@@ -79,7 +90,10 @@ app.get('/game',jsonParser,doUserCheck,( req, res)=>{
 });
 
 app.get('/homescreen',jsonParser,doUserCheck ,( req, res)=>{
+  
   res.sendFile(path.join(__dirname, 'public/views/homescreen.html'));
+  // res.render(path.join(__dirname, 'public/views/homescreen.html'));
+
 });
 
 app.post('/game', jsonParser , function (req , res){
@@ -88,13 +102,9 @@ app.post('/game', jsonParser , function (req , res){
   res.send('Awe posted');
 });
 
-app.post('/member/:memberData/profile', jsonParser,(req, res) => {
-
-  const { token } = req.body;
-
-  const decoded = jwt.decode(token);
-
-  dbConnect.Profiles(decoded.memberID).then((data) => {
+app.post('/member/:memberData/profile', jsonParser, doUserCheck,(req, res) => {
+  console.log('Get profiles EP was hit');
+  dbConnect.Profiles(parseInt(req.params.memberData)).then((data) => {
     res.status(200).send(data);
   }).catch((err) => {
     res.status(500).send(err);

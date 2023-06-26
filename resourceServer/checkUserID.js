@@ -21,12 +21,14 @@ async function checkUserID(userID,token){
   if (!data.tokenIsValid)
     return false;
 
-  const user = await db.Member(userID);
-
+  const user = await db.Member(parseInt(userID));
+  if (!user?.memberName)
+    return false;
+    
   const payload = token.split('.')[1];
   const tokenData = JSON.parse(atob(payload)) ;
 
-  return user.memberName == tokenData.memberID;
+  return user.memberName === tokenData.memberID;
 }
 
 module.exports = {

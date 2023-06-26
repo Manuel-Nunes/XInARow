@@ -6,12 +6,17 @@ import {
   ssGetWebToken,
   ssSetGameSettings,
   ssGetGameSettings,
+  ssGetMemberID,
+  getAuthString
 } from './sessionUtils.js';
 
 import {
   pages,
   navigateTo
 } from './backendUtils.js';
+import {
+  getHost 
+} from '../getHost.js';
 
 /**
  * @typedef {Object} GameSetup
@@ -53,7 +58,7 @@ function checksPassed(player1, player2){
   }else if(inpXrequired.value > gridSize.value){
     displayErrorMessage('X-in-a-row must be less than the board size');
   }else{
-    clearErrorMessage()
+    clearErrorMessage();
     return true;
   }
   return false;
@@ -90,7 +95,7 @@ playButton.addEventListener('click',()=>{
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const jwt = ssGetWebToken()
+  const jwt = ssGetWebToken();
 
   await getProfiles(jwt);
 });
@@ -99,12 +104,14 @@ async function getProfiles(jwt) {
   ssSetPlayer1Account(undefined);
   ssSetPlayer2Account(undefined);
   try {
-    const profiles = await (await fetch(`http://localhost:3000/member/JohnSmith/profile`, {
+    const profiles = await (await fetch(`${getHost()}/member/${ssGetMemberID()}/profile${getAuthString()}`, {
       method: 'POST', 
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({token: jwt}),
+      body: JSON.stringify({
+        token: jwt
+      }),
     })).json();
 
     
@@ -115,10 +122,10 @@ async function getProfiles(jwt) {
 
     if(profiles){
       profiles.forEach((profile) => {
-        addProfileToView(profile, section)
-      })
+        addProfileToView(profile, section);
+      });
       if(profiles.length < 8){
-        console.log("this was added")
+        console.log('this was added');
         const article = document.createElement('article');
         article.classList.add('profile-display', 'clickable');
 
@@ -135,7 +142,7 @@ async function getProfiles(jwt) {
         section.appendChild(article);
       }
     }
-    console.log(profiles)
+    console.log(profiles);
 
   } catch (error) {
     console.error('Error occurred while building profile view:', error);
@@ -161,32 +168,32 @@ function addProfileToView(profile, section){
 
   article.addEventListener('click', () => {
 
-    let player1 = ssGetPlayer1Account();
-    let player2 = ssGetPlayer2Account();
+    const player1 = ssGetPlayer1Account();
+    const player2 = ssGetPlayer2Account();
       
     if(player1 && player1.profileID === profile.profileID){
-      article.classList.remove('clicked')
-      ssSetPlayer1Account(undefined)
+      article.classList.remove('clicked');
+      ssSetPlayer1Account(undefined);
     }else if(player2 && player2.profileID === profile.profileID){
-      article.classList.remove('clicked')
-      ssSetPlayer2Account(undefined)
+      article.classList.remove('clicked');
+      ssSetPlayer2Account(undefined);
     }else if(!player1){
-      ssSetPlayer1Account(profile)
-      article.classList.add('clicked')
+      ssSetPlayer1Account(profile);
+      article.classList.add('clicked');
     }else if(!player2 && player1){
-      ssSetPlayer2Account(profile)
-      article.classList.add('clicked')
+      ssSetPlayer2Account(profile);
+      article.classList.add('clicked');
     }else if(player1 && player2){
-      ssSetPlayer1Account(profile)
-      ssSetPlayer2Account(undefined)
+      ssSetPlayer1Account(profile);
+      ssSetPlayer2Account(undefined);
 
       const selectedProfiles = document.querySelectorAll('.profile-display.clickable.clicked');
       selectedProfiles.forEach((profile) => {
-        profile.classList.remove('clicked')
-      })
-      article.classList.add('clicked')
+        profile.classList.remove('clicked');
+      });
+      article.classList.add('clicked');
     }
-  })
+  });
 }
 
 clearErrorMessage();
