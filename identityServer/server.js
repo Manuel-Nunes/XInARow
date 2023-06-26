@@ -34,6 +34,9 @@ const LOCAL_DEBUG = conf.get('localDebug');
 const SKIP_ID_CHECK = conf.get('skipIDCheck');
 const ALLOW_TEST_TOKEN = conf.get('allowTestTokenGeneration');
 
+const serverless = require('serverless-http');
+
+
 function tokemCheck(req,res,next){
   if (!SKIP_ID_CHECK && ((!req.body.RSToken) || !timeCheckToken(req.body.RSToken) || !validateRSToken(req.body.RSToken)))
   {
@@ -121,3 +124,5 @@ app.post('/ResourceServerLogin', jsonParser, async function (req, res) {
 app.listen(PORT, () => {
   console.log(`App listening on port http://localhost:${PORT}`);
 });
+
+module.exports.handler = serverless(app)

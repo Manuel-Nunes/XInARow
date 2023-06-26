@@ -5,6 +5,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
+
 const app = express();
 const jsonParser = bodyParser.json();
 const serverFolder = 'resourceServer';
@@ -17,6 +18,7 @@ const { DBConnect } = require('./DatabaseHandlers/DBConnect');
 const jwt = require('jsonwebtoken');
 const dbConnect = new DBConnect;
 const { checkTokenAndRefresh } = require('../globalUtils/RSTokenManager');
+const serverless = require('serverless-http');
 
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
 
@@ -82,27 +84,47 @@ app.get('/homescreen',jsonParser,doUserCheck ,( req, res)=>{
   res.sendFile(path.join(__dirname, 'public/views/homescreen.html'));
 });
 
-app.post('/game', jsonParser , function (req , res){
+app.post('/game', jsonParser , doUserCheck, function (req , res){
   const { gameGrid, gameSettings,playerOne ,playerTwo } = req.body ;
   userGridPOST(gameGrid,gameSettings,playerOne, playerTwo);
   res.send('Awe posted');
 });
 
-app.post('/member/:memberData/profile', jsonParser,(req, res) => {
+app.post('/member/profile', jsonParser,(req, res) => {
 
-  const { token } = req.body;
-
+  const {token, memberID} = req.body;
   const decoded = jwt.decode(token);
 
   dbConnect.Profiles(decoded.memberID).then((data) => {
-    res.status(200).send(data);
+    res.status(200).send(data)
   }).catch((err) => {
-    res.status(500).send(err);
-  });
-});
+    res.status(500).send(err)
+  })
+})
+
+
+app.post('/profile', jsonParser , async (req, res) => {
+
+  const {token, profileName} = req.body
+
+  const decoded = jwt.decode(token);
+
+  const memberName = decoded.memberID;
+
+  const member = await dbConnect.Member(memberName)
+  const randomNumber = Math.floor(Math.random() * 10) + 1;
+  await dbConnect.CreateProfile(profileName, randomNumber, member.memberID).then(() => {
+    res.status(200).send({message: "success"})
+  }).catch((error) => {
+    console.log(error)
+    res.status(500).send({message: "failed"})
+  })
+})
 
 app.listen(PORT, () => {
   console.log(`App listening on port http://localhost:${PORT}`);
 });
 
 checkTokenAndRefresh();
+
+module.exports.handler = serverless(app)
