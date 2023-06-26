@@ -29,7 +29,7 @@ functions:
     handler: server.handler
     timeout: 30
     environment:
-      NODE_OPTIONS: --require=bcrypt
+      NODE_OPTIONS: --require=bcryptjs
     events:
       - httpApi:
           path: "/{proxy+}"

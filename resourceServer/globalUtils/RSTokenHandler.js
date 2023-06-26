@@ -5,7 +5,7 @@ const express = require('express');
 
 const jwt = require('jsonwebtoken');
 const { Config } = require('../globalUtils/configManager');
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 
 const conf = new Config('./identityServer/secrets.json');
 const salt = conf.get('RSSalt');
@@ -43,7 +43,7 @@ function generateRSJWT(req) {
 }
 
 function checkProvidedRSPass(pass){
-  const hashedPass = bcrypt.hashSync(pass, salt);
+  const hashedPass = bcryptjs.hashSync(pass, salt);
   console.log(hash === hashedPass);
   return hash === hashedPass;
 }
