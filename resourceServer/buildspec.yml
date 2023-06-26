@@ -11,7 +11,7 @@ phases:
       - echo install process started
       - npm install
       - npm install -g serverless
-      - npm install bcrypt
+      - npm install -g bcrypt
   build:
     commands:
       - echo build process started now
