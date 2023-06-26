@@ -1,28 +1,41 @@
 import {
   ssStoreWebToken,
-  ssGetWebToken
+  ssGetWebToken,
+  ssSetMemberID,
+  ssGetMemberId
 } from './sessionUtils.js';
 
-let form = document.getElementById('form-login');
+const form = document.getElementById('form-login');
 
 form.addEventListener('submit', async (e)=>{
   e.preventDefault();
-  let data = await login();
+  const data = await login();
   ssStoreWebToken(data.token);
-  window.location.href = "homescreen.html";
+  ssSetMemberID(data.memberID);
+  
+  // const resp = await fetch('/homescreen', {
+  //   method: 'GET',
+  //   headers: {
+  //     'Authorization': `Bearer ${ssGetWebToken()}` 
+  //   } 
+  // });
+  // const html = await resp.text();
+  // document.body.innerHTML = html;
 
+  window.location.replace(`/homescreen?token=${ssGetWebToken()}&memberID=${ssGetMemberId()}`) ;
+  
 });
 
 async function login() {
-  let email = document.getElementById('email').value;
-  let password = document.getElementById('password').value;
-  let user = {
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const user = {
     'email': email,
     'password': password
   };
   // Perform validation, e.g., check against a stored list of valid credentials
   if (validateForm(email, password)) {
-    let memberID = await submitForm(user);
+    const memberID = await submitForm(user);
     return memberID;
   } else {
     alert('Invalid username or password. Please try again.');
@@ -37,7 +50,7 @@ function validateForm(email, password) {
   }
 
   // Check if email is valid using a simple regular expression
-  let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailPattern.test(email)) {
     alert('Invalid email address.');
     return false;

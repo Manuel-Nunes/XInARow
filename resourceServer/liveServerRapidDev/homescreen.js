@@ -6,6 +6,8 @@ import {
   ssGetWebToken,
   ssSetGameSettings,
   ssGetGameSettings,
+  ssGetMemberId,
+  getAuthString
 } from './sessionUtils.js';
 
 import {
@@ -31,6 +33,10 @@ const playButton = document.getElementById('play');
 
 /** @type {HTMLInputElement}*/ const gridSize = document.getElementById('gridSize');
 /** @type {HTMLInputElement}*/ const inpXrequired = document.getElementById('Xrequired');
+/** @type {HTMLInputElement}*/ const addProfile = document.getElementById('add-profile');
+/** @type {HTMLInputElement}*/ const profileName = document.getElementById('name');
+/** @type {HTMLInputElement}*/ const cancelCreateProfile = document.getElementById('cancel-add-profile');
+/** @type {HTMLFormElement}*/ const createProfileForm = document.getElementById('profile-creation');
 
 
 /** @type {HTMLLabelElement}*/ const errorMessageOut = document.getElementById('errorMessageOut');
@@ -41,19 +47,19 @@ function displayErrorMessage(message){
 
 }
 
-function checksPassed(player1, player2){
+function checksPassed(){
   clearErrorMessage();
 
   if (!doDiagCheck.checked && !doRowCheck.checked && !doColCheck.checked)
   {
     displayErrorMessage('Needs at least one check to win a game');
     doDiagCheck.focus();
-  } else if(player1 || player2){
+  } else if(!ssGetPlayer1Account() || !ssGetPlayer2Account){
     displayErrorMessage('Must have 2 Players');
   }else if(inpXrequired.value > gridSize.value){
     displayErrorMessage('X-in-a-row must be less than the board size');
   }else{
-    clearErrorMessage()
+    clearErrorMessage();
     return true;
   }
   return false;
@@ -66,6 +72,19 @@ function clearErrorMessage(){
 doDiagCheck.addEventListener('click',checksPassed);
 doRowCheck.addEventListener('click',checksPassed);
 doColCheck.addEventListener('click',checksPassed);
+cancelCreateProfile.addEventListener('click', closeForm);
+
+createProfileForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  submitProfile().then(() => {
+    initPage();
+  }).catch((err) => {
+    console.log(err);
+    displayErrorMessage('Something went wrong');
+  });
+
+  console.log(event);
+});
 
 playButton.addEventListener('click',()=>{
   const player1 = ssGetPlayer1Account();
@@ -85,29 +104,35 @@ playButton.addEventListener('click',()=>{
     
     ssSetGameSettings(gameSettings);
     console.log(ssGetGameSettings());
-    navigateTo(pages.game);
+    window.location.href = `${window.location.origin}/game${getAuthString()}`; //genwine
   }
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const jwt = ssGetWebToken()
-
-  await getProfiles(jwt);
+  await initPage();
 });
+
+async function initPage(){
+  ssSetGameSettings(undefined);
+  const jwt = ssGetWebToken();
+  await getProfiles(jwt);
+}
 
 async function getProfiles(jwt) {
   ssSetPlayer1Account(undefined);
   ssSetPlayer2Account(undefined);
   try {
-    const profiles = await (await fetch(`http://localhost:3000/member/JohnSmith/profile`, {
+    const profiles = await (await fetch(`${window.location.origin}/member/${ssGetMemberId()}/profile${getAuthString()}`, {
       method: 'POST', 
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({token: jwt}),
+      body: JSON.stringify({
+        token: jwt
+      }),
     })).json();
 
-    
+
     console.log(profiles);
 
     const section = document.getElementById('profileSelection');
@@ -115,10 +140,10 @@ async function getProfiles(jwt) {
 
     if(profiles){
       profiles.forEach((profile) => {
-        addProfileToView(profile, section)
-      })
+        addProfileToView(profile, section);
+      });
       if(profiles.length < 8){
-        console.log("this was added")
+        console.log('this was added');
         const article = document.createElement('article');
         article.classList.add('profile-display', 'clickable');
 
@@ -127,18 +152,57 @@ async function getProfiles(jwt) {
         image.classList.add('h-centre');
 
         const nameParagraph = document.createElement('p');
-        nameParagraph.textContent = 'Add user';
+        nameParagraph.textContent = 'Add user +';
 
         article.appendChild(image);
         article.appendChild(nameParagraph);
-
         section.appendChild(article);
+
+        article.addEventListener('click', () => {
+          openForm();
+        });
       }
     }
-    console.log(profiles)
+    console.log(profiles);
 
   } catch (error) {
     console.error('Error occurred while building profile view:', error);
+  }
+}
+
+function openForm() {
+  var formContainer = document.getElementById('popupForm');
+  formContainer.style.display = 'flex';
+
+  // Calculate the vertical position to center the form
+  var windowHeight = window.innerHeight;
+  var formHeight = formContainer.offsetHeight;
+  var marginTop = (windowHeight - formHeight) / 2;
+
+  // Apply the calculated margin-top to center the form
+  formContainer.style.marginTop = marginTop + 'px';
+}
+
+function closeForm() {
+  document.getElementById('popupForm').style.display = 'none';
+}
+
+async function submitProfile(){
+  if(profileName.value){
+    const jwt = ssGetWebToken();
+    await fetch(`${window.location.origin}/profile`, {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token: jwt,
+        profileName: profileName.value
+      }),
+    });//.json();
+    
+    // build api here and send to BE with {token, profileName}
+    closeForm();
   }
 }
 
@@ -161,32 +225,33 @@ function addProfileToView(profile, section){
 
   article.addEventListener('click', () => {
 
-    let player1 = ssGetPlayer1Account();
-    let player2 = ssGetPlayer2Account();
+    const player1 = ssGetPlayer1Account();
+    const player2 = ssGetPlayer2Account();
       
     if(player1 && player1.profileID === profile.profileID){
-      article.classList.remove('clicked')
-      ssSetPlayer1Account(undefined)
+      article.classList.remove('clicked');
+      ssSetPlayer1Account(undefined);
     }else if(player2 && player2.profileID === profile.profileID){
-      article.classList.remove('clicked')
-      ssSetPlayer2Account(undefined)
+      article.classList.remove('clicked');
+      ssSetPlayer2Account(undefined);
     }else if(!player1){
-      ssSetPlayer1Account(profile)
-      article.classList.add('clicked')
+      ssSetPlayer1Account(profile);
+      article.classList.add('clicked');
     }else if(!player2 && player1){
-      ssSetPlayer2Account(profile)
-      article.classList.add('clicked')
+      ssSetPlayer2Account(profile);
+      article.classList.add('clicked');
     }else if(player1 && player2){
-      ssSetPlayer1Account(profile)
-      ssSetPlayer2Account(undefined)
+      ssSetPlayer1Account(profile);
+      ssSetPlayer2Account(undefined);
 
       const selectedProfiles = document.querySelectorAll('.profile-display.clickable.clicked');
       selectedProfiles.forEach((profile) => {
-        profile.classList.remove('clicked')
-      })
-      article.classList.add('clicked')
+        profile.classList.remove('clicked');
+      });
+      article.classList.add('clicked');
     }
-  })
+  });
 }
 
 clearErrorMessage();
+window.history.pushState(null, null, '/homescreen');

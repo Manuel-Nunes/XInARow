@@ -10,7 +10,21 @@ import {
   postOutCome
 } from './backendUtils.js';
 
+import {
+  ssGetGameSettings,
+  ssGetPlayer1Account, 
+  ssGetPlayer2Account,
+  ssGetWebToken,
+  ssGetMemberId
+} from './sessionUtils.js';
+
+console.log(ssGetPlayer1Account());
+
 const body = document.getElementById('body');
+const exitButton = document.getElementById('game-exit');
+exitButton.addEventListener('click', () => {
+  window.location.replace(`/homescreen?token=${ssGetWebToken()}&memberID=${ssGetMemberId()}`) ;
+});
 
 /**
  * @typedef {Object} GameSetup
@@ -21,17 +35,27 @@ const body = document.getElementById('body');
  * @property {number} Xrequired
  */
 
+/** @type {HTMLImageElement} */ const player1Icon = document.getElementById('player1Icon');
+/** @type {HTMLImageElement} */ const player2Icon = document.getElementById('player2Icon');
+
+/** @type {HTMLParagraphElement} */ const player1Name = document.getElementById('player1Name').querySelector('p');
+/** @type {HTMLParagraphElement} */ const player2Name = document.getElementById('player2Name').querySelector('p');
+
+
+player1Icon.src = ssGetPlayer1Account().imageURL;
+player2Icon.src = ssGetPlayer2Account().imageURL;
+
+player1Name.innerText = ssGetPlayer1Account().username;
+player2Name.innerText = ssGetPlayer2Account().username;
+
 let playerOne = true;
 
-const gamesetup = {
-  doRowCheck: true, 
-  doColCheck: true,
-  doDiagonalCheck: true,
-  gridSideLength: 4,
-  Xrequired: 4
-};
+/**
+ * @type {GameSetup}
+ */
+const gamesetup = ssGetGameSettings();
 
-let gameGrid;
+let gameGrid = null;
 
 /**
  * Enum for search Axis.
@@ -153,6 +177,24 @@ function gridCheck(x,y,identity,direction,foundArr){
   {
     foundArr = [1,1,1,1];
     Object.keys(searchDirection).forEach(SDKey => {
+      if (!gamesetup.doColCheck)
+      {
+        if ( searchDirection[SDKey] === searchDirection.Up ||  searchDirection[SDKey] === searchDirection.Down)
+          return foundArr;
+      }
+
+      if(!gamesetup.doRowCheck)
+      {
+        if ( searchDirection[SDKey] === searchDirection.Right ||  searchDirection[SDKey] === searchDirection.Left)
+          return foundArr;
+      }
+
+      if(!gamesetup.doDiagonalCheck)
+      {
+        if ( searchDirection[SDKey] === searchDirection.DownLeft ||  searchDirection[SDKey] === searchDirection.UpRight ||  searchDirection[SDKey] === searchDirection.UpLeft || searchDirection[SDKey] === searchDirection.DownRight)
+          return foundArr;
+      }
+
       const dir = searchDirection[SDKey];
       const cord = directionToGrid(x,y,dir);
       if (checkIfCordsValid(cord[0],cord[1]))
@@ -185,15 +227,14 @@ const click = (x,y,target)=>{
   console.log(`x: ${x} y: ${y}`);
   if (playerOne)
   {
-    body.style.setProperty('background-color','#34366b');
-
-    target.style.setProperty('background-color','blue');
+    body.style.setProperty('background-color','var(--playerTwoColorBG)');
+    target.style.setProperty('background-color','var(--playeOneColor)');
     gameGrid[x][y] = 1;
   }
   else
   {
-    body.style.setProperty('background-color','#4a1313');
-    target.style.setProperty('background-color','red');
+    body.style.setProperty('background-color','var(--playerOneColorBG)');
+    target.style.setProperty('background-color','var(--playerTwoColor)');
     gameGrid[x][y] = 2;
   }
   
@@ -201,13 +242,15 @@ const click = (x,y,target)=>{
 
   if (hasWon(arr))
   {
+    postOutCome((playerOne) ? 1 : 2,gamesetup,gameGrid,ssGetPlayer1Account(),ssGetPlayer2Account(), ()=>{
+      window.location.replace(`/homescreen?token=${ssGetWebToken()}&memberID=${ssGetMemberId()}`) ;
+    });
     showPopup(
       `${(playerOne) ? 'Player One' : 'Player Two'} has won, saving outcome...`,
       (playerOne) ? '#34366b' : '#4a1313',
       ()=>{
       }
     );
-    postOutCome((playerOne) ? 1 : 2);
     return;
   }
 
@@ -225,3 +268,4 @@ const click = (x,y,target)=>{
 };
 
 gameGrid = genGameGrid(gamesetup.gridSideLength,click);
+window.history.pushState(null, null, '/game');

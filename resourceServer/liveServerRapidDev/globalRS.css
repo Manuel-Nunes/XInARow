@@ -218,3 +218,7 @@ nav ul li a{
   height: 70%;
   min-height: fit-content;
 }
+
+button{
+  cursor: pointer;
+}

@@ -35,7 +35,7 @@ class DBConnect{
    */
   async CreateGame(player1, player2){
     try{
-      let connection = await this.#Connect();
+      const connection = await this.#Connect();
       if(connection){
         const proc = new sql.Request(connection);
         proc.input('player1', sql.Int, player1);
@@ -45,6 +45,8 @@ class DBConnect{
         return result.recordset[0];
       }
     }catch (err){
+
+      console.log(err);
       return {
         error:true,
         message:'There appears to be an issue with the database'
@@ -54,7 +56,7 @@ class DBConnect{
 
   async CreateMember(memberName){
     try{
-      let connection = await this.#Connect();
+      const connection = await this.#Connect();
       if(connection){
         const proc = new sql.Request(connection);
         proc.input('memberName', sql.VarChar, memberName);
@@ -72,7 +74,7 @@ class DBConnect{
 
   async CreateProfile(username, profileImage, memberID){
     try{
-      let connection = await this.#Connect();
+      const connection = await this.#Connect();
       if(connection){
         const proc = new sql.Request(connection);
         proc.input('username', sql.VarChar, username);
@@ -92,7 +94,7 @@ class DBConnect{
 
   async Member(member){
     try{
-      let connection = await this.#Connect();
+      const connection = await this.#Connect();
       if(connection){
         const proc = new sql.Request(connection);
         let procName = '';
@@ -117,7 +119,7 @@ class DBConnect{
 
   async Profiles(member){
     try{
-      let connection = await this.#Connect();
+      const connection = await this.#Connect();
       if(connection){
         const proc = new sql.Request(connection);
         let procName = '';
@@ -142,7 +144,7 @@ class DBConnect{
 
   async Profile(profileID){
     try{
-      let connection = await this.#Connect();
+      const connection = await this.#Connect();
       if(connection){
         const proc = new sql.Request(connection);
         proc.input('profileID', sql.Int, profileID);
@@ -160,7 +162,7 @@ class DBConnect{
 
   async UpdateGame(gameID, gameResult){
     try{
-      let connection = await this.#Connect();
+      const connection = await this.#Connect();
       if(connection){
         const proc = new sql.Request(connection);
         proc.input('gameID', sql.Int, gameID);
@@ -173,6 +175,8 @@ class DBConnect{
         };
       }
     }catch (err){
+      console.log(err);
+
       return {
         error:true,
         message:'There appears to be an issue with the database'
@@ -182,7 +186,7 @@ class DBConnect{
 
   async UpdateProfile(profileID, imageID){
     try{
-      let connection = await this.#Connect();
+      const connection = await this.#Connect();
       if(connection){
         const proc = new sql.Request(connection);
         proc.input('profileID', sql.Int, profileID);

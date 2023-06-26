@@ -3,6 +3,13 @@
   font-size: large;
 }
 
+:root{
+  --playeOneColor: #4267B2;
+  --playerTwoColor: #bd984d;
+  --playerOneColorBG: #283e6b;
+  --playerTwoColorBG: #8a6e37;
+}
+
 main{
   display: grid;
   grid-template-columns: 2fr 8fr 2fr;
@@ -28,6 +35,10 @@ header{
 h1{
   font-size: xx-large;
   margin: 1em 1em;
+  text-shadow: var(--textShadowSize) var(--textShadowSize) var(--textShadowSize) var(--textShadow);
+}
+
+p{
   text-shadow: var(--textShadowSize) var(--textShadowSize) var(--textShadowSize) var(--textShadow);
 }
 
@@ -71,7 +82,7 @@ article{
   margin: 10%;
   aspect-ratio: 1/1;
   align-self: baseline;
-
+  box-shadow: var(--externalShadowSize) var(--externalShadowSize) var(--externalShadowSize) var(--textShadow);
 }
 
 .gridItem{
@@ -92,6 +103,9 @@ article{
   overflow: hidden;
   gap: 0.5vh;
   padding: 1vh 1vh;
+  background-color: var(--bigBody);
+  box-shadow:  var(--externalShadowSize) var(--externalShadowSize) calc( 8 * var(--externalShadowSize)) #2a6990,
+             calc(-1 * var(--externalShadowSize)) calc(-1 * var(--externalShadowSize)) calc( 8 * var(--externalShadowSize)) #000000;
 }
 
 img{
@@ -101,6 +115,15 @@ img{
   border-radius: 20%;
   
   aspect-ratio: 1/1;
+}
+
+#player1Icon{
+  animation: playerOneBackgroundCycle 1s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+#player2Icon{
+  animation: playerTwoBackgroundCycle 1s infinite;
+
 }
 
 #player1Icon{
@@ -138,5 +161,47 @@ img{
 @media screen and (orientation: landscape) {
   section{
     height: 90%;
+  }
+}
+
+@keyframes playerOneBackgroundCycle {
+  0% {
+    box-shadow: var(--externalShadowSize) var(--externalShadowSize) var(--externalShadowSize) var(--playeOneColor);
+  }
+  25%{
+    box-shadow: var(--externalShadowSize) calc( -1 * var(--externalShadowSize))  var(--externalShadowSize) var(--playeOneColor);
+  }
+  50%{
+    box-shadow: calc( -1 * var(--externalShadowSize)) calc( -1 * var(--externalShadowSize))  var(--externalShadowSize) var(--playeOneColor);
+  }
+  
+  75%{
+    box-shadow: calc( -1 * var(--externalShadowSize)) var(--externalShadowSize)  var(--externalShadowSize) var(--playeOneColor);
+  }
+
+  100% {
+    box-shadow: var(--externalShadowSize) var(--externalShadowSize) var(--externalShadowSize) var(--playeOneColor);
+  }
+}
+
+
+@keyframes playerTwoBackgroundCycle {
+  0% {
+    box-shadow: var(--externalShadowSize) var(--externalShadowSize) var(--externalShadowSize) var(--playerTwoColor);
+  }
+  25%{
+    box-shadow: var(--externalShadowSize) calc( -1 * var(--externalShadowSize))  var(--externalShadowSize) var(--playerTwoColor);
+  }
+
+  50%{
+    box-shadow: calc( -1 * var(--externalShadowSize)) calc( -1 * var(--externalShadowSize))  var(--externalShadowSize) var(--playerTwoColor);
+  }
+  
+  75%{
+    box-shadow: calc( -1 * var(--externalShadowSize)) var(--externalShadowSize)  var(--externalShadowSize) var(--playerTwoColor);
+  }
+
+  100% {
+    box-shadow: var(--externalShadowSize) var(--externalShadowSize) var(--externalShadowSize) var(--playerTwoColor);
   }
 }
