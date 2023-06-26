@@ -1,9 +1,16 @@
+import {
+  ssStoreWebToken,
+  ssGetWebToken
+} from './sessionUtils.js';
+
 let form = document.getElementById('form-login');
 
 form.addEventListener('submit', async (e)=>{
   e.preventDefault();
   let data = await login();
-  console.log(data);
+  ssStoreWebToken(data.token);
+  window.location.href = "homescreen.html";
+
 });
 
 async function login() {
@@ -16,7 +23,6 @@ async function login() {
   // Perform validation, e.g., check against a stored list of valid credentials
   if (validateForm(email, password)) {
     let memberID = await submitForm(user);
-    // window.location.href = "game.html";
     return memberID;
   } else {
     alert('Invalid username or password. Please try again.');

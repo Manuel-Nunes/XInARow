@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const jwt = require('jsonwebtoken');
 
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
@@ -15,6 +16,8 @@ const { userGridPOST } = require('./endpointHandlers');
 let registerUser = require('./DatabaseHandlers/registerHandler');
 let loginUser = require('./DatabaseHandlers/loginHandler');
 const { checkUserID } = require('./checkUserID');
+const { DBConnect } = require('./DatabaseHandlers/DBConnect')
+const dbConnect = new DBConnect;
 
 
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
@@ -73,6 +76,19 @@ app.post('/game', jsonParser , function (req , res){
   userGridPOST(gameGrid,gameSettings,playerOne, playerTwo);
   res.send('Awe posted');
 });
+
+app.post('/member/:memberData/profile', jsonParser,(req, res) => {
+
+  const {token} = req.body
+
+  const decoded = jwt.decode(token);
+
+  dbConnect.Profiles(decoded.memberID).then((data) => {
+    res.status(200).send(data)
+  }).catch((err) => {
+    res.status(500).send(err)
+  })
+})
 
 app.listen(PORT, () => {
   console.log(`App listening on port http://localhost:${PORT}`);
