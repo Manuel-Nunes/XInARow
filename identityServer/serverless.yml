@@ -1,0 +1,52 @@
+service: x-in-a-row-auth
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage,'dev'}
+  region: af-south-1
+
+  httpApi:
+    cors: true
+
+custom:
+  stages:
+    - dev
+  serverless-offline:
+    noPrependStageInUrl: true
+    httpPort: 4000
+    lambdaPort: 3001
+
+plugins:
+  - serverless-stage-manager
+  - serverless-plugin-common-excludes
+  - serverless-plugin-include-dependencies
+  - serverless-offline
+
+functions:
+  serverless-api-sample:
+    name: ${self:service}-${self:provider.stage}-serverless-api-sample
+    handler: server.handler
+    timeout: 30
+    events:
+      - httpApi:
+          path: "/{proxy+}"
+          method: any
+      - httpApi:
+          path: "/{proxy+}"
+          method: GET
+      - httpApi:
+          path: "/{proxy+}"
+          method: POST
+      - httpApi:
+          path: "/{proxy+}"
+          method: PUT
+      - httpApi:
+          path: "/{proxy+}"
+          method: PATCH
+      - httpApi:
+          path: "/{proxy+}"
+          method: DELETE
+      - httpApi:
+          path: "/{proxy+}"
+          method: OPTIONS
