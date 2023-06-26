@@ -11,6 +11,10 @@ import {
 } from './backendUtils.js';
 
 const body = document.getElementById('body');
+const exitButton = document.getElementById("game-exit");
+exitButton.addEventListener('click', () => {
+  window.location.href = "homescreen.html"
+})
 
 /**
  * @typedef {Object} GameSetup

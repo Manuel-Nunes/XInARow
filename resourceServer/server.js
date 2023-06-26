@@ -16,7 +16,7 @@ const { userGridPOST } = require('./endpointHandlers');
 let registerUser = require('./DatabaseHandlers/registerHandler');
 let loginUser = require('./DatabaseHandlers/loginHandler');
 const { checkUserID } = require('./checkUserID');
-const { DBConnect } = require('./DatabaseHandlers/DBConnect')
+const { DBConnect } = require('./DatabaseHandlers/DBConnect');
 const dbConnect = new DBConnect;
 
 
@@ -77,7 +77,7 @@ app.post('/game', jsonParser , function (req , res){
   res.send('Awe posted');
 });
 
-app.post('/member/:memberData/profile', jsonParser,(req, res) => {
+app.post('/member/profile', jsonParser,(req, res) => {
 
   const {token} = req.body
 
@@ -87,6 +87,24 @@ app.post('/member/:memberData/profile', jsonParser,(req, res) => {
     res.status(200).send(data)
   }).catch((err) => {
     res.status(500).send(err)
+  })
+})
+
+app.post('/profile', jsonParser , async (req, res) => {
+
+  const {token, profileName} = req.body
+
+  const decoded = jwt.decode(token);
+
+  const memberName = decoded.memberID;
+
+  const member = await dbConnect.Member(memberName)
+  const randomNumber = Math.floor(Math.random() * 10) + 1;
+  await dbConnect.CreateProfile(profileName, randomNumber, member.memberID).then(() => {
+    res.status(200).send({message: "success"})
+  }).catch((error) => {
+    console.log(error)
+    res.status(500).send({message: "failed"})
   })
 })
 

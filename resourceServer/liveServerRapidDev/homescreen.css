@@ -182,6 +182,10 @@ main section:nth-child(1){
   border-radius: 5px;
 }
 
+.profile-name-input{
+  color: var(--primary);
+}
+
 
 @media screen and (orientation: portrait) {
   main{

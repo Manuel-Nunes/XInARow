@@ -31,6 +31,10 @@ const playButton = document.getElementById('play');
 
 /** @type {HTMLInputElement}*/ const gridSize = document.getElementById('gridSize');
 /** @type {HTMLInputElement}*/ const inpXrequired = document.getElementById('Xrequired');
+/** @type {HTMLInputElement}*/ const addProfile = document.getElementById('add-profile');
+/** @type {HTMLInputElement}*/ const profileName = document.getElementById('name');
+/** @type {HTMLInputElement}*/ const cancelCreateProfile = document.getElementById('cancel-add-profile');
+/** @type {HTMLFormElement}*/ const createProfileForm = document.getElementById('profile-creation');
 
 
 /** @type {HTMLLabelElement}*/ const errorMessageOut = document.getElementById('errorMessageOut');
@@ -66,6 +70,20 @@ function clearErrorMessage(){
 doDiagCheck.addEventListener('click',checksPassed);
 doRowCheck.addEventListener('click',checksPassed);
 doColCheck.addEventListener('click',checksPassed);
+cancelCreateProfile.addEventListener('click', closeForm);
+
+createProfileForm.addEventListener('submit', (event) => {
+  event.preventDefault()
+  submitProfile().then(() => {
+    initPage()
+  }).catch((err) => {
+    console.log(err)
+    displayErrorMessage("Somethign went wrong")
+  })
+
+  console.log(event)
+  // do submit stuff here
+})
 
 playButton.addEventListener('click',()=>{
   const player1 = ssGetPlayer1Account();
@@ -85,21 +103,25 @@ playButton.addEventListener('click',()=>{
     
     ssSetGameSettings(gameSettings);
     console.log(ssGetGameSettings());
-    navigateTo(pages.game);
+    window.location.href = "game.html";
   }
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const jwt = ssGetWebToken()
-
-  await getProfiles(jwt);
+  await initPage()
 });
+
+async function initPage(){
+  ssSetGameSettings(undefined)
+  const jwt = ssGetWebToken()
+  await getProfiles(jwt);
+}
 
 async function getProfiles(jwt) {
   ssSetPlayer1Account(undefined);
   ssSetPlayer2Account(undefined);
   try {
-    const profiles = await (await fetch(`http://localhost:3000/member/JohnSmith/profile`, {
+    const profiles = await (await fetch(`http://localhost:3000/member/profile`, {
       method: 'POST', 
       headers: {
         'Content-Type': 'application/json',
@@ -118,7 +140,6 @@ async function getProfiles(jwt) {
         addProfileToView(profile, section)
       })
       if(profiles.length < 8){
-        console.log("this was added")
         const article = document.createElement('article');
         article.classList.add('profile-display', 'clickable');
 
@@ -131,14 +152,52 @@ async function getProfiles(jwt) {
 
         article.appendChild(image);
         article.appendChild(nameParagraph);
-
         section.appendChild(article);
+
+        article.addEventListener('click', () => {
+          openForm()
+          // const section = document.getElementById('profileSelection');
+          // section.innerHTML = '';
+        })
       }
     }
     console.log(profiles)
 
   } catch (error) {
     console.error('Error occurred while building profile view:', error);
+  }
+}
+
+function openForm() {
+  var formContainer = document.getElementById('popupForm');
+  formContainer.style.display = 'flex';
+
+  // Calculate the vertical position to center the form
+  var windowHeight = window.innerHeight;
+  var formHeight = formContainer.offsetHeight;
+  var marginTop = (windowHeight - formHeight) / 2;
+
+  // Apply the calculated margin-top to center the form
+  formContainer.style.marginTop = marginTop + 'px';
+}
+
+function closeForm() {
+  document.getElementById('popupForm').style.display = 'none';
+}
+
+async function submitProfile(){
+  if(profileName.value){
+    const jwt = ssGetWebToken()
+    await fetch(`http://localhost:3000/profile`, {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({token: jwt, profileName: profileName.value}),
+    })//.json();
+    
+    // build api here and send to BE with {token, profileName}
+    closeForm()
   }
 }
 
