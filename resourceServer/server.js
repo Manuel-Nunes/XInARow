@@ -17,10 +17,10 @@ const { checkUserID } = require('./checkUserID');
 const { DBConnect } = require('./DatabaseHandlers/DBConnect');
 const jwt = require('jsonwebtoken');
 const dbConnect = new DBConnect;
-const { checkTokenAndRefresh } = require('../globalUtils/RSTokenManager');
+const { checkTokenAndRefresh } = require('./globalUtils/RSTokenManager');
 const serverless = require('serverless-http');
 
-const conf = new Config(`./${serverFolder}/serverConfig.json`);
+const conf = new Config(`./serverConfig.json`);
 
 const PORT = conf.get('serverPort');
 const SKIP_ID_CHECK = conf.get('skipIDCheck');
@@ -46,7 +46,7 @@ function doUserCheck(req,res,next){
 }
 
 console.log('Loading Static Folders');
-fs.readdirSync(`./${serverFolder}/public` ,{
+fs.readdirSync(`./public` ,{
   withFileTypes: true
 })
   .filter(item => item.isDirectory())
