@@ -1,6 +1,6 @@
 const { DBConnect } = require('./DatabaseHandlers/DBConnect');
 const { getHost } = require('./getHost');
-const { tokenHolder } = require('../globalUtils/RSTokenManager');
+const { tokenHolder } = require('./globalUtils/RSTokenManager');
 
 
 const db = new DBConnect();

@@ -1,4 +1,4 @@
-const { validateOutCome } = require('../globalUtils/gameValidator');
+const { validateOutCome } = require('./globalUtils/gameValidator');
 
 function userGridPOST(grid,settings,playerOne, playerTwo){
   console.log(grid);
