@@ -12,7 +12,10 @@ import {
 
 import {
   ssGetGameSettings,
-  ssGetPlayer1Account, ssGetPlayer2Account
+  ssGetPlayer1Account, 
+  ssGetPlayer2Account,
+  ssGetWebToken,
+  ssGetMemberId
 } from './sessionUtils.js';
 
 console.log(ssGetPlayer1Account());
@@ -219,13 +222,15 @@ const click = (x,y,target)=>{
 
   if (hasWon(arr))
   {
+    postOutCome((playerOne) ? 1 : 2,gamesetup,gameGrid,ssGetPlayer1Account(),ssGetPlayer2Account(), ()=>{
+      window.location.replace(`/homescreen?token=${ssGetWebToken()}&memberID=${ssGetMemberId()}`) ;
+    });
     showPopup(
       `${(playerOne) ? 'Player One' : 'Player Two'} has won, saving outcome...`,
       (playerOne) ? '#34366b' : '#4a1313',
       ()=>{
       }
     );
-    postOutCome((playerOne) ? 1 : 2);
     return;
   }
 

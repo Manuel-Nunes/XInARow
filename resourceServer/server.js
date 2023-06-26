@@ -98,9 +98,18 @@ app.get('/homescreen',jsonParser,doUserCheck ,( req, res)=>{
 });
 
 app.post('/game', jsonParser , doUserCheck, function (req , res){
-  const { gameGrid, gameSettings,playerOne ,playerTwo } = req.body ;
-  userGridPOST(gameGrid,gameSettings,playerOne, playerTwo);
-  res.send('Awe posted');
+  const { 
+    gameGrid,
+    gameSettings,
+    profile1 ,
+    profile2,
+    winner,
+
+  } = req.body ;
+  
+  console.log('Game is being saved');
+  
+  res.send(userGridPOST(gameGrid,gameSettings,profile1, profile2,winner,req.query.memberID,));
 });
 
 app.post('/member/:memberData/profile', jsonParser, doUserCheck,(req, res) => {

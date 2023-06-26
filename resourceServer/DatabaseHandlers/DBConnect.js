@@ -45,6 +45,8 @@ class DBConnect{
         return result.recordset[0];
       }
     }catch (err){
+
+      console.log(err);
       return {
         error:true,
         message:'There appears to be an issue with the database'
@@ -173,6 +175,8 @@ class DBConnect{
         };
       }
     }catch (err){
+      console.log(err);
+
       return {
         error:true,
         message:'There appears to be an issue with the database'

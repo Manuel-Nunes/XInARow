@@ -1,6 +1,9 @@
 import {
   FEConfig 
 } from './clientConfig.js';
+import {
+  getAuthString 
+} from './sessionUtils.js';
 
 /** @enum {string} */
 let pages;
@@ -39,13 +42,15 @@ export function navigateTo(page){
     return `${window.location.origin}${page}`;
 }
 
-export function postOutCome(outcome,gamesetup,gameGrid){
+export async function postOutCome(outcome,gamesetup,gameGrid,profile1,profile2, cb){
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
 
   const raw = JSON.stringify({
     gameSettings: gamesetup,
     gameGrid,
+    profile1: profile1,
+    profile2: profile2,
     winner: outcome
   });
 
@@ -56,8 +61,7 @@ export function postOutCome(outcome,gamesetup,gameGrid){
     redirect: 'follow'
   };
 
-  fetch('http://localhost:3000/game', requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
+  await fetch(`${window.location.origin}/game${getAuthString()}`, requestOptions);
+
+  cb();
 }

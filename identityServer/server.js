@@ -111,7 +111,7 @@ app.post('/ResourceServerLogin', jsonParser, async function (req, res) {
     res.send('Invalid Auth info');
     return;
   }
-  console.log(`Resouce Server trying to login with: ${req.body?.password}`);
+  console.log('Resouce Server trying to login');
   res.json({
     token: generateRSJWT(req)
   });
