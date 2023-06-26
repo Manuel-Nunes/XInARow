@@ -13,6 +13,8 @@ const { userGridPOST } = require('./endpointHandlers');
 const registerUser = require('./DatabaseHandlers/registerHandler');
 const loginUser = require('./DatabaseHandlers/loginHandler');
 const { checkUserID } = require('./checkUserID');
+const { DBConnect } = require('./DatabaseHandlers/DBConnect');
+const dbConnect = new DBConnect;
 const { checkTokenAndRefresh } = require('../globalUtils/RSTokenManager');
 
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
@@ -69,6 +71,19 @@ app.post('/game', jsonParser , function (req , res){
   const { gameGrid, gameSettings,playerOne ,playerTwo } = req.body ;
   userGridPOST(gameGrid,gameSettings,playerOne, playerTwo);
   res.send('Awe posted');
+});
+
+app.post('/member/:memberData/profile', jsonParser,(req, res) => {
+
+  const { token } = req.body;
+
+  const decoded = jwt.decode(token);
+
+  dbConnect.Profiles(decoded.memberID).then((data) => {
+    res.status(200).send(data);
+  }).catch((err) => {
+    res.status(500).send(err);
+  });
 });
 
 app.listen(PORT, () => {

@@ -56,7 +56,6 @@ WITH PASSWORD = '<YOUR_PASSWORD_HERE>';
 GO
 ```
 Update the password for the user with one of your choice.
-
 Once changed, save and execute the script.
 
 #### Auth Database
@@ -67,7 +66,11 @@ CREATE USER AuthServer
 WITH PASSWORD = '<YOUR_PASSWORD_HERE>'
 GO
 ```
-Update the password for the user to one of your choice
+Update the password for the user to one of your choice.
+Once changed, save and execute the script.
+
+These passwords are used in the secrets.json files mentioned below.
+When running the application, ensure that you are connected to both of these databases - this is done by connecting to mssql server with your windows authentication login.
 
 ### Server
 To run you have a set of options:
