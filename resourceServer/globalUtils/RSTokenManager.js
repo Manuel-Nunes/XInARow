@@ -1,10 +1,10 @@
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
-const { Config } = require('./globalUtils/configManager');
+const { Config } = require('./configManager');
 const { timeCheckToken,getTokeTimeRemaining } = require('./RSTokenHandler');
-const { getHost } = require('../resourceServer/getHost');
+const { getHost } = require('../getHost');
 
-const conf = new Config('./resourceServer/secrets.json');
+const conf = new Config('./secrets.json');
 
 const RSPass = conf.get('resourceServerPassword');
 
