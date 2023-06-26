@@ -5,17 +5,15 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-
 const app = express();
 const jsonParser = bodyParser.json();
 const serverFolder = 'resourceServer';
 const { Config } = require('../globalUtils/configManager');
 const { userGridPOST } = require('./endpointHandlers');
-let registerUser = require('./DatabaseHandlers/registerHandler');
-let loginUser = require('./DatabaseHandlers/loginHandler');
+const registerUser = require('./DatabaseHandlers/registerHandler');
+const loginUser = require('./DatabaseHandlers/loginHandler');
 const { checkUserID } = require('./checkUserID');
-
+const { checkTokenAndRefresh } = require('../globalUtils/RSTokenManager');
 
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
 
@@ -24,7 +22,7 @@ const SKIP_ID_CHECK = conf.get('skipIDCheck');
 
 console.log('Loading Static Folders');
 fs.readdirSync(`./${serverFolder}/public` ,{
-  withFileTypes: true 
+  withFileTypes: true
 })
   .filter(item => item.isDirectory())
   .forEach(folder => {
@@ -36,12 +34,12 @@ app.get('/register', function(req, res) {
 });
 
 app.post('/submitRegister', jsonParser, async function(req, res) {
-  let data = await registerUser(req.body);
+  const data = await registerUser(req.body);
   res.json(data);
 });
 
 app.post('/submitLogin', jsonParser, async function(req, res) {
-  let data = await loginUser(req.body);
+  const data = await loginUser(req.body);
   res.json(data);
 });
 
@@ -59,7 +57,6 @@ app.get('/game',jsonParser,( req, res)=>{
 
   if (!SKIP_ID_CHECK && !checkUserID(req.body.memberID,req.body.token ))
     res.redirect('/login');
-  // res.sendFile(path.join(__dirname, 'public/views/login.html'));
 
   res.sendFile(path.join(__dirname, 'public/views/game.html'));
 });
@@ -77,3 +74,5 @@ app.post('/game', jsonParser , function (req , res){
 app.listen(PORT, () => {
   console.log(`App listening on port http://localhost:${PORT}`);
 });
+
+checkTokenAndRefresh();
