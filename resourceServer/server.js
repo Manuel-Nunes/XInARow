@@ -5,8 +5,6 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-
 const app = express();
 const jsonParser = bodyParser.json();
 const serverFolder = 'resourceServer';
@@ -16,23 +14,34 @@ let registerUser = require('./DatabaseHandlers/registerHandler');
 let loginUser = require('./DatabaseHandlers/loginHandler');
 const { checkUserID } = require('./checkUserID');
 
-
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
 
 const PORT = conf.get('serverPort');
 const SKIP_ID_CHECK = conf.get('skipIDCheck');
 
-function doUserCheck(req,res){
+function doUserCheck(req,res,next){
   if (!SKIP_ID_CHECK && (!req.body.memberID || !req.body.token)  )
+  {
     res.redirect('/login');
+    res.send();
+
+    return;
+  }
 
   if (!SKIP_ID_CHECK && !checkUserID(req.body.memberID,req.body.token ))
+  {
     res.redirect('/login');
+    res.send();
+
+    return;
+  }
+
+  next();
 }
 
 console.log('Loading Static Folders');
 fs.readdirSync(`./${serverFolder}/public` ,{
-  withFileTypes: true 
+  withFileTypes: true
 })
   .filter(item => item.isDirectory())
   .forEach(folder => {
