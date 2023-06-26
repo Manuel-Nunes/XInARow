@@ -22,6 +22,14 @@ const conf = new Config(`./${serverFolder}/serverConfig.json`);
 const PORT = conf.get('serverPort');
 const SKIP_ID_CHECK = conf.get('skipIDCheck');
 
+function doUserCheck(req,res){
+  if (!SKIP_ID_CHECK && (!req.body.memberID || !req.body.token)  )
+    res.redirect('/login');
+
+  if (!SKIP_ID_CHECK && !checkUserID(req.body.memberID,req.body.token ))
+    res.redirect('/login');
+}
+
 console.log('Loading Static Folders');
 fs.readdirSync(`./${serverFolder}/public` ,{
   withFileTypes: true 
@@ -31,7 +39,7 @@ fs.readdirSync(`./${serverFolder}/public` ,{
     app.use(express.static( path.join(__dirname,'public',folder.name)));
   });
 
-app.get('/register', function(req, res) {
+app.get('/register',jsonParser, function(req, res) {
   res.sendFile(path.join(__dirname, 'public/views/register.html'));
 });
 
@@ -45,26 +53,19 @@ app.post('/submitLogin', jsonParser, async function(req, res) {
   res.json(data);
 });
 
-app.get('/login', function(req, res) {
+app.get('/login',jsonParser, function(req, res) {
   res.sendFile(path.join(__dirname, 'public/views/login.html'));
 });
 
-app.get('/', function(req, res) {
+app.get('/',jsonParser,doUserCheck, function(req, res) {
   res.sendFile(path.join(__dirname, 'public/views/login.html'));
 });
 
-app.get('/game',jsonParser,( req, res)=>{
-  if (!SKIP_ID_CHECK && (!req.body.memberID || !req.body.token)  )
-    res.redirect('/login');
-
-  if (!SKIP_ID_CHECK && !checkUserID(req.body.memberID,req.body.token ))
-    res.redirect('/login');
-  // res.sendFile(path.join(__dirname, 'public/views/login.html'));
-
+app.get('/game',jsonParser,doUserCheck,( req, res)=>{
   res.sendFile(path.join(__dirname, 'public/views/game.html'));
 });
 
-app.get('/homescreen',( req, res)=>{
+app.get('/homescreen',jsonParser,doUserCheck ,( req, res)=>{
   res.sendFile(path.join(__dirname, 'public/views/homescreen.html'));
 });
 

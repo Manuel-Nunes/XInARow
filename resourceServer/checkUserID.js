@@ -6,7 +6,8 @@ async function checkUserID(userID,token){
   const tokenCheck = await fetch(`${getHost()}/tokenValidate`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      
     },
     body: JSON.stringify({
       token:token

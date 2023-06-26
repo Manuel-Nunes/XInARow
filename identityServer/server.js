@@ -14,7 +14,6 @@ const { Config } = require('../globalUtils/configManager');
 const registerUserOnAuthDB = require('./DatabaseHandlers/registerHandler');
 const checkUserLoginOnAuthDB = require('./DatabaseHandlers/loginHandler');
 
-
 const app = express();
 const jsonParser = bodyParser.json();
 const serverFolder = 'identityServer';
@@ -85,6 +84,10 @@ app.post('/login', jsonParser, async function(req, res) {
   res.json(user);
   res.send();
   console.log('User Logged in successfully');
+});
+
+app.post('/resouceServerLogin', jsonParser, (req, res) =>{
+
 });
 
 app.listen(PORT, () => {
