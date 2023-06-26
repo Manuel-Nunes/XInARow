@@ -23,7 +23,7 @@ console.log(ssGetPlayer1Account());
 const body = document.getElementById('body');
 const exitButton = document.getElementById('game-exit');
 exitButton.addEventListener('click', () => {
-  window.location.href = 'homescreen.html'; // genwine?
+  window.location.replace(`/homescreen?token=${ssGetWebToken()}&memberID=${ssGetMemberId()}`) ;
 });
 
 /**
@@ -50,6 +50,9 @@ player2Name.innerText = ssGetPlayer2Account().username;
 
 let playerOne = true;
 
+/**
+ * @type {GameSetup}
+ */
 const gamesetup = ssGetGameSettings();
 
 let gameGrid = null;
@@ -174,6 +177,24 @@ function gridCheck(x,y,identity,direction,foundArr){
   {
     foundArr = [1,1,1,1];
     Object.keys(searchDirection).forEach(SDKey => {
+      if (!gamesetup.doColCheck)
+      {
+        if ( searchDirection[SDKey] === searchDirection.Up ||  searchDirection[SDKey] === searchDirection.Down)
+          return foundArr;
+      }
+
+      if(!gamesetup.doRowCheck)
+      {
+        if ( searchDirection[SDKey] === searchDirection.Right ||  searchDirection[SDKey] === searchDirection.Left)
+          return foundArr;
+      }
+
+      if(!gamesetup.doDiagonalCheck)
+      {
+        if ( searchDirection[SDKey] === searchDirection.DownLeft ||  searchDirection[SDKey] === searchDirection.UpRight ||  searchDirection[SDKey] === searchDirection.UpLeft || searchDirection[SDKey] === searchDirection.DownRight)
+          return foundArr;
+      }
+
       const dir = searchDirection[SDKey];
       const cord = directionToGrid(x,y,dir);
       if (checkIfCordsValid(cord[0],cord[1]))
@@ -206,14 +227,13 @@ const click = (x,y,target)=>{
   console.log(`x: ${x} y: ${y}`);
   if (playerOne)
   {
-    body.style.setProperty('background-color','var(--playerOneColorBG)');
-
+    body.style.setProperty('background-color','var(--playerTwoColorBG)');
     target.style.setProperty('background-color','var(--playeOneColor)');
     gameGrid[x][y] = 1;
   }
   else
   {
-    body.style.setProperty('background-color','var(--playerTwoColorBG)');
+    body.style.setProperty('background-color','var(--playerOneColorBG)');
     target.style.setProperty('background-color','var(--playerTwoColor)');
     gameGrid[x][y] = 2;
   }

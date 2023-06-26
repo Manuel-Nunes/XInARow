@@ -158,6 +158,24 @@ const validateOutComeMock = {
       gridSideLength: 7,
       Xrequired:3
     }
+  },
+  hasBottomRowLargeGrid:{
+    grid:[
+      [0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0],
+      [0,0,0,0,2,2,2],
+      [0,0,0,1,1,1,1],
+    ],
+    gameSetup:{
+      doRowCheck:true,
+      doColCheck:false,
+      doDiagonalCheck: false,
+      gridSideLength: 7,
+      Xrequired:4
+    }
   }
 
 };

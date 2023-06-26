@@ -97,7 +97,7 @@ app.get('/homescreen',jsonParser,doUserCheck ,( req, res)=>{
 
 });
 
-app.post('/game', jsonParser , doUserCheck, function (req , res){
+app.post('/game', jsonParser , doUserCheck, async function (req , res){
   const { 
     gameGrid,
     gameSettings,
@@ -108,8 +108,8 @@ app.post('/game', jsonParser , doUserCheck, function (req , res){
   } = req.body ;
   
   console.log('Game is being saved');
-  
-  res.send(userGridPOST(gameGrid,gameSettings,profile1, profile2,winner,req.query.memberID,));
+  const resdata = await userGridPOST(gameGrid,gameSettings,profile1, profile2,winner,req.query.memberID);
+  res.send(resdata);
 });
 
 app.post('/member/:memberData/profile', jsonParser, doUserCheck,(req, res) => {

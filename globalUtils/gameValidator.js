@@ -7,6 +7,14 @@ const types = require('./types');
  * @returns {types.gameOutCome} Returns an outcome depending on the Enum
  */
 function validateOutCome(gameSetup, grid){
+  try {
+    gameSetup.Xrequired = parseInt(gameSetup.Xrequired);
+    gameSetup.gridSideLength = parseInt(gameSetup.gridSideLength);
+  } catch (error) {
+    console.log('Invalid Xrequired or gridSide');
+    return -1;
+  }
+
   const insideArrCheck = (start, end, row) => {
     const sVal = row[end];
     let hasFailed = false;

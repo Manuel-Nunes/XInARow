@@ -7,6 +7,7 @@ async function userGridPOST(gameGrid,gameSettings,profile1, profile2,winner){
   const ourWinner = validateOutCome(gameSettings,gameGrid);
   if (ourWinner !== winner)
   {
+    console.log(`Mismatch game outcomes ${ourWinner} vs ${winner}`);
     return 'Failed to commit score different outcome detected';
   }
   

@@ -72,5 +72,12 @@ describe('Testing the gameValidator', function() {
 
       expect(res).to.equal(types.gridState.Player1);
     });
+
+    it.only('Should return Player1 when row check bottom',()=>{
+
+      const res = validateOutCome(validateOutComeMock.hasBottomRowLargeGrid.gameSetup,validateOutComeMock.hasBottomRowLargeGrid.grid);
+
+      expect(res).to.equal(types.gridState.Player1);
+    });
   });
 });
