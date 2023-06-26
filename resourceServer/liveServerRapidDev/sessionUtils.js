@@ -15,19 +15,27 @@ export function ssGetWebToken(){
 }
 
 export function ssGetPlayer1Account(){
-  return JSON.parse(sessionStorage.getItem(storageKeys.Player1Account)) ;
+  try{
+    return JSON.parse(sessionStorage.getItem(storageKeys.Player1Account));
+  }catch{
+    return undefined
+  }
 }
 
 export function ssSetPlayer1Account(PlayerAccount){
-  return  sessionStorage.setItem(storageKeys.Player1Account,JSON.stringify(PlayerAccount) );
+  return  sessionStorage.setItem(storageKeys.Player1Account,JSON.stringify(PlayerAccount));
 }
 
 export function ssGetPlayer2Account(){
-  return JSON.parse(sessionStorage.getItem(storageKeys.Player2Account));
+  try{
+    return JSON.parse(sessionStorage.getItem(storageKeys.Player2Account));
+  }catch{
+    return undefined
+  }
 }
 
 export function ssSetPlayer2Account(PlayerAccount){
-  return sessionStorage.setItem(storageKeys.Player2Account,JSON.stringify(PlayerAccount));
+  return sessionStorage.setItem(storageKeys.Player2Account, JSON.stringify(PlayerAccount));
 }
 
 export function ssGetGameSettings(){
