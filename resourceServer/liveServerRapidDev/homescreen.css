@@ -1,3 +1,17 @@
+:root{
+  --externalShadowSize: 0.2em;
+  --internalShadowSize: 0.3em;
+  --textShadowSize: 0.2em;
+
+  --primary: #4267B2;
+  --font-sm: 1em;
+  --font-md: 1.5em;
+  --font-lg: 2em;
+
+  --sm: 1em;
+  --md: 1.5em;
+  --lg:2em;
+}
 
 header{
   background-color: var(--primary);
@@ -103,13 +117,71 @@ main section:nth-child(1){
   height: calc(100% - 6vh);
   width: calc(100% - 6vw);
   border-radius: 3em;
+  padding: 1em;
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
 }
+
+.profile-display {
+  /* Styles for the profile display */
+  /* Add your own styles here */
+  background-color: rgb(200, 200, 200);
+  border: 0.3em solid rgb(200, 200, 200);
+  display: flex;
+  flex-direction: column;
+  padding: 0.2em;
+  width: 20%;
+  height: fit-content;
+  border-radius: 0.5em;
+}
+
+.profile-display p {
+  color: var(--primary);
+  text-decoration: underline;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.profile-display img{
+  width: 70%;
+}
+
+.clicked {
+  /* Styles for the clicked profile */
+  border: 0.3em solid var(--primary); /* Example border style */
+}
+
 
 #errorMessageOut{
   width: 100%;;
   color: red;
   text-align: center;
 }
+
+#profileSelection p{
+  text-align: center;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+}
+
 
 @media screen and (orientation: portrait) {
   main{

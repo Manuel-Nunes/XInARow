@@ -34,32 +34,33 @@ module.exports = {
       'error', {
         'ObjectExpression': {
           'multiline': true,
-          'minProperties': 1 
+          'minProperties': 1
         },
         'ObjectPattern': {
-          'multiline': true 
+          'multiline': true
         },
         'ImportDeclaration': {
           'multiline': true,
-          'minProperties': 1 
+          'minProperties': 1
         },
         'ExportDeclaration': {
           'multiline': true,
-          'minProperties': 1 
+          'minProperties': 1
         }
       }
     ],
     'array-bracket-newline': [
       'error',
       {
-        'multiline': true 
+        'multiline': true
       }
     ],
     'object-curly-spacing': [
       'error', 'always', {
-        'arraysInObjects': true 
+        'arraysInObjects': true
       }
     ],
-    'space-infix-ops': 'error'
+    'space-infix-ops': 'error',
+    'prefer-const': 'error'
   }
 };

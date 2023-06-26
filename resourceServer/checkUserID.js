@@ -1,5 +1,7 @@
 const { DBConnect } = require('./DatabaseHandlers/DBConnect');
 const { getHost } = require('./getHost');
+const { tokenHolder } = require('../globalUtils/RSTokenManager');
+
 
 const db = new DBConnect();
 async function checkUserID(userID,token){
@@ -7,10 +9,11 @@ async function checkUserID(userID,token){
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      
+
     },
     body: JSON.stringify({
-      token:token
+      token:token,
+      RSToken: tokenHolder.token
     })
   });
   const data = await tokenCheck.json();

@@ -10,9 +10,13 @@ const jsonParser = bodyParser.json();
 const serverFolder = 'resourceServer';
 const { Config } = require('../globalUtils/configManager');
 const { userGridPOST } = require('./endpointHandlers');
-let registerUser = require('./DatabaseHandlers/registerHandler');
-let loginUser = require('./DatabaseHandlers/loginHandler');
+const registerUser = require('./DatabaseHandlers/registerHandler');
+const loginUser = require('./DatabaseHandlers/loginHandler');
 const { checkUserID } = require('./checkUserID');
+const { DBConnect } = require('./DatabaseHandlers/DBConnect');
+const jwt = require('jsonwebtoken');
+const dbConnect = new DBConnect;
+const { checkTokenAndRefresh } = require('../globalUtils/RSTokenManager');
 
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
 
@@ -53,12 +57,12 @@ app.get('/register',jsonParser, function(req, res) {
 });
 
 app.post('/submitRegister', jsonParser, async function(req, res) {
-  let data = await registerUser(req.body);
+  const data = await registerUser(req.body);
   res.json(data);
 });
 
 app.post('/submitLogin', jsonParser, async function(req, res) {
-  let data = await loginUser(req.body);
+  const data = await loginUser(req.body);
   res.json(data);
 });
 
@@ -84,6 +88,21 @@ app.post('/game', jsonParser , function (req , res){
   res.send('Awe posted');
 });
 
+app.post('/member/:memberData/profile', jsonParser,(req, res) => {
+
+  const { token } = req.body;
+
+  const decoded = jwt.decode(token);
+
+  dbConnect.Profiles(decoded.memberID).then((data) => {
+    res.status(200).send(data);
+  }).catch((err) => {
+    res.status(500).send(err);
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`App listening on port http://localhost:${PORT}`);
 });
+
+checkTokenAndRefresh();

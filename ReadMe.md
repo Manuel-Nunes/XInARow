@@ -47,7 +47,7 @@ This command can be found to commented out in each script to allow for easier ac
 
 Once complete, either comment out the commands from DB_XInARow_Creation.sql or navigate back to this script.
 
-###### User Credentials
+##### User Credentials
 Navigate to line 214:
 ```sql
 --User
@@ -56,12 +56,90 @@ WITH PASSWORD = '<YOUR_PASSWORD_HERE>';
 GO
 ```
 Update the password for the user with one of your choice.
-
 Once changed, save and execute the script.
 
 #### Auth Database
-###### User Credentials
-TODO
+##### User Credentials
+Navigate to line 51:
+```sql
+CREATE USER AuthServer
+WITH PASSWORD = '<YOUR_PASSWORD_HERE>'
+GO
+```
+Update the password for the user to one of your choice.
+Once changed, save and execute the script.
+
+These passwords are used in the secrets.json files mentioned below.
+When running the application, ensure that you are connected to both of these databases - this is done by connecting to mssql server with your windows authentication login.
+
+### Server
+To run you have a set of options:
+- "startR" - will start just the resource server (no deploy)
+- "startI" - will start just the identity server (no deploy)
+- "startAll" - will start both servers (no deploy)
+- "deployR" - will deploy the resource server
+- "deployI" - will deploy the identity server
+- "depAndSR" - will deploy and start the resource server
+- "buildAndGo" - will deploy and start both servers
+
+To run the project quickly use "npm run buildAndGo", this will start the servers in seperate terminals. The "npm i" is included in this command, but can be run seperately.
+
+
+### Secrets
+In the identityServer folder the following secrets file is needed (create it):
+
+    secrets.json
+```json
+    {
+        "dbConfig":{
+            "user": "ServerAuth",
+            "password":"Your-Auth-DB-Password",
+            "database":"XInARowAuth",
+            "server":"localhost",
+            "pool":{
+                "max": 10,
+                "min":0,
+                "idleTimeoutMillis":3000
+            },
+            "options":{
+                "encrypt":true,
+                "trustServerCertificate": true
+            }
+        },
+        "JWTSecret": "Your-Secret-Here-Any-A-Z-Sentence",
+        "algorithm": "HS256"
+    }
+```
+and in the resourceServer folder the following secrets file is needed (create it):
+
+    secret.json
+```json
+    {
+        "dbConfig":{
+            "user": "Player",
+            "password":"Your-DB-Password",
+            "database":"XInARow",
+            "server":"localhost",
+            "pool":{
+                "max": 10,
+                "min":0,
+                "idleTimeoutMillis":3000
+            },
+            "options":{
+                "encrypt":true,
+                "trustServerCertificate": true
+            }
+        }
+        "JWTSecret": "Your-JWT-Sercret",
+        "algorithm": "HS256"
+    }
+```
+
+### Config
+In the server.config:
+
+    "isRunLocally" - true points the endpoints to localhost, false will point it to the aws endpoints.
+    "skipIDCheck" - true will forgo the identity server verification, false will force the user to be verified.
 
 ## License
 

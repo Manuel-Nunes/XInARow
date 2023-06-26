@@ -3,5 +3,5 @@
   "isRunLocally": true,
   "skipIDCheck": false,
   "localIdentityServer":"http://localhost:4000",
-  "remoteIdentityServer":"https://o16t00z8t5.execute-api.af-south-1.amazonaws.com"
+  "remoteIdentityServer":""
 }

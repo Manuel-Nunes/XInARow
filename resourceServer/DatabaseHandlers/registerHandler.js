@@ -1,11 +1,12 @@
 const { DBConnect } = require('./DBConnect');
 const db = new DBConnect();
 const { getHost } = require('../getHost');
+const { tokenHolder } = require('../../globalUtils/RSTokenManager');
 
 async function registerUser(userObj) {
   try {
-    let user = await registerUserAuth(userObj);
-    let res = await db.CreateMember(user.memberName);
+    const user = await registerUserAuth(userObj);
+    const res = await db.CreateMember(user.memberName);
 
     //res is memeberId, goes to profile page
 
@@ -21,9 +22,12 @@ async function registerUser(userObj) {
 async function registerUserAuth(user) {
   try {
     let res = undefined;
+
+    user.RSToken = tokenHolder.token;
+
     await import('node-fetch').then(async (nodeFetch) => {
       const fetch = nodeFetch.default;
-    
+
       const response = await fetch(`${getHost()}/register`, {
         method: 'POST',
         headers: {
@@ -40,9 +44,9 @@ async function registerUserAuth(user) {
         console.error('Registration failed!');
       }
     });
-    
+
     return res;
-    
+
   } catch (error) {
     console.error(error);
   }

@@ -1,5 +1,5 @@
+// eslint-disable-next-line no-unused-vars
 const types = require('./types.js') ;
-
 const jwt = require('jsonwebtoken');
 
 const timeOut = 14_400_000;
@@ -18,9 +18,14 @@ function generateJWT(memberID, { secret, options }){
 }
 
 function dateCheckToken(token){
-  const data = jwt.decode(token);
-  console.log(`Still Valid for: ${new Date(data.EAT - Date.now()).toISOString().slice(11, 19)}`);
-  return data.EAT > Date.now();
+  try {
+    const data = jwt.decode(token);
+    console.log(`Token still valid for: ${new Date(data.EAT - Date.now()).toISOString().slice(11, 19)}`);
+    return data.EAT > Date.now();
+  } catch (error) {
+    console.log('Invalid token provided, might be corrupted');
+    return false;
+  }
 }
 
 function validateToken(token,{ secret, options }){
@@ -37,5 +42,5 @@ function validateToken(token,{ secret, options }){
 
 module.exports = {
   generateJWT,
-  validateToken
+  validateToken,
 };
