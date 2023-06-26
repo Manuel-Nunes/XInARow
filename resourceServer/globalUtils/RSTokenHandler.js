@@ -4,7 +4,7 @@ const express = require('express');
 /* eslint-enable no-unused-vars */
 
 const jwt = require('jsonwebtoken');
-const { Config } = require('../globalUtils/configManager');
+const { Config } = require('./globalUtils/configManager');
 const bcrypt = require('bcrypt');
 
 const conf = new Config('./identityServer/secrets.json');

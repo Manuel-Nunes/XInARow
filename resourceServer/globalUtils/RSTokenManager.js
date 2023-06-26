@@ -1,6 +1,6 @@
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
-const { Config } = require('../globalUtils/configManager');
+const { Config } = require('./globalUtils/configManager');
 const { timeCheckToken,getTokeTimeRemaining } = require('./RSTokenHandler');
 const { getHost } = require('../resourceServer/getHost');
 
