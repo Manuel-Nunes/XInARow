@@ -6,7 +6,7 @@ import {
   ssGetWebToken,
   ssSetGameSettings,
   ssGetGameSettings,
-  ssGetMemberID,
+  ssGetMemberId,
   getAuthString
 } from './sessionUtils.js';
 
@@ -14,9 +14,6 @@ import {
   pages,
   navigateTo
 } from './backendUtils.js';
-import {
-  getHost 
-} from '../getHost.js';
 
 /**
  * @typedef {Object} GameSetup
@@ -36,6 +33,10 @@ const playButton = document.getElementById('play');
 
 /** @type {HTMLInputElement}*/ const gridSize = document.getElementById('gridSize');
 /** @type {HTMLInputElement}*/ const inpXrequired = document.getElementById('Xrequired');
+/** @type {HTMLInputElement}*/ const addProfile = document.getElementById('add-profile');
+/** @type {HTMLInputElement}*/ const profileName = document.getElementById('name');
+/** @type {HTMLInputElement}*/ const cancelCreateProfile = document.getElementById('cancel-add-profile');
+/** @type {HTMLFormElement}*/ const createProfileForm = document.getElementById('profile-creation');
 
 
 /** @type {HTMLLabelElement}*/ const errorMessageOut = document.getElementById('errorMessageOut');
@@ -46,14 +47,14 @@ function displayErrorMessage(message){
 
 }
 
-function checksPassed(player1, player2){
+function checksPassed(){
   clearErrorMessage();
 
   if (!doDiagCheck.checked && !doRowCheck.checked && !doColCheck.checked)
   {
     displayErrorMessage('Needs at least one check to win a game');
     doDiagCheck.focus();
-  } else if(player1 || player2){
+  } else if(!ssGetPlayer1Account() || !ssGetPlayer2Account){
     displayErrorMessage('Must have 2 Players');
   }else if(inpXrequired.value > gridSize.value){
     displayErrorMessage('X-in-a-row must be less than the board size');
@@ -71,6 +72,19 @@ function clearErrorMessage(){
 doDiagCheck.addEventListener('click',checksPassed);
 doRowCheck.addEventListener('click',checksPassed);
 doColCheck.addEventListener('click',checksPassed);
+cancelCreateProfile.addEventListener('click', closeForm);
+
+createProfileForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  submitProfile().then(() => {
+    initPage();
+  }).catch((err) => {
+    console.log(err);
+    displayErrorMessage('Something went wrong');
+  });
+
+  console.log(event);
+});
 
 playButton.addEventListener('click',()=>{
   const player1 = ssGetPlayer1Account();
@@ -90,21 +104,25 @@ playButton.addEventListener('click',()=>{
     
     ssSetGameSettings(gameSettings);
     console.log(ssGetGameSettings());
-    navigateTo(pages.game);
+    window.location.href = `${window.location.origin}/game${getAuthString()}`; //genwine
   }
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const jwt = ssGetWebToken();
-
-  await getProfiles(jwt);
+  await initPage();
 });
+
+async function initPage(){
+  ssSetGameSettings(undefined);
+  const jwt = ssGetWebToken();
+  await getProfiles(jwt);
+}
 
 async function getProfiles(jwt) {
   ssSetPlayer1Account(undefined);
   ssSetPlayer2Account(undefined);
   try {
-    const profiles = await (await fetch(`${getHost()}/member/${ssGetMemberID()}/profile${getAuthString()}`, {
+    const profiles = await (await fetch(`${window.location.origin}/member/${ssGetMemberId()}/profile${getAuthString()}`, {
       method: 'POST', 
       headers: {
         'Content-Type': 'application/json',
@@ -114,7 +132,7 @@ async function getProfiles(jwt) {
       }),
     })).json();
 
-    
+
     console.log(profiles);
 
     const section = document.getElementById('profileSelection');
@@ -134,18 +152,57 @@ async function getProfiles(jwt) {
         image.classList.add('h-centre');
 
         const nameParagraph = document.createElement('p');
-        nameParagraph.textContent = 'Add user';
+        nameParagraph.textContent = 'Add user +';
 
         article.appendChild(image);
         article.appendChild(nameParagraph);
-
         section.appendChild(article);
+
+        article.addEventListener('click', () => {
+          openForm();
+        });
       }
     }
     console.log(profiles);
 
   } catch (error) {
     console.error('Error occurred while building profile view:', error);
+  }
+}
+
+function openForm() {
+  var formContainer = document.getElementById('popupForm');
+  formContainer.style.display = 'flex';
+
+  // Calculate the vertical position to center the form
+  var windowHeight = window.innerHeight;
+  var formHeight = formContainer.offsetHeight;
+  var marginTop = (windowHeight - formHeight) / 2;
+
+  // Apply the calculated margin-top to center the form
+  formContainer.style.marginTop = marginTop + 'px';
+}
+
+function closeForm() {
+  document.getElementById('popupForm').style.display = 'none';
+}
+
+async function submitProfile(){
+  if(profileName.value){
+    const jwt = ssGetWebToken();
+    await fetch(`${window.location.origin}/profile`, {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token: jwt,
+        profileName: profileName.value
+      }),
+    });//.json();
+    
+    // build api here and send to BE with {token, profileName}
+    closeForm();
   }
 }
 
@@ -197,3 +254,4 @@ function addProfileToView(profile, section){
 }
 
 clearErrorMessage();
+window.history.pushState(null, null, '/homescreen');

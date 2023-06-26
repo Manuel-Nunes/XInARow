@@ -2,7 +2,7 @@ import {
   ssStoreWebToken,
   ssGetWebToken,
   ssSetMemberID,
-  ssGetMemberID
+  ssGetMemberId
 } from './sessionUtils.js';
 
 const form = document.getElementById('form-login');
@@ -22,7 +22,7 @@ form.addEventListener('submit', async (e)=>{
   // const html = await resp.text();
   // document.body.innerHTML = html;
 
-  window.location.replace(`/homescreen?token=${ssGetWebToken()}&memberID=${ssGetMemberID()}`) ;
+  window.location.replace(`/homescreen?token=${ssGetWebToken()}&memberID=${ssGetMemberId()}`) ;
   
 });
 

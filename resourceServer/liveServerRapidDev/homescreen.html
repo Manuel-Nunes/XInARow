@@ -21,12 +21,12 @@
       <section class="flexCHVD" id="userInput">
         <div>
           <label for="gridSize">Grid Size:</label>
-          <input type="number" id="gridSize" value="7">
+          <input type="number" id="gridSize" value="7" min="4">
         </div>
 
         <div>
           <label for="Xrequired">X required:</label>
-          <input type="number" id="Xrequired" value="4">
+          <input type="number" id="Xrequired" value="4" min="4">
         </div>
         <div>
           <label for="DiagCheck">Check for diagonal win:</label>
@@ -43,6 +43,18 @@
       </section>
       <button id="play"></button>
     </section>
+
+    <div id="popupForm" class="overlay" style="display: none;">
+      <div class="form-container">
+        <h2>Add Profile</h2>
+        <form id="profile-creation">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" class="w-50 profile-name-input" required><br><br>
+  
+          <button type="submit" id="add-profile">Submit</button>
+          <button type="button" id="cancel-add-profile">Close</button>
+        </form>
+      </div>
     
   </main>
 </body>

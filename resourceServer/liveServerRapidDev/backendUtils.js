@@ -18,7 +18,7 @@ else
 {
   pages = {
     game: '/game',
-    home: '/homescreen.html',
+    home: '/homescreen',
     register: '/register',
     login: '/login'
   };
@@ -34,9 +34,9 @@ export {
  */
 export function navigateTo(page){
   if (FEConfig.liveServerDev)
-    window.location.replace(page);
+    return page;
   else
-    window.location.replace(`${window.location.origin}${page}`);
+    return `${window.location.origin}${page}`;
 }
 
 export function postOutCome(outcome,gamesetup,gameGrid){

@@ -10,7 +10,18 @@ import {
   postOutCome
 } from './backendUtils.js';
 
+import {
+  ssGetGameSettings,
+  ssGetPlayer1Account, ssGetPlayer2Account
+} from './sessionUtils.js';
+
+console.log(ssGetPlayer1Account());
+
 const body = document.getElementById('body');
+const exitButton = document.getElementById('game-exit');
+exitButton.addEventListener('click', () => {
+  window.location.href = 'homescreen.html'; // genwine?
+});
 
 /**
  * @typedef {Object} GameSetup
@@ -21,17 +32,24 @@ const body = document.getElementById('body');
  * @property {number} Xrequired
  */
 
+/** @type {HTMLImageElement} */ const player1Icon = document.getElementById('player1Icon');
+/** @type {HTMLImageElement} */ const player2Icon = document.getElementById('player2Icon');
+
+/** @type {HTMLParagraphElement} */ const player1Name = document.getElementById('player1Name').querySelector('p');
+/** @type {HTMLParagraphElement} */ const player2Name = document.getElementById('player2Name').querySelector('p');
+
+
+player1Icon.src = ssGetPlayer1Account().imageURL;
+player2Icon.src = ssGetPlayer2Account().imageURL;
+
+player1Name.innerText = ssGetPlayer1Account().username;
+player2Name.innerText = ssGetPlayer2Account().username;
+
 let playerOne = true;
 
-const gamesetup = {
-  doRowCheck: true, 
-  doColCheck: true,
-  doDiagonalCheck: true,
-  gridSideLength: 4,
-  Xrequired: 4
-};
+const gamesetup = ssGetGameSettings();
 
-let gameGrid;
+let gameGrid = null;
 
 /**
  * Enum for search Axis.
@@ -185,15 +203,15 @@ const click = (x,y,target)=>{
   console.log(`x: ${x} y: ${y}`);
   if (playerOne)
   {
-    body.style.setProperty('background-color','#34366b');
+    body.style.setProperty('background-color','var(--playerOneColorBG)');
 
-    target.style.setProperty('background-color','blue');
+    target.style.setProperty('background-color','var(--playeOneColor)');
     gameGrid[x][y] = 1;
   }
   else
   {
-    body.style.setProperty('background-color','#4a1313');
-    target.style.setProperty('background-color','red');
+    body.style.setProperty('background-color','var(--playerTwoColorBG)');
+    target.style.setProperty('background-color','var(--playerTwoColor)');
     gameGrid[x][y] = 2;
   }
   
@@ -225,3 +243,4 @@ const click = (x,y,target)=>{
 };
 
 gameGrid = genGameGrid(gamesetup.gridSideLength,click);
+window.history.pushState(null, null, '/game');
