@@ -40,14 +40,14 @@ function validateForm(username, email, password, confirmPassword) {
   }
 
   // Check if user is valid (no special characters).
-  let usernamePattern = /^[a-zA-Z0-9]+$/;
+  const usernamePattern = /^[a-zA-Z0-9]+$/;
   if(!usernamePattern.test(username)){
     alert('Invalid username.');
     return false;
   }
 
   // Check if email is valid using a simple regular expression
-  let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailPattern.test(email)) {
     alert('Invalid email address.');
     return false;
