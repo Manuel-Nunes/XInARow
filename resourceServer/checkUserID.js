@@ -1,7 +1,7 @@
 const { DBConnect } = require('./DatabaseHandlers/DBConnect');
 const { getHost } = require('./getHost');
 const { tokenHolder } = require('../globalUtils/RSTokenManager');
-
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const db = new DBConnect();
 async function checkUserID(userID,token){
@@ -24,7 +24,7 @@ async function checkUserID(userID,token){
   const user = await db.Member(parseInt(userID));
   if (!user?.memberName)
     return false;
-    
+
   const payload = token.split('.')[1];
   const tokenData = JSON.parse(atob(payload)) ;
 

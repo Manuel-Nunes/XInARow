@@ -18,11 +18,11 @@ const {
   validateRSToken
 } = require('../globalUtils/RSTokenHandler');
 
-
 const { Config } = require('../globalUtils/configManager');
 const registerUserOnAuthDB = require('./DatabaseHandlers/registerHandler');
 const checkUserLoginOnAuthDB = require('./DatabaseHandlers/loginHandler');
 const { comboCheck } = require('../globalUtils/fileChecker');
+const { isHTTPSMode } = require('../globalUtils/checkHTTPMode');
 
 const app = express();
 const jsonParser = bodyParser.json();
@@ -126,13 +126,20 @@ app.get('/', async function (req, res) {
   res.send('Some Data');
 });
 
-https.createServer(
-  {
-    key: fs.readFileSync('./key.pem'),
-    cert: fs.readFileSync('./cert.pem'),
-  },
-  app
-)
-  .listen(PORT, () => {
+if (!isHTTPSMode()) {
+  console.log('No Certs found in root folder... launching in HTTP mode');
+  app.listen(PORT, () => {
+    console.log(`App listening on port http://localhost:${PORT}`);
+  });
+}
+else {
+  https.createServer(
+    {
+      key: fs.readFileSync('./key.pem'),
+      cert: fs.readFileSync('./cert.pem'),
+    },
+    app
+  ).listen(PORT, () => {
     console.log(`App listening on port https://localhost:${PORT}`);
   });
+}

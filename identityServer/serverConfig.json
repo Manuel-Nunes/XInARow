@@ -2,5 +2,5 @@
   "serverPort":4000,
   "localDebug":true,
   "skipIDCheck": false,
-  "allowTestTokenGeneration": true
+  "allowTestTokenGeneration": false
 }

@@ -18,6 +18,7 @@ const { userGridPOST } = require('./endpointHandlers');
 const { checkUserID } = require('./checkUserID');
 const { checkTokenAndRefresh } = require('../globalUtils/RSTokenManager');
 const { comboCheck } = require('../globalUtils/fileChecker');
+const { isHTTPSMode } = require('../globalUtils/checkHTTPMode');
 
 const serverFolder = 'resourceServer';
 const dbConnect = new DBConnect;
@@ -150,15 +151,22 @@ app.post('/profile', jsonParser , async (req, res) => {
   });
 });
 
-https.createServer(
-  {
-    key: fs.readFileSync('./key.pem'),
-    cert: fs.readFileSync('./cert.pem'),
-  },
-  app
-)
-  .listen(PORT, () => {
+if (!isHTTPSMode()){
+  console.log('No Certs found in root folder... launching in HTTP mode');
+  app.listen(PORT, () => {
+    console.log(`App listening on port http://localhost:${PORT}`);
+  });
+}
+else{
+  https.createServer(
+    {
+      key: fs.readFileSync('./key.pem'),
+      cert: fs.readFileSync('./cert.pem'),
+    },
+    app
+  ).listen(PORT, () => {
     console.log(`App listening on port https://localhost:${PORT}`);
   });
+}
 
 checkTokenAndRefresh();

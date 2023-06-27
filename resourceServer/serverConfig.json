@@ -2,6 +2,7 @@
   "serverPort":3000,
   "isRunLocally": true,
   "skipIDCheck": false,
-  "localIdentityServer":"https://localhost:4000",
-  "remoteIdentityServer":"https://localhost:4000"
+  "localIdentityServer":"http://localhost:4000",
+  "remoteIdentityServer":"http://localhost:4000",
+  "secureIdentityServer":"https://localhost:4000"
 }
