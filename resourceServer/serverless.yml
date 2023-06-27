@@ -16,6 +16,10 @@ custom:
     noPrependStageInUrl: true
     httpPort: 3000
     lambdaPort: 3002
+  
+package:
+  include:
+    - node_modules/**
 
 plugins:
   - serverless-stage-manager
