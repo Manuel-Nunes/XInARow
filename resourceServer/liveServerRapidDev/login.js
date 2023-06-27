@@ -68,7 +68,7 @@ function validateForm(email, password) {
 
 async function submitForm(user){
   try{
-    const response = await fetch('http://localhost:3000/submitLogin', {
+    const response = await fetch(`${window.location.origin}/submitLogin`, {
       method: 'POST',
       body: JSON.stringify(user),
       headers: {
