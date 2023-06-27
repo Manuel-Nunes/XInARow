@@ -7,7 +7,6 @@ const db = new DBConnect();
 async function loginUser(userObj) {
   try {
     const user = await loginUserAuth(userObj);
-    console.log(`Auth returned: ${user}`);
     let res = await db.Member(user.memberName);
     res = {
       'memberID':res.memberID,

@@ -69,7 +69,6 @@ fs.readdirSync(`./${serverFolder}/public` ,{
 
 app.post('/tokenValidate', jsonParser, tokemCheck, (req,res)=>{
   const token = req.body.token;
-  console.log(token);
 
   res.json({
     tokenIsValid: validateToken(token,JWTConfig)
@@ -97,11 +96,9 @@ app.post('/register',jsonParser, async function(req, res) {
 });
 
 app.post('/login', jsonParser, tokemCheck, async function(req, res) {
-  console.log('end point on id server hit');
 
   const user = await checkUserLoginOnAuthDB(req.body,JWTConfig);
 
-  console.log(user);
   if('error' in user){
     res.status(401).json(user);
     return;
@@ -128,11 +125,6 @@ app.post('/ResourceServerLogin', jsonParser, async function (req, res) {
 app.get('/', async function (req, res) {
   res.send('Some Data');
 });
-
-// app.listen(PORT, () => {
-//   console.log(`App listening on port http://localhost:${PORT}`);
-// });
-
 
 https.createServer(
   {

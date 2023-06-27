@@ -210,12 +210,3 @@ class DBConnect{
 module.exports = {
   DBConnect
 };
-
-// Dummy call example
-// async function main(){
-//   let db = new DBConnect();
-//   let res = await db.UpdateProfile(1, 3);
-//   console.log(res);
-// }
-
-// main();

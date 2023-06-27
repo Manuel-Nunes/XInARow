@@ -18,8 +18,6 @@ import {
   ssGetMemberId
 } from './sessionUtils.js';
 
-console.log(ssGetPlayer1Account());
-
 const body = document.getElementById('body');
 const exitButton = document.getElementById('game-exit');
 exitButton.addEventListener('click', () => {
@@ -224,7 +222,6 @@ const click = (x,y,target)=>{
   x = parseInt(x);
   y = parseInt(y);
 
-  console.log(`x: ${x} y: ${y}`);
   if (playerOne)
   {
     body.style.setProperty('background-color','var(--playerTwoColorBG)');
