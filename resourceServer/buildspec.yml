@@ -10,11 +10,13 @@ phases:
       - cd resourceServer
       - echo install process started
       - npm install
+      - echo trying to install serverless
       - npm install -g serverless
   build:
     commands:
       - echo build process started now
       - serverless deploy
+      - echo end of deploy
   post_build:
     commands:
       - echo serverless deploy completed
