@@ -1,9 +1,8 @@
-let form = document.getElementById('form-register');
+const form = document.getElementById('form-register');
 
 form.addEventListener('submit', async(e)=>{
   e.preventDefault();
-  let data = await register();
-  console.log(data);
+  const data = await register();
 });
 
 async function register() {
@@ -27,7 +26,6 @@ async function register() {
 
     } catch (error){
       alert(error);
-      throw error;
     }
   }
   // Send the user object to the server for registration

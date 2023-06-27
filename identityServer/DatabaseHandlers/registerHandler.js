@@ -17,7 +17,6 @@ async function hashPassword(user) {
     return user;
   } catch (error) {
     console.error('Error hashing password:', error);
-    throw error;
   }
 }
 
