@@ -42,8 +42,6 @@ const SKIP_ID_CHECK = conf.get('skipIDCheck');
  * @returns
  */
 async function doUserCheck(req,res,next){
-  console.log(req.query);
-
   if (!SKIP_ID_CHECK && (!req.query.memberID || !req.query.token)  )
   {
     res.redirect('/login');
@@ -151,10 +149,6 @@ app.post('/profile', jsonParser , async (req, res) => {
     });
   });
 });
-
-// app.listen(PORT, () => {
-//   console.log(`App listening on port http://localhost:${PORT}`);
-// });
 
 https.createServer(
   {

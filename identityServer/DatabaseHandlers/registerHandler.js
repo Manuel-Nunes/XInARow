@@ -5,7 +5,6 @@ const db = new DBConnect();
 
 async function hashPassword(user) {
   const { email, password, username } = user;
-  console.log('hashing password');
 
   try {
     const salt = await bcrypt.genSalt(10);
@@ -18,7 +17,6 @@ async function hashPassword(user) {
     return user;
   } catch (error) {
     console.error('Error hashing password:', error);
-    throw error;
   }
 }
 
@@ -28,7 +26,6 @@ async function registerUserOnAuthDB(userObj) {
         
     if(validateObject(user.email, user.username)){
       let res = await db.CreateUser(user.email, user.password, user.username, user.salt);
-      console.log('user validated by id server');
       return res;
     }
         

@@ -10,7 +10,6 @@ async function checkPassword(hashPassword, salt, password) {
     return isMatch;
   } catch (error) {
     console.error('Error hashing password:', error);
-    // throw error;
   }
 }
 
@@ -20,9 +19,7 @@ async function checkUserLoginOnAuthDB(user, JWTConfig) {
     const { password, salt } = res;
     if(await checkPassword(password, salt, user.password)){
       let member = await db.Username(user.email);
-      console.log(member);
       member.token = generateJWT(member.memberName,JWTConfig);
-      console.log(member);
       return member; // Indicate successful registration
     }
     return {

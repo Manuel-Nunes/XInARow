@@ -12,17 +12,7 @@ form.addEventListener('submit', async (e)=>{
   const data = await login();
   ssStoreWebToken(data.token);
   ssSetMemberID(data.memberID);
-  
-  // const resp = await fetch('/homescreen', {
-  //   method: 'GET',
-  //   headers: {
-  //     'Authorization': `Bearer ${ssGetWebToken()}` 
-  //   } 
-  // });
-  // const html = await resp.text();
-  // document.body.innerHTML = html;
-
-  window.location.replace(`/homescreen?token=${ssGetWebToken()}&memberID=${ssGetMemberId()}`) ;
+  window.location.replace(`/homescreen?token=${ssGetWebToken()}&memberID=${ssGetMemberId()}`);
   
 });
 

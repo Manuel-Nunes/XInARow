@@ -44,7 +44,6 @@ function generateRSJWT(req) {
 
 function checkProvidedRSPass(pass){
   const hashedPass = bcrypt.hashSync(pass, salt);
-  console.log(hash === hashedPass);
   return hash === hashedPass;
 }
 

@@ -86,12 +86,3 @@ class DBConnect{
 module.exports = {
   DBConnect
 };
-
-// Dummy call example
-// async function main(){
-//   let db = new DBConnect();
-//   let res = await db.Username('');
-//   console.log(res);
-// }
-
-// main();

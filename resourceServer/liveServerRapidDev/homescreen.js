@@ -54,7 +54,7 @@ function checksPassed(){
   {
     displayErrorMessage('Needs at least one check to win a game');
     doDiagCheck.focus();
-  } else if(!ssGetPlayer1Account() || !ssGetPlayer2Account){
+  } else if(!ssGetPlayer1Account() || !ssGetPlayer2Account()){
     displayErrorMessage('Must have 2 Players');
   }else if(inpXrequired.value > gridSize.value){
     displayErrorMessage('X-in-a-row must be less than the board size');
@@ -82,8 +82,6 @@ createProfileForm.addEventListener('submit', (event) => {
     console.log(err);
     displayErrorMessage('Something went wrong');
   });
-
-  console.log(event);
 });
 
 playButton.addEventListener('click',()=>{
@@ -103,7 +101,6 @@ playButton.addEventListener('click',()=>{
     };
     
     ssSetGameSettings(gameSettings);
-    console.log(ssGetGameSettings());
     window.location.href = `${window.location.origin}/game${getAuthString()}`; //genwine
   }
 });
@@ -132,9 +129,6 @@ async function getProfiles(jwt) {
       }),
     })).json();
 
-
-    console.log(profiles);
-
     const section = document.getElementById('profileSelection');
     section.innerHTML = '';
 
@@ -143,7 +137,6 @@ async function getProfiles(jwt) {
         addProfileToView(profile, section);
       });
       if(profiles.length < 8){
-        console.log('this was added');
         const article = document.createElement('article');
         article.classList.add('profile-display', 'clickable');
 
@@ -163,7 +156,6 @@ async function getProfiles(jwt) {
         });
       }
     }
-    console.log(profiles);
 
   } catch (error) {
     console.error('Error occurred while building profile view:', error);
