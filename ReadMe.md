@@ -106,8 +106,11 @@ In the identityServer folder the following secrets file is needed (create it):
                 "trustServerCertificate": true
             }
         },
-        "JWTSecret": "Your-Secret-Here-Any-A-Z-Sentence",
-        "algorithm": "HS256"
+        "JWTSecret": "Your-Plain-Text-Secret-Here-Any-A-Z-Sentence",
+        "algorithm": "HS256",
+        "RSJWTSecret": "Your-JWT-Sercret",
+        "RSSalt": "Your-salt",
+        "RSHash":"Your-hash"
     }
 ```
 and in the resourceServer folder the following secrets file is needed (create it):
@@ -129,10 +132,17 @@ and in the resourceServer folder the following secrets file is needed (create it
                 "encrypt":true,
                 "trustServerCertificate": true
             }
-        }
-        "JWTSecret": "Your-JWT-Sercret",
-        "algorithm": "HS256"
+        },
+        "resourceServerPassword": "Your-plain-text-password"
     }
+```
+
+To get salt for the resource server use bcrypt.genSalt(10), then copy whatever is there into your RSSalt property on the resoucre server secrets.json file. 
+To get the hash for the resource solver, take the plain text resourceServerPassword and hash it with the above salt using bcrypt.hash(salt, resourceServerPassword). This gets stored in RSHash in the resource server secrets.json file.
+
+```javascript
+RSSalt = bcrypt.genSalt();
+RSHash = bcrypt.hashSync("YourSavedPassword",RSSalt)
 ```
 
 ### Config
