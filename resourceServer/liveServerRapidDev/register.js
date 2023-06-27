@@ -2,7 +2,7 @@ const form = document.getElementById('form-register');
 
 form.addEventListener('submit', async(e)=>{
   e.preventDefault();
-  const data = await register();
+  await register();
 });
 
 async function register() {
