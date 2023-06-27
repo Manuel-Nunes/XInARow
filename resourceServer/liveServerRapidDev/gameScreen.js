@@ -256,7 +256,7 @@ const click = (x,y,target)=>{
   if (checkGridSpace())
   {
     showPopup('It is a draw!', () => { 
-      alert('asdsa');
+      alert('Draw!');
     });
     postOutCome(0);
   }
