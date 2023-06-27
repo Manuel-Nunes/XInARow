@@ -9,9 +9,8 @@ phases:
     commands:
       - cd resourceServer
       - echo install process started
-      - npm install
+      - npm install --force
       - npm install -g serverless
-      - npm install -g bcryptjs
   build:
     commands:
       - echo build process started now
