@@ -1,10 +1,11 @@
 console.log('Starting Resource Server');
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-
+const https = require('https');
 
 const app = express();
 const jsonParser = bodyParser.json();
@@ -93,8 +94,6 @@ app.get('/game',jsonParser,doUserCheck,( req, res)=>{
 app.get('/homescreen',jsonParser,doUserCheck ,( req, res)=>{
   
   res.sendFile(path.join(__dirname, 'public/views/homescreen.html'));
-  // res.render(path.join(__dirname, 'public/views/homescreen.html'));
-
 });
 
 app.post('/game', jsonParser , doUserCheck, async function (req , res){
@@ -144,8 +143,19 @@ app.post('/profile', jsonParser , async (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`App listening on port http://localhost:${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`App listening on port http://localhost:${PORT}`);
+// });
+
+https.createServer(
+  {
+    key: fs.readFileSync('./key.pem'),
+    cert: fs.readFileSync('./cert.pem'),
+  },
+  app
+)
+  .listen(PORT, () => {
+    console.log(`App listening on port http://localhosts:${PORT}`);
+  });
 
 checkTokenAndRefresh();
