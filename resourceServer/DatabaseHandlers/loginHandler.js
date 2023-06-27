@@ -16,7 +16,6 @@ async function loginUser(userObj) {
     //res is memeberId, goes to profile page
     return res; // Indicate successful registration
   } catch (error) {
-    console.log(error);
     return {
       'memberID':null,
       'token':null

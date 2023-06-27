@@ -5,15 +5,9 @@ import {
   ssSetPlayer2Account,
   ssGetWebToken,
   ssSetGameSettings,
-  ssGetGameSettings,
   ssGetMemberId,
   getAuthString
 } from './sessionUtils.js';
-
-import {
-  pages,
-  navigateTo
-} from './backendUtils.js';
 
 /**
  * @typedef {Object} GameSetup
@@ -33,7 +27,6 @@ const playButton = document.getElementById('play');
 
 /** @type {HTMLInputElement}*/ const gridSize = document.getElementById('gridSize');
 /** @type {HTMLInputElement}*/ const inpXrequired = document.getElementById('Xrequired');
-/** @type {HTMLInputElement}*/ const addProfile = document.getElementById('add-profile');
 /** @type {HTMLInputElement}*/ const profileName = document.getElementById('name');
 /** @type {HTMLInputElement}*/ const cancelCreateProfile = document.getElementById('cancel-add-profile');
 /** @type {HTMLFormElement}*/ const createProfileForm = document.getElementById('profile-creation');
@@ -56,7 +49,7 @@ function checksPassed(){
     doDiagCheck.focus();
   } else if(!ssGetPlayer1Account() || !ssGetPlayer2Account()){
     displayErrorMessage('Must have 2 Players');
-  }else if(inpXrequired.value > gridSize.value){
+  } else if (parseInt(inpXrequired.value) > parseInt(gridSize.value) ){
     displayErrorMessage('X-in-a-row must be less than the board size');
   }else{
     clearErrorMessage();
@@ -97,9 +90,9 @@ playButton.addEventListener('click',()=>{
       gridSideLength: gridSize.value,
       Xrequired: inpXrequired.value,
       profile1: player1,
-      profile2: player2 
+      profile2: player2
     };
-    
+
     ssSetGameSettings(gameSettings);
     window.location.href = `${window.location.origin}/game${getAuthString()}`; //genwine
   }
@@ -120,7 +113,7 @@ async function getProfiles(jwt) {
   ssSetPlayer2Account(undefined);
   try {
     const profiles = await (await fetch(`${window.location.origin}/member/${ssGetMemberId()}/profile${getAuthString()}`, {
-      method: 'POST', 
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -183,7 +176,7 @@ async function submitProfile(){
   if(profileName.value){
     const jwt = ssGetWebToken();
     await fetch(`${window.location.origin}/profile`, {
-      method: 'POST', 
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -192,14 +185,14 @@ async function submitProfile(){
         profileName: profileName.value
       }),
     });//.json();
-    
+
     // build api here and send to BE with {token, profileName}
     closeForm();
   }
 }
 
 function addProfileToView(profile, section){
-  
+
   const article = document.createElement('article');
   article.classList.add('profile-display', 'clickable');
 
@@ -219,7 +212,7 @@ function addProfileToView(profile, section){
 
     const player1 = ssGetPlayer1Account();
     const player2 = ssGetPlayer2Account();
-      
+
     if(player1 && player1.profileID === profile.profileID){
       article.classList.remove('clicked');
       ssSetPlayer1Account(undefined);

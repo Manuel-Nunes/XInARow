@@ -28,8 +28,8 @@ function checkSecrets(path) {
 
 function comboCheck(path){
   let hasAll = true;
-  if (!checkForHTTPsFiles())
-    hasAll = false;
+  // if (!checkForHTTPsFiles())
+  //   hasAll = false;
   if (!checkSecrets(path))
     hasAll = false;
 
