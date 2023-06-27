@@ -70,7 +70,7 @@ function validateForm(username, email, password, confirmPassword) {
 
 async function submitForm(user){
   try{
-    const response = await fetch('http://localhost:3000/submitRegister', {
+    const response = await fetch(`${window.location.origin}/submitRegister`, {
       method: 'POST',
       body: JSON.stringify(user),
       headers: {
