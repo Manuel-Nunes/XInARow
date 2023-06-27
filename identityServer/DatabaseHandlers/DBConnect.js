@@ -8,8 +8,8 @@ class DBConnect{
   constructor(){
     if(DBConnect.instance){
       return DBConnect.instance;
-    } 
-    
+    }
+
     DBConnect.instance = this;
 
     this.config = DBConfig.get('dbConfig');
@@ -29,7 +29,7 @@ class DBConnect{
 
   async CreateUser(email, password, memberName, salt){
     try{
-      let connection = await this.#Connect();
+      const connection = await this.#Connect();
       if(connection){
         const proc = new sql.Request(connection);
         proc.input('email', sql.VarChar, email);
@@ -49,7 +49,7 @@ class DBConnect{
   }
   async UserExist(email){
     try{
-      let connection = await this.#Connect();
+      const connection = await this.#Connect();
       if(connection){
         const proc = new sql.Request(connection);
         proc.input('email', sql.VarChar, email);
@@ -66,7 +66,7 @@ class DBConnect{
   }
   async Username(email){
     try{
-      let connection = await this.#Connect();
+      const connection = await this.#Connect();
       if(connection){
         const proc = new sql.Request(connection);
         proc.input('email', sql.VarChar, email);
