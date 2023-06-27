@@ -54,7 +54,7 @@ function checksPassed(){
   {
     displayErrorMessage('Needs at least one check to win a game');
     doDiagCheck.focus();
-  } else if(!ssGetPlayer1Account() || !ssGetPlayer2Account){
+  } else if(!ssGetPlayer1Account() || !ssGetPlayer2Account()){
     displayErrorMessage('Must have 2 Players');
   }else if(inpXrequired.value > gridSize.value){
     displayErrorMessage('X-in-a-row must be less than the board size');
