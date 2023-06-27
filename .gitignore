@@ -179,3 +179,7 @@ dist
 /identityServer/secrets.json
 
 *.pem
+cert.pem
+key.pem
+
+package-lock.json

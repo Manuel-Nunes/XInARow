@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 
 const {
   generateJWT,
@@ -21,10 +22,16 @@ const {
 const { Config } = require('../globalUtils/configManager');
 const registerUserOnAuthDB = require('./DatabaseHandlers/registerHandler');
 const checkUserLoginOnAuthDB = require('./DatabaseHandlers/loginHandler');
+const { comboCheck } = require('../globalUtils/fileChecker');
 
 const app = express();
 const jsonParser = bodyParser.json();
 const serverFolder = 'identityServer';
+
+if (!comboCheck(serverFolder)) {
+  console.log('Unable to start due to missing files');
+  throw new Error('Missing Files');
+}
 
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
 
@@ -118,6 +125,22 @@ app.post('/ResourceServerLogin', jsonParser, async function (req, res) {
   res.send();
 });
 
-app.listen(PORT, () => {
-  console.log(`App listening on port http://localhost:${PORT}`);
+app.get('/', async function (req, res) {
+  res.send('Some Data');
 });
+
+// app.listen(PORT, () => {
+//   console.log(`App listening on port http://localhost:${PORT}`);
+// });
+
+
+https.createServer(
+  {
+    key: fs.readFileSync('./key.pem'),
+    cert: fs.readFileSync('./cert.pem'),
+  },
+  app
+)
+  .listen(PORT, () => {
+    console.log(`App listening on port https://localhost:${PORT}`);
+  });

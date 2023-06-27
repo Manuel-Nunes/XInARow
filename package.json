@@ -7,7 +7,7 @@
     "test": "mocha ./tests/**/*.test.js",
     "startR": "node resourceServer\\server.js",
     "startI": "node identityServer\\server.js",
-    "startAll": "Powershell Start-Process npm 'run startR'; Start-Process npm 'run startI'",
+    "startAll": "Powershell Start-Process npm 'run startI'; Start-Process npm 'run startR'",
     "deployR": "node ./resourceServer/deploy.js",
     "deployI": "node ./identityServer/deploy.js",
     "depAndSR": "npm run deployR && npm run startR",

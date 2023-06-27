@@ -1,23 +1,33 @@
 console.log('Starting Resource Server');
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-const bodyParser = require('body-parser');
+const jsonParser = require('body-parser').json();
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
+const jwt = require('jsonwebtoken');
 
-
-const app = express();
-const jsonParser = bodyParser.json();
-const serverFolder = 'resourceServer';
-const { Config } = require('../globalUtils/configManager');
-const { userGridPOST } = require('./endpointHandlers');
 const registerUser = require('./DatabaseHandlers/registerHandler');
 const loginUser = require('./DatabaseHandlers/loginHandler');
-const { checkUserID } = require('./checkUserID');
+
+const { Config } = require('../globalUtils/configManager');
 const { DBConnect } = require('./DatabaseHandlers/DBConnect');
-const jwt = require('jsonwebtoken');
-const dbConnect = new DBConnect;
+
+const { userGridPOST } = require('./endpointHandlers');
+const { checkUserID } = require('./checkUserID');
 const { checkTokenAndRefresh } = require('../globalUtils/RSTokenManager');
+const { comboCheck } = require('../globalUtils/fileChecker');
+
+const serverFolder = 'resourceServer';
+const dbConnect = new DBConnect;
+const app = express();
+
+if (!comboCheck(serverFolder))
+{
+  console.log('Unable to start due to missing files');
+  throw new Error('Missing Files');
+}
 
 const conf = new Config(`./${serverFolder}/serverConfig.json`);
 
@@ -25,11 +35,11 @@ const PORT = conf.get('serverPort');
 const SKIP_ID_CHECK = conf.get('skipIDCheck');
 
 /**
- * 
- * @param {Express.Request} req 
- * @param {Express.Response} res 
- * @param {*} next 
- * @returns 
+ *
+ * @param {Express.Request} req
+ * @param {Express.Response} res
+ * @param {*} next
+ * @returns
  */
 async function doUserCheck(req,res,next){
   console.log(req.query);
@@ -91,14 +101,12 @@ app.get('/game',jsonParser,doUserCheck,( req, res)=>{
 });
 
 app.get('/homescreen',jsonParser,doUserCheck ,( req, res)=>{
-  
-  res.sendFile(path.join(__dirname, 'public/views/homescreen.html'));
-  // res.render(path.join(__dirname, 'public/views/homescreen.html'));
 
+  res.sendFile(path.join(__dirname, 'public/views/homescreen.html'));
 });
 
 app.post('/game', jsonParser , doUserCheck, async function (req , res){
-  const { 
+  const {
     gameGrid,
     gameSettings,
     profile1 ,
@@ -106,7 +114,7 @@ app.post('/game', jsonParser , doUserCheck, async function (req , res){
     winner,
 
   } = req.body ;
-  
+
   console.log('Game is being saved');
   const resdata = await userGridPOST(gameGrid,gameSettings,profile1, profile2,winner,req.query.memberID);
   res.send(resdata);
@@ -144,8 +152,19 @@ app.post('/profile', jsonParser , async (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`App listening on port http://localhost:${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`App listening on port http://localhost:${PORT}`);
+// });
+
+https.createServer(
+  {
+    key: fs.readFileSync('./key.pem'),
+    cert: fs.readFileSync('./cert.pem'),
+  },
+  app
+)
+  .listen(PORT, () => {
+    console.log(`App listening on port https://localhost:${PORT}`);
+  });
 
 checkTokenAndRefresh();
